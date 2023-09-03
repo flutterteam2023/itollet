@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "400735227249",
+    "project_id": "itollet",
+    "storage_bucket": "itollet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400735227249:android:3c2793c6e95ad134a63ad0",
+        "android_client_info": {
+          "package_name": "com.example.itollet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400735227249-017pjhhnvmuv76itmd9qn55i04pjd2co.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6ey9JrvLLn-DnnnmgwqtbppzDPiOiBqQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400735227249-017pjhhnvmuv76itmd9qn55i04pjd2co.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "400735227249-4d9vor4g49j6g630gjfebj1rneq2csl4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.itollet"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
