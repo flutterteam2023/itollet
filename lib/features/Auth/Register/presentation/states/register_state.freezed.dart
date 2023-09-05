@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RegisterState {
   bool get isLoading => throw _privateConstructorUsedError;
+  CustomerRegisterModel get customerRegisterModel =>
+      throw _privateConstructorUsedError;
+  bool get iscustomer => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RegisterStateCopyWith<RegisterState> get copyWith =>
@@ -29,7 +32,12 @@ abstract class $RegisterStateCopyWith<$Res> {
           RegisterState value, $Res Function(RegisterState) then) =
       _$RegisterStateCopyWithImpl<$Res, RegisterState>;
   @useResult
-  $Res call({bool isLoading});
+  $Res call(
+      {bool isLoading,
+      CustomerRegisterModel customerRegisterModel,
+      bool iscustomer});
+
+  $CustomerRegisterModelCopyWith<$Res> get customerRegisterModel;
 }
 
 /// @nodoc
@@ -46,13 +54,32 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? customerRegisterModel = null,
+    Object? iscustomer = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      customerRegisterModel: null == customerRegisterModel
+          ? _value.customerRegisterModel
+          : customerRegisterModel // ignore: cast_nullable_to_non_nullable
+              as CustomerRegisterModel,
+      iscustomer: null == iscustomer
+          ? _value.iscustomer
+          : iscustomer // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CustomerRegisterModelCopyWith<$Res> get customerRegisterModel {
+    return $CustomerRegisterModelCopyWith<$Res>(_value.customerRegisterModel,
+        (value) {
+      return _then(_value.copyWith(customerRegisterModel: value) as $Val);
+    });
   }
 }
 
@@ -64,7 +91,13 @@ abstract class _$$_RegisterStateCopyWith<$Res>
       __$$_RegisterStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading});
+  $Res call(
+      {bool isLoading,
+      CustomerRegisterModel customerRegisterModel,
+      bool iscustomer});
+
+  @override
+  $CustomerRegisterModelCopyWith<$Res> get customerRegisterModel;
 }
 
 /// @nodoc
@@ -79,11 +112,21 @@ class __$$_RegisterStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? customerRegisterModel = null,
+    Object? iscustomer = null,
   }) {
     return _then(_$_RegisterState(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
+      customerRegisterModel: null == customerRegisterModel
+          ? _value.customerRegisterModel
+          : customerRegisterModel // ignore: cast_nullable_to_non_nullable
+              as CustomerRegisterModel,
+      iscustomer: null == iscustomer
+          ? _value.iscustomer
+          : iscustomer // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -92,14 +135,21 @@ class __$$_RegisterStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RegisterState implements _RegisterState {
-  _$_RegisterState({required this.isLoading});
+  _$_RegisterState(
+      {required this.isLoading,
+      required this.customerRegisterModel,
+      required this.iscustomer});
 
   @override
   final bool isLoading;
+  @override
+  final CustomerRegisterModel customerRegisterModel;
+  @override
+  final bool iscustomer;
 
   @override
   String toString() {
-    return 'RegisterState(isLoading: $isLoading)';
+    return 'RegisterState(isLoading: $isLoading, customerRegisterModel: $customerRegisterModel, iscustomer: $iscustomer)';
   }
 
   @override
@@ -108,11 +158,16 @@ class _$_RegisterState implements _RegisterState {
         (other.runtimeType == runtimeType &&
             other is _$_RegisterState &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.customerRegisterModel, customerRegisterModel) ||
+                other.customerRegisterModel == customerRegisterModel) &&
+            (identical(other.iscustomer, iscustomer) ||
+                other.iscustomer == iscustomer));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, customerRegisterModel, iscustomer);
 
   @JsonKey(ignore: true)
   @override
@@ -122,10 +177,17 @@ class _$_RegisterState implements _RegisterState {
 }
 
 abstract class _RegisterState implements RegisterState {
-  factory _RegisterState({required final bool isLoading}) = _$_RegisterState;
+  factory _RegisterState(
+      {required final bool isLoading,
+      required final CustomerRegisterModel customerRegisterModel,
+      required final bool iscustomer}) = _$_RegisterState;
 
   @override
   bool get isLoading;
+  @override
+  CustomerRegisterModel get customerRegisterModel;
+  @override
+  bool get iscustomer;
   @override
   @JsonKey(ignore: true)
   _$$_RegisterStateCopyWith<_$_RegisterState> get copyWith =>

@@ -7,11 +7,12 @@ class AuthTextField extends StatelessWidget {
     super.key,
     required this.label,
     required this.obscureText,
-    this.suffixIcon,
+    this.suffixIcon, required this.controller,
   });
   final String label;
   final bool obscureText;
   final Widget? suffixIcon;
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,7 +29,8 @@ class AuthTextField extends StatelessWidget {
         SizedBox(
           height: 64.531.h,
           child: TextField(
-            
+            cursorColor: secondary,
+            controller: controller,
             obscureText: obscureText,
             style: TextStyle(
                 color: secondary,

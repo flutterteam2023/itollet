@@ -17,6 +17,9 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LoginState {
   bool get isLoading => throw _privateConstructorUsedError;
+  bool get isVisible => throw _privateConstructorUsedError;
+  bool get iscustomer => throw _privateConstructorUsedError;
+  LoginModel get loginModel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LoginStateCopyWith<LoginState> get copyWith =>
@@ -29,7 +32,10 @@ abstract class $LoginStateCopyWith<$Res> {
           LoginState value, $Res Function(LoginState) then) =
       _$LoginStateCopyWithImpl<$Res, LoginState>;
   @useResult
-  $Res call({bool isLoading});
+  $Res call(
+      {bool isLoading, bool isVisible, bool iscustomer, LoginModel loginModel});
+
+  $LoginModelCopyWith<$Res> get loginModel;
 }
 
 /// @nodoc
@@ -46,13 +52,36 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isVisible = null,
+    Object? iscustomer = null,
+    Object? loginModel = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisible: null == isVisible
+          ? _value.isVisible
+          : isVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      iscustomer: null == iscustomer
+          ? _value.iscustomer
+          : iscustomer // ignore: cast_nullable_to_non_nullable
+              as bool,
+      loginModel: null == loginModel
+          ? _value.loginModel
+          : loginModel // ignore: cast_nullable_to_non_nullable
+              as LoginModel,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $LoginModelCopyWith<$Res> get loginModel {
+    return $LoginModelCopyWith<$Res>(_value.loginModel, (value) {
+      return _then(_value.copyWith(loginModel: value) as $Val);
+    });
   }
 }
 
@@ -64,7 +93,11 @@ abstract class _$$_LoginStateCopyWith<$Res>
       __$$_LoginStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isLoading});
+  $Res call(
+      {bool isLoading, bool isVisible, bool iscustomer, LoginModel loginModel});
+
+  @override
+  $LoginModelCopyWith<$Res> get loginModel;
 }
 
 /// @nodoc
@@ -79,12 +112,27 @@ class __$$_LoginStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isLoading = null,
+    Object? isVisible = null,
+    Object? iscustomer = null,
+    Object? loginModel = null,
   }) {
     return _then(_$_LoginState(
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      isVisible: null == isVisible
+          ? _value.isVisible
+          : isVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      iscustomer: null == iscustomer
+          ? _value.iscustomer
+          : iscustomer // ignore: cast_nullable_to_non_nullable
+              as bool,
+      loginModel: null == loginModel
+          ? _value.loginModel
+          : loginModel // ignore: cast_nullable_to_non_nullable
+              as LoginModel,
     ));
   }
 }
@@ -92,14 +140,24 @@ class __$$_LoginStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LoginState implements _LoginState {
-  _$_LoginState({required this.isLoading});
+  _$_LoginState(
+      {required this.isLoading,
+      required this.isVisible,
+      required this.iscustomer,
+      required this.loginModel});
 
   @override
   final bool isLoading;
+  @override
+  final bool isVisible;
+  @override
+  final bool iscustomer;
+  @override
+  final LoginModel loginModel;
 
   @override
   String toString() {
-    return 'LoginState(isLoading: $isLoading)';
+    return 'LoginState(isLoading: $isLoading, isVisible: $isVisible, iscustomer: $iscustomer, loginModel: $loginModel)';
   }
 
   @override
@@ -108,11 +166,18 @@ class _$_LoginState implements _LoginState {
         (other.runtimeType == runtimeType &&
             other is _$_LoginState &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.isVisible, isVisible) ||
+                other.isVisible == isVisible) &&
+            (identical(other.iscustomer, iscustomer) ||
+                other.iscustomer == iscustomer) &&
+            (identical(other.loginModel, loginModel) ||
+                other.loginModel == loginModel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isLoading);
+  int get hashCode =>
+      Object.hash(runtimeType, isLoading, isVisible, iscustomer, loginModel);
 
   @JsonKey(ignore: true)
   @override
@@ -122,10 +187,20 @@ class _$_LoginState implements _LoginState {
 }
 
 abstract class _LoginState implements LoginState {
-  factory _LoginState({required final bool isLoading}) = _$_LoginState;
+  factory _LoginState(
+      {required final bool isLoading,
+      required final bool isVisible,
+      required final bool iscustomer,
+      required final LoginModel loginModel}) = _$_LoginState;
 
   @override
   bool get isLoading;
+  @override
+  bool get isVisible;
+  @override
+  bool get iscustomer;
+  @override
+  LoginModel get loginModel;
   @override
   @JsonKey(ignore: true)
   _$$_LoginStateCopyWith<_$_LoginState> get copyWith =>

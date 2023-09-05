@@ -13,10 +13,10 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
        
-        AutoRoute(page: LoginRoute.page,initial: false),
+        AutoRoute(page: LoginRoute.page,initial: true),
         AutoRoute(page: RegisterRoute.page,initial: false),
         AutoRoute(page: VerificationRoute.page,initial: false),
-        AutoRoute(page: ForgotPasswordRoute.page,initial: true),
+        AutoRoute(page: ForgotPasswordRoute.page,initial: false),
 
 
 

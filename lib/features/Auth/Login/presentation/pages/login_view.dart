@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/auth_text_field.dart';
@@ -9,12 +10,18 @@ import 'package:itollet/common_widgets/convert_account_container.dart';
 import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/constants/app_strings.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Auth/Login/presentation/providers/login_notifier.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class LoginView extends HookConsumerWidget {
   const LoginView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final emailController = useTextEditingController(text: '');
+    final passswordController = useTextEditingController(text: '');
+    final state  = ref.watch(loginProvider);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: 200.h, left: 18.w, right: 18.w),
@@ -42,11 +49,22 @@ class LoginView extends HookConsumerWidget {
             SizedBox(
               height: 18.h,
             ),
-            const ConvertAccountContainer(),
+             ConvertAccountContainer(
+              customerOnTap: () {
+                ref.read(loginProvider.notifier).isCustomerControl();
+                
+              },
+              iscustomer: state.iscustomer,
+              salesOnTap: () {
+                ref.read(loginProvider.notifier).isSalesControl();
+                
+              },
+            ),
             SizedBox(
               height: 18.23.h,
             ),
-            const AuthTextField(
+             AuthTextField(
+              controller: emailController,
               obscureText: false,
               label: AppString.email,
             ),
@@ -54,20 +72,25 @@ class LoginView extends HookConsumerWidget {
               height: 18.h,
             ),
             AuthTextField(
+              controller: passswordController,
               suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.visibility_outlined,
+                  onPressed: () {
+                    ref.read(loginProvider.notifier).visibleControl();
+                  },
+                  icon:  Icon(
+                   state.isVisible==false? Icons.visibility_outlined:Icons.visibility_off_outlined,
                     color: secondary,
                   )),
-              obscureText: true,
+              obscureText:state.isVisible,
               label: AppString.password,
             ),
             SizedBox(
               height: 18.h,
             ),
             Bounceable(
-              onTap: () {},
+              onTap: () {
+                context.pushRoute(const ForgotPasswordRoute());
+              },
               child: Text(
                 AppString.forgotPassword,
                 style: TextStyle(
@@ -80,7 +103,8 @@ class LoginView extends HookConsumerWidget {
               height: 18.h,
             ),
             CustomFilledButton(
-              onTap: () {
+              onTap: ()async {
+                ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text);
                 
               },
               text: AppString.login,
@@ -100,7 +124,7 @@ class LoginView extends HookConsumerWidget {
                   children:  [
                     TextSpan(
                       recognizer: TapGestureRecognizer()..onTap =() {
-                        print("tıklandı");
+                        context.pushRoute(const RegisterRoute());
                       },
                       text: AppString.registerAccount,
                       style: TextStyle(
