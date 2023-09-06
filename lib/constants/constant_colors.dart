@@ -6,4 +6,6 @@ const secondary = Color(0xffC13F8F);
 
 const content = Color(0xffFFFFFF);
 
+const black = Color(0xff373737);
+
 
