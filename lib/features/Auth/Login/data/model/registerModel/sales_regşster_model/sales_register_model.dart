@@ -10,10 +10,11 @@ part 'sales_register_model.g.dart';
 @freezed
 class SalesRegisterModel with _$SalesRegisterModel {
   const factory SalesRegisterModel({
-    required String? uid,
     required String? email,
     required String? companyName,
     required String? companyPhone,
+    required String? password,
+    required String? rePassword,
 
     
     

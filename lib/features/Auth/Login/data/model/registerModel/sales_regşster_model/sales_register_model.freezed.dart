@@ -20,10 +20,11 @@ SalesRegisterModel _$SalesRegisterModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SalesRegisterModel {
-  String? get uid => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
   String? get companyName => throw _privateConstructorUsedError;
   String? get companyPhone => throw _privateConstructorUsedError;
+  String? get password => throw _privateConstructorUsedError;
+  String? get rePassword => throw _privateConstructorUsedError;
   @TimestampSerializer()
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
@@ -40,10 +41,11 @@ abstract class $SalesRegisterModelCopyWith<$Res> {
       _$SalesRegisterModelCopyWithImpl<$Res, SalesRegisterModel>;
   @useResult
   $Res call(
-      {String? uid,
-      String? email,
+      {String? email,
       String? companyName,
       String? companyPhone,
+      String? password,
+      String? rePassword,
       @TimestampSerializer() DateTime? createdAt});
 }
 
@@ -60,17 +62,14 @@ class _$SalesRegisterModelCopyWithImpl<$Res, $Val extends SalesRegisterModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = freezed,
     Object? email = freezed,
     Object? companyName = freezed,
     Object? companyPhone = freezed,
+    Object? password = freezed,
+    Object? rePassword = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: freezed == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -82,6 +81,14 @@ class _$SalesRegisterModelCopyWithImpl<$Res, $Val extends SalesRegisterModel>
       companyPhone: freezed == companyPhone
           ? _value.companyPhone
           : companyPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rePassword: freezed == rePassword
+          ? _value.rePassword
+          : rePassword // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -100,10 +107,11 @@ abstract class _$$_SalesRegisterModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? uid,
-      String? email,
+      {String? email,
       String? companyName,
       String? companyPhone,
+      String? password,
+      String? rePassword,
       @TimestampSerializer() DateTime? createdAt});
 }
 
@@ -118,17 +126,14 @@ class __$$_SalesRegisterModelCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = freezed,
     Object? email = freezed,
     Object? companyName = freezed,
     Object? companyPhone = freezed,
+    Object? password = freezed,
+    Object? rePassword = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(_$_SalesRegisterModel(
-      uid: freezed == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
-              as String?,
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -140,6 +145,14 @@ class __$$_SalesRegisterModelCopyWithImpl<$Res>
       companyPhone: freezed == companyPhone
           ? _value.companyPhone
           : companyPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      password: freezed == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String?,
+      rePassword: freezed == rePassword
+          ? _value.rePassword
+          : rePassword // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: freezed == createdAt
           ? _value.createdAt
@@ -153,17 +166,16 @@ class __$$_SalesRegisterModelCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_SalesRegisterModel implements _SalesRegisterModel {
   const _$_SalesRegisterModel(
-      {required this.uid,
-      required this.email,
+      {required this.email,
       required this.companyName,
       required this.companyPhone,
+      required this.password,
+      required this.rePassword,
       @TimestampSerializer() required this.createdAt});
 
   factory _$_SalesRegisterModel.fromJson(Map<String, dynamic> json) =>
       _$$_SalesRegisterModelFromJson(json);
 
-  @override
-  final String? uid;
   @override
   final String? email;
   @override
@@ -171,12 +183,16 @@ class _$_SalesRegisterModel implements _SalesRegisterModel {
   @override
   final String? companyPhone;
   @override
+  final String? password;
+  @override
+  final String? rePassword;
+  @override
   @TimestampSerializer()
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'SalesRegisterModel(uid: $uid, email: $email, companyName: $companyName, companyPhone: $companyPhone, createdAt: $createdAt)';
+    return 'SalesRegisterModel(email: $email, companyName: $companyName, companyPhone: $companyPhone, password: $password, rePassword: $rePassword, createdAt: $createdAt)';
   }
 
   @override
@@ -184,20 +200,23 @@ class _$_SalesRegisterModel implements _SalesRegisterModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_SalesRegisterModel &&
-            (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.companyName, companyName) ||
                 other.companyName == companyName) &&
             (identical(other.companyPhone, companyPhone) ||
                 other.companyPhone == companyPhone) &&
+            (identical(other.password, password) ||
+                other.password == password) &&
+            (identical(other.rePassword, rePassword) ||
+                other.rePassword == rePassword) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, uid, email, companyName, companyPhone, createdAt);
+  int get hashCode => Object.hash(runtimeType, email, companyName, companyPhone,
+      password, rePassword, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -216,10 +235,11 @@ class _$_SalesRegisterModel implements _SalesRegisterModel {
 
 abstract class _SalesRegisterModel implements SalesRegisterModel {
   const factory _SalesRegisterModel(
-          {required final String? uid,
-          required final String? email,
+          {required final String? email,
           required final String? companyName,
           required final String? companyPhone,
+          required final String? password,
+          required final String? rePassword,
           @TimestampSerializer() required final DateTime? createdAt}) =
       _$_SalesRegisterModel;
 
@@ -227,13 +247,15 @@ abstract class _SalesRegisterModel implements SalesRegisterModel {
       _$_SalesRegisterModel.fromJson;
 
   @override
-  String? get uid;
-  @override
   String? get email;
   @override
   String? get companyName;
   @override
   String? get companyPhone;
+  @override
+  String? get password;
+  @override
+  String? get rePassword;
   @override
   @TimestampSerializer()
   DateTime? get createdAt;

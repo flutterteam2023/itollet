@@ -65,38 +65,61 @@ class RegisterView extends HookConsumerWidget {
               SizedBox(
                 height: 18.w,
               ),
-               ConvertAccountContainer(
-
+              ConvertAccountContainer(
                 iscustomer: state.iscustomer,
                 customerOnTap: () {
                   ref.read(registerProvider.notifier).isCustomerControl();
-                  
                 },
                 salesOnTap: () {
                   ref.read(registerProvider.notifier).isSalesControl();
-                  
-                  
                 },
               ),
               SizedBox(height: 18.w),
-              state.iscustomer==true?  CustomerTextfield(
-                  emailController: customerEmailController,
-                  passwordController: customerPasswordController,
-                  rePasswordController: customerRePasswordController,
-                ):
-              CustomSalesPersonTextField(
-                companyNameController: companyNameController,
-                companyPhoneController: companyPhoneController,
-                emailController: salesEmailController,
-                passswordController: salesPasswordController,
-                repasswordController: salesRePasswordController,
-              ),
-
+              state.iscustomer == true
+                  ? CustomerTextfield(
+                      passwordOnPressed: () {
+                        ref.read(registerProvider.notifier).visibleConrol();
+                      },
+                      rePasswordOnPressed: () {
+                        ref
+                            .read(registerProvider.notifier)
+                            .rePasswordvisibleConrol();
+                      },
+                      rePasswordIsVisible: state.rePasswordVisible,
+                      isVisible: state.isVisible,
+                      emailController: customerEmailController,
+                      passwordController: customerPasswordController,
+                      rePasswordController: customerRePasswordController,
+                    )
+                  : CustomSalesPersonTextField(
+                      passwordIsVisible: state.salesIsVisible,
+                      rePasswordIsVisible: state.salesRePasswordVisible,
+                      passwordOnPressed: () {
+                        ref
+                            .read(registerProvider.notifier)
+                            .salesVisibleConrol();
+                      },
+                      repasswordOnPressed: () {
+                        ref
+                            .read(registerProvider.notifier)
+                            .salesRePasswordvisibleConrol();
+                      },
+                      companyNameController: companyNameController,
+                      companyPhoneController: companyPhoneController,
+                      emailController: salesEmailController,
+                      passswordController: salesPasswordController,
+                      repasswordController: salesRePasswordController,
+                    ),
               SizedBox(height: 18.w),
               CustomFilledButton(
                 text: AppString.registerButtonText,
                 onTap: () {
-                  ref.read(registerProvider.notifier).customerSignUp(context, customerEmailController.text, customerPasswordController.text, customerRePasswordController.text);
+                 state.iscustomer ==true? ref.read(registerProvider.notifier).customerSignUp(
+                      context,
+                      customerEmailController.text,
+                      customerPasswordController.text,
+                      customerRePasswordController.text):
+                      ref.read(registerProvider.notifier).salesSignUp(context, companyNameController.text, companyPhoneController.text, salesEmailController.text, salesPasswordController.text, salesRePasswordController.text);
                 },
               ),
               SizedBox(height: 18.w),
@@ -112,7 +135,6 @@ class RegisterView extends HookConsumerWidget {
                 ),
               ),
               SizedBox(height: 18.w),
-
               Center(
                 child: RichText(
                   text: TextSpan(
@@ -154,12 +176,20 @@ class CustomSalesPersonTextField extends StatelessWidget {
     required this.emailController,
     required this.passswordController,
     required this.repasswordController,
+    required this.passwordOnPressed,
+    required this.repasswordOnPressed,
+    required this.passwordIsVisible,
+    required this.rePasswordIsVisible,
   });
   final TextEditingController companyNameController;
   final TextEditingController companyPhoneController;
   final TextEditingController emailController;
   final TextEditingController passswordController;
   final TextEditingController repasswordController;
+  final void Function() passwordOnPressed;
+  final void Function() repasswordOnPressed;
+  final bool passwordIsVisible;
+  final bool rePasswordIsVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +211,30 @@ class CustomSalesPersonTextField extends StatelessWidget {
             obscureText: false),
         SizedBox(height: 18.w),
         AuthTextField(
+            suffixIcon: IconButton(
+                onPressed: passwordOnPressed,
+                icon: Icon(
+                  passwordIsVisible == true
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: secondary,
+                )),
             controller: passswordController,
             label: AppString.password,
-            obscureText: true),
+            obscureText: passwordIsVisible),
         SizedBox(height: 18.w),
         AuthTextField(
+            suffixIcon: IconButton(
+                onPressed: repasswordOnPressed,
+                icon: Icon(
+                  rePasswordIsVisible == true
+                      ? Icons.visibility_off_outlined
+                      : Icons.visibility_outlined,
+                  color: secondary,
+                )),
             controller: repasswordController,
             label: AppString.rePassword,
-            obscureText: true),
+            obscureText: rePasswordIsVisible),
       ],
     );
   }
@@ -200,10 +246,18 @@ class CustomerTextfield extends StatelessWidget {
     required this.emailController,
     required this.passwordController,
     required this.rePasswordController,
+    required this.isVisible,
+    required this.passwordOnPressed,
+    required this.rePasswordOnPressed,
+    required this.rePasswordIsVisible,
   });
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController rePasswordController;
+  final bool isVisible;
+  final bool rePasswordIsVisible;
+  final void Function() passwordOnPressed;
+  final void Function() rePasswordOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -215,11 +269,13 @@ class CustomerTextfield extends StatelessWidget {
         AuthTextField(
           controller: passwordController,
           label: 'Şifre',
-          obscureText: true,
+          obscureText: isVisible,
           suffixIcon: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.visibility_outlined,
+              onPressed: passwordOnPressed,
+              icon: Icon(
+                isVisible == false
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
                 color: secondary,
               )),
         ),
@@ -227,11 +283,13 @@ class CustomerTextfield extends StatelessWidget {
         AuthTextField(
           controller: rePasswordController,
           label: 'Şifre Tekrar',
-          obscureText: true,
+          obscureText: rePasswordIsVisible,
           suffixIcon: IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.visibility_outlined,
+              onPressed: rePasswordOnPressed,
+              icon: Icon(
+                rePasswordIsVisible == false
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
                 color: secondary,
               )),
         ),

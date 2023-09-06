@@ -30,12 +30,24 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
         await _auth
             .signInWithEmailAndPassword(email: state.loginModel.email!, password: state.loginModel.password!)
             .then((value) {
-          AnimatedSnackBar.rectangle(
-            ConstantAuthExceptions.successfull,
-            ConstantAuthExceptions.signIn,
-            type: AnimatedSnackBarType.success,
-            brightness: Brightness.light,
-          ).show(context);
+              ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar( SnackBar(
+            /// need to set following properties for best effect of awesome_snackbar_content
+            elevation: 0,
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.white,
+
+            content: AwesomeSnackbarContent(
+              color: secondary,
+              title: ConstantAuthExceptions.successfull,
+              message: ConstantAuthExceptions.signIn,
+
+              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+              contentType: ContentType.success,
+            ),
+          ));
+         
         });
       } on FirebaseAuthException catch (e) {
         state = state.copyWith(isLoading: false);
