@@ -43,6 +43,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-
+#diğer projelerde alttaki 2 satırı ekledikten sonra
+#git rm -r --cached .
+#kodunu terminalde çalıştır ve değişiklikleri pushla
 *.freezed.dart
 *.g.dart 
