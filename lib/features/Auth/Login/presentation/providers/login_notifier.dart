@@ -1,4 +1,5 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:itollet/constants/auth_exception_code.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Auth/Login/data/model/loginModel/login_model.dart';
 import 'package:itollet/features/Auth/Login/presentation/states/login_state.dart';
+import 'package:itollet/routing/app_router.dart';
 
 final loginProvider =
     NotifierProvider.autoDispose<LoginNotifier, LoginState>(LoginNotifier.new);
@@ -20,7 +22,7 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
   }
 
   Future<void> login(
-      BuildContext context,String email,String password) async {
+      BuildContext context,String email,String password,WidgetRef ref) async {
          final login = LoginModel(email: email, password: password);
     state = state.copyWith(loginModel:login );
     if (state.loginModel.email!.isNotEmpty && state.loginModel.password!.isNotEmpty) {
@@ -30,6 +32,13 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
         await _auth
             .signInWithEmailAndPassword(email: state.loginModel.email!, password: state.loginModel.password!)
             .then((value) {
+              
+               if (_auth.currentUser!.emailVerified) {
+            context.pushRoute(HomeRoute());
+            
+          }else{
+            context.replaceRoute(VerificationRoute(isHomePage: true));
+          }
               ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar( SnackBar(
@@ -47,6 +56,8 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
               contentType: ContentType.success,
             ),
           ));
+         
+         
          
         });
       } on FirebaseAuthException catch (e) {
