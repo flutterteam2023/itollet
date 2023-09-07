@@ -8,10 +8,8 @@ part 'subcategory_model.g.dart';
 @freezed
 class SubcategoryModel with _$SubcategoryModel {
   factory SubcategoryModel({
-    required String? name,
-    required String? iconUrl,
-    @ColorSerializer() required Color? color1,
-    @ColorSerializer() required Color? color2,
+    required String name,
+    required String iconUrl,
   }) = _SubcategoryModel;
 
   factory SubcategoryModel.fromJson(Map<String, dynamic> json) => _$SubcategoryModelFromJson(json);
