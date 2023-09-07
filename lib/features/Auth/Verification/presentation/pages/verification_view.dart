@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_filled_button.dart';
@@ -12,16 +11,17 @@ import 'package:itollet/features/Auth/Verification/presentation/providers/verifi
 import 'package:itollet/routing/app_router.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+
 @RoutePage()
-
-
 class VerificationView extends StatefulHookConsumerWidget {
-  const VerificationView({super.key});
+  final bool isHomePage;
+  const VerificationView(this.isHomePage, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _VerificationViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _VerificationViewState();
 }
+
 class _VerificationViewState extends ConsumerState<VerificationView> {
   final auth = FirebaseAuth.instance;
   bool isEmailVerified = false;
@@ -39,18 +39,28 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
 
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-        ref.watch(registerProvider.notifier).emailVerificationControl(isEmailVerified);
-  
-
-      
+      ref
+          .watch(registerProvider.notifier)
+          .emailVerificationControl(isEmailVerified);
     });
 
     if (isEmailVerified) {
       // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("E mail doğrulama başarılı",style:TextStyle(color: Colors.white),),backgroundColor: secondary,));
-          // ignore: use_build_context_synchronously
-          context.replaceRoute(const LoginRoute());
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text(
+          "E mail doğrulama başarılı",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: secondary,
+      ));
+      // ignore: use_build_context_synchronously
+      if (widget.isHomePage) {
+        context.replaceRoute(HomeRoute());
+      }else{
+              context.replaceRoute(const LoginRoute());
+
+
+      }
 
       timer?.cancel();
     }
@@ -69,56 +79,49 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(AppImage.verification,width:128.r ,height: 128.r,),
-            SizedBox(height:18.h ,),
-            Text(AppString.accountVerification,
-            style: TextStyle(
-              color: secondary,
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w600
+            Image.asset(
+              AppImage.verification,
+              width: 128.r,
+              height: 128.r,
             ),
+            SizedBox(
+              height: 18.h,
             ),
-            SizedBox(height:18.h ,),
-            Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 20.w),
-              child: Text(AppString.verificationText,
-              textAlign: TextAlign.center,
+            Text(
+              AppString.accountVerification,
               style: TextStyle(
-                color: secondary,
-                fontSize:12.sp,
-                fontWeight: FontWeight.w400 
-              ),
-              ),
+                  color: secondary,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w600),
             ),
-            SizedBox(height:18.h ,),
+            SizedBox(
+              height: 18.h,
+            ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 18.w),
-              child: CustomFilledButton(text: AppString.eMailAppOpen, onTap: (){
-                ref.read(verificationProvider.notifier).launchEmailApp();
-              }),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Text(
+                AppString.verificationText,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: secondary,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
-            SizedBox(height:18.h ,),
-
-            Bounceable(
-              onTap: () {
-                context.pushRoute(const LoginRoute());
-              },
-              child: const Text("Giriş Sayfasına Geri Dön",
-              style: TextStyle(
-                color: secondary,
-                fontWeight: FontWeight.bold
-              ),
-              ),
-            )
-
-
-
-
-        
+            SizedBox(
+              height: 18.h,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
+              child: CustomFilledButton(
+                  text: AppString.eMailAppOpen,
+                  onTap: () {
+                    ref.read(verificationProvider.notifier).launchEmailApp();
+                  }),
+            ),
           ],
         ),
       ),
-
     );
   }
 }

@@ -1,7 +1,5 @@
-import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -9,12 +7,10 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/auth_text_field.dart';
-import 'package:itollet/common_widgets/convert_account_container.dart';
 import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/constants/app_strings.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Auth/Login/presentation/providers/login_notifier.dart';
-import 'package:itollet/features/Auth/Register/presentation/providers/register_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -25,24 +21,7 @@ class LoginView extends StatefulHookConsumerWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginViewState();
 }
 class _LoginViewState extends ConsumerState<LoginView> {
-  @override
-  void initState() {
-        final auth = FirebaseAuth.instance;
-
-   if (auth.currentUser!=null) {
-    Future.delayed(Duration(seconds: 3), () { 
-     final registerState =ref.watch(registerProvider);
-    if (registerState.isEmailVerified==false) {
-      auth.currentUser!.delete();
-       ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("E mail doğrulama başarısız",style:TextStyle(color: Colors.white),),backgroundColor: secondary,));
-      
-    }
-   });
-     
-   }
-    
-  }
+  
   @override
   Widget build(BuildContext context) {
     final emailController = useTextEditingController(text: '');
@@ -77,17 +56,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               SizedBox(
                 height: 18.h,
               ),
-               ConvertAccountContainer(
-                customerOnTap: () {
-                  ref.read(loginProvider.notifier).isCustomerControl();
-                  
-                },
-                iscustomer: state.iscustomer,
-                salesOnTap: () {
-                  ref.read(loginProvider.notifier).isSalesControl();
-                  
-                },
-              ),
+              
               SizedBox(
                 height: 18.23.h,
               ),
@@ -132,7 +101,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               ),
               CustomFilledButton(
                 onTap: ()async {
-                  ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text);
+                  ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text,ref);
                   
                 },
                 text: AppString.login,
