@@ -16,7 +16,6 @@ class RegisterView extends HookConsumerWidget {
   const RegisterView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
- 
     final customerEmailController = useTextEditingController(text: '');
     final customerPasswordController = useTextEditingController(text: '');
     final customerRePasswordController = useTextEditingController(text: '');
@@ -27,67 +26,53 @@ class RegisterView extends HookConsumerWidget {
         iconTheme: const IconThemeData(color: secondary),
         title: Text(
           AppString.appName,
-          style: TextStyle(
-              color: secondary,
-              fontSize: 32.sp,
-              fontFamily: 'LeagueGothic-Regular'),
+          style: TextStyle(color: secondary, fontSize: 32.sp, fontFamily: 'LeagueGothic-Regular'),
         ),
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(
-              top: 83.3.h, left: 18.w, right: 18.w, bottom: 50.h),
+          padding: EdgeInsets.only(top: 83.3.h, left: 18.w, right: 18.w, bottom: 50.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 AppString.register,
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w600),
+                style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 18.w,
               ),
               Text(
                 AppString.registerText,
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400),
+                style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),
               SizedBox(
                 height: 18.w,
               ),
-              
               SizedBox(height: 18.w),
-              
-                   CustomerTextfield(
-                      passwordOnPressed: () {
-                        ref.read(registerProvider.notifier).visibleConrol();
-                      },
-                      rePasswordOnPressed: () {
-                        ref
-                            .read(registerProvider.notifier)
-                            .rePasswordvisibleConrol();
-                      },
-                      rePasswordIsVisible: state.rePasswordVisible,
-                      isVisible: state.isVisible,
-                      emailController: customerEmailController,
-                      passwordController: customerPasswordController,
-                      rePasswordController: customerRePasswordController,
-                    ),
-                  
+              CustomerTextfield(
+                passwordOnPressed: () {
+                  ref.read(registerProvider.notifier).visibleConrol();
+                },
+                rePasswordOnPressed: () {
+                  ref.read(registerProvider.notifier).rePasswordvisibleConrol();
+                },
+                rePasswordIsVisible: state.rePasswordVisible,
+                isVisible: state.isVisible,
+                emailController: customerEmailController,
+                passwordController: customerPasswordController,
+                rePasswordController: customerRePasswordController,
+              ),
               SizedBox(height: 18.w),
               CustomFilledButton(
                 text: AppString.registerButtonText,
                 onTap: () {
-                 ref.read(registerProvider.notifier).customerSignUp(
-                      context,
-                      customerEmailController.text,
-                      customerPasswordController.text,
-                      customerRePasswordController.text);
+                  ref.read(registerProvider.notifier).customerSignUp(
+                        context,
+                        customerEmailController.text.trim(),
+                        customerPasswordController.text,
+                        customerRePasswordController.text,
+                      );
                 },
               ),
               SizedBox(height: 18.w),
@@ -96,10 +81,7 @@ class RegisterView extends HookConsumerWidget {
                 child: Text(
                   AppString.conditions,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: secondary,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400),
+                  style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
                 ),
               ),
               SizedBox(height: 18.w),
@@ -107,10 +89,7 @@ class RegisterView extends HookConsumerWidget {
                 child: RichText(
                   text: TextSpan(
                     text: '${AppString.alreadyAccount} ',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: secondary,
-                        fontWeight: FontWeight.w400),
+                    style: TextStyle(fontSize: 14.sp, color: secondary, fontWeight: FontWeight.w400),
                     children: [
                       TextSpan(
                         recognizer: TapGestureRecognizer()
@@ -119,8 +98,7 @@ class RegisterView extends HookConsumerWidget {
                           },
                         text: AppString.alreadyAccount2,
                         style: TextStyle(
-                            color:
-                                secondary, // Kelimenin rengini burada belirleyebilirsiniz
+                            color: secondary, // Kelimenin rengini burada belirleyebilirsiniz
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600),
                       ),
@@ -135,7 +113,6 @@ class RegisterView extends HookConsumerWidget {
     );
   }
 }
-
 
 class CustomerTextfield extends StatelessWidget {
   const CustomerTextfield({
@@ -160,8 +137,7 @@ class CustomerTextfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AuthTextField(
-            controller: emailController, label: 'Email', obscureText: false),
+        AuthTextField(controller: emailController, label: 'Email', obscureText: false),
         SizedBox(height: 18.w),
         AuthTextField(
           controller: passwordController,
@@ -170,9 +146,7 @@ class CustomerTextfield extends StatelessWidget {
           suffixIcon: IconButton(
               onPressed: passwordOnPressed,
               icon: Icon(
-                isVisible == false
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+                isVisible == false ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                 color: secondary,
               )),
         ),
@@ -184,9 +158,7 @@ class CustomerTextfield extends StatelessWidget {
           suffixIcon: IconButton(
               onPressed: rePasswordOnPressed,
               icon: Icon(
-                rePasswordIsVisible == false
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined,
+                rePasswordIsVisible == false ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                 color: secondary,
               )),
         ),

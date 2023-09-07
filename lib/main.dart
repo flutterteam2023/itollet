@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,10 +20,23 @@ void main() async {
 
 final route = AppRouter();
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 1), () {
+      ref.watch(categoryProvider.notifier).getDocument();
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -42,3 +57,25 @@ class MyApp extends StatelessWidget {
         });
   }
 }
+
+/* 
+class MyApp extends ConsumerStatefulWidget {
+  const MyApp({super.key});
+
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    // TODO: implement createState
+    throw UnimplementedError();
+  }
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+  
+    final state = ref.watch(categoryProvider);
+
+
+  }
+ 
+}
+ */

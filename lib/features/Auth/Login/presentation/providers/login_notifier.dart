@@ -10,8 +10,7 @@ import 'package:itollet/features/Auth/Login/data/model/loginModel/login_model.da
 import 'package:itollet/features/Auth/Login/presentation/states/login_state.dart';
 import 'package:itollet/routing/app_router.dart';
 
-final loginProvider =
-    NotifierProvider.autoDispose<LoginNotifier, LoginState>(LoginNotifier.new);
+final loginProvider = NotifierProvider.autoDispose<LoginNotifier, LoginState>(LoginNotifier.new);
 
 class LoginNotifier extends AutoDisposeNotifier<LoginState> {
   final _auth = FirebaseAuth.instance;
@@ -21,166 +20,151 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
     return LoginState.initial();
   }
 
-  Future<void> login(
-      BuildContext context,String email,String password,WidgetRef ref) async {
-         final login = LoginModel(email: email, password: password);
-    state = state.copyWith(loginModel:login );
+  Future<void> login(BuildContext context, String email, String password, WidgetRef ref) async {
+    final login = LoginModel(email: email, password: password);
+    state = state.copyWith(loginModel: login);
     if (state.loginModel.email!.isNotEmpty && state.loginModel.password!.isNotEmpty) {
       try {
         state = state.copyWith(isLoading: true);
 
-        await _auth
-            .signInWithEmailAndPassword(email: state.loginModel.email!, password: state.loginModel.password!)
-            .then((value) {
-              
-               if (_auth.currentUser!.emailVerified) {
-            context.pushRoute(HomeRoute());
-            
-          }else{
-            context.replaceRoute(VerificationRoute(isHomePage: true));
+        await _auth.signInWithEmailAndPassword(email: state.loginModel.email!, password: state.loginModel.password!).then((value) {
+          if (_auth.currentUser!.emailVerified) {
+            context.pushRoute(const HomeRoute());
+          } else {
+            context.replaceRoute(const VerificationRoute());
           }
-              ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar( SnackBar(
-            /// need to set following properties for best effect of awesome_snackbar_content
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.white,
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              /// need to set following properties for best effect of awesome_snackbar_content
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
 
-            content: AwesomeSnackbarContent(
-              color: secondary,
-              title: ConstantAuthExceptions.successfull,
-              message: ConstantAuthExceptions.signIn,
+              content: AwesomeSnackbarContent(
+                color: secondary,
+                title: ConstantAuthExceptions.successfull,
+                message: ConstantAuthExceptions.signIn,
 
-              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-              contentType: ContentType.success,
-            ),
-          ));
-         
-         
-         
+                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                contentType: ContentType.success,
+              ),
+            ));
         });
       } on FirebaseAuthException catch (e) {
         state = state.copyWith(isLoading: false);
         if (e.code == ConstantAuthExceptions.invalidEmail) {
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar( SnackBar(
-            /// need to set following properties for best effect of awesome_snackbar_content
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.white,
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              /// need to set following properties for best effect of awesome_snackbar_content
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
 
-            content: AwesomeSnackbarContent(
-              
-              color: secondary,
-              title: ConstantAuthExceptions.unsuccessful,
-              message: ConstantAuthExceptions.emailIsInvalid,
-              
-              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-              contentType: ContentType.failure,
-            ),
-          ));
-         
+              content: AwesomeSnackbarContent(
+                color: secondary,
+                title: ConstantAuthExceptions.unsuccessful,
+                message: ConstantAuthExceptions.emailIsInvalid,
+
+                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                contentType: ContentType.failure,
+              ),
+            ));
         } else if (e.code == ConstantAuthExceptions.wrongPassword) {
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar( SnackBar(
-            /// need to set following properties for best effect of awesome_snackbar_content
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.white,
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              /// need to set following properties for best effect of awesome_snackbar_content
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
 
-            content: AwesomeSnackbarContent(
-              color: secondary,
-              title: ConstantAuthExceptions.unsuccessful,
-              message: ConstantAuthExceptions.passwordIsWrong,
+              content: AwesomeSnackbarContent(
+                color: secondary,
+                title: ConstantAuthExceptions.unsuccessful,
+                message: ConstantAuthExceptions.passwordIsWrong,
 
-              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-              contentType: ContentType.failure,
-            ),
-          ));
-         
+                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                contentType: ContentType.failure,
+              ),
+            ));
         } else if (e.code == ConstantAuthExceptions.userNotFound) {
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-            /// need to set following properties for best effect of awesome_snackbar_content
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.white,
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              /// need to set following properties for best effect of awesome_snackbar_content
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
 
-            content: AwesomeSnackbarContent(
-              color: secondary,
-              title: ConstantAuthExceptions.unsuccessful,
-              message: ConstantAuthExceptions.notFoundUserMessage,
+              content: AwesomeSnackbarContent(
+                color: secondary,
+                title: ConstantAuthExceptions.unsuccessful,
+                message: ConstantAuthExceptions.notFoundUserMessage,
 
-              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-              contentType: ContentType.failure,
-            ),)
-          
-          );
+                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                contentType: ContentType.failure,
+              ),
+            ));
         } else if (state.loginModel.email!.isEmpty || state.loginModel.password!.isEmpty) {
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-            /// need to set following properties for best effect of awesome_snackbar_content
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.white,
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+              /// need to set following properties for best effect of awesome_snackbar_content
+              elevation: 0,
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
 
-            content: AwesomeSnackbarContent(
-              color: secondary,
-              title: ConstantAuthExceptions.unsuccessful,
-              message: ConstantAuthExceptions.emailPasswordEmptyMessage,
+              content: AwesomeSnackbarContent(
+                color: secondary,
+                title: ConstantAuthExceptions.unsuccessful,
+                message: ConstantAuthExceptions.emailPasswordEmptyMessage,
 
-              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-              contentType: ContentType.failure,
-            ),
-          ));
-          
+                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                contentType: ContentType.failure,
+              ),
+            ));
         }
       }
     } else {
       ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar( SnackBar(
-            /// need to set following properties for best effect of awesome_snackbar_content
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.white,
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          /// need to set following properties for best effect of awesome_snackbar_content
+          elevation: 0,
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.white,
 
-            content: AwesomeSnackbarContent(
-              color: secondary,
-              title: ConstantAuthExceptions.unsuccessful,
-              message:  ConstantAuthExceptions.emailPasswordEmptyMessage,
+          content: AwesomeSnackbarContent(
+            color: secondary,
+            title: ConstantAuthExceptions.unsuccessful,
+            message: ConstantAuthExceptions.emailPasswordEmptyMessage,
 
-              /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-              contentType: ContentType.warning,
-            ),
-          ));
-     
-      
+            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+            contentType: ContentType.warning,
+          ),
+        ));
     }
   }
-  void isCustomerControl(){
+
+  void isCustomerControl() {
     state = state.copyWith(iscustomer: true);
   }
-  void isSalesControl(){
+
+  void isSalesControl() {
     state = state.copyWith(iscustomer: false);
   }
- 
-  void visibleControl(){
-    if (state.isVisible==true) {
-      state = state.copyWith(isVisible: false);
-      
-    }else{
-      state = state.copyWith(isVisible: true);
 
+  void visibleControl() {
+    if (state.isVisible == true) {
+      state = state.copyWith(isVisible: false);
+    } else {
+      state = state.copyWith(isVisible: true);
     }
   }
 }

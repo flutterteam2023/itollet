@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,9 +10,7 @@ import 'package:itollet/features/Auth/Login/data/model/registerModel/customer_re
 import 'package:itollet/features/Auth/Register/presentation/states/register_state.dart';
 import 'package:itollet/routing/app_router.dart';
 
-final registerProvider =
-    NotifierProvider.autoDispose<RegisterNotifier, RegisterState>(
-        RegisterNotifier.new);
+final registerProvider = NotifierProvider.autoDispose<RegisterNotifier, RegisterState>(RegisterNotifier.new);
 
 class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
   final _auth = FirebaseAuth.instance;
@@ -23,14 +20,11 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
     return RegisterState.initial();
   }
 
-  Future<void> customerSignUp(BuildContext context, String email,
-      String password, String rePassword) async {
+  Future<void> customerSignUp(BuildContext context, String email, String password, String rePassword) async {
     try {
-      if (password == rePassword &&
-          password.isNotEmpty &&
-          rePassword.isNotEmpty) {
-        if (password.length<6) {
-           ScaffoldMessenger.of(context)
+      if (password == rePassword && password.isNotEmpty && rePassword.isNotEmpty) {
+        if (password.length < 6) {
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
               /// need to set following properties for best effect of awesome_snackbar_content
@@ -47,48 +41,41 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
                 contentType: ContentType.failure,
               ),
             ));
-          
-        }else{
+        } else {
           state = state.copyWith(isLoading: true);
-        final customerRegisterModel = CustomerRegisterModel(
-            email: email, password: password, rePassword: rePassword);
-        state = state.copyWith(customerRegisterModel: customerRegisterModel);
-        Timestamp timestamp = Timestamp.now();
+          final customerRegisterModel = CustomerRegisterModel(email: email, password: password, rePassword: rePassword);
+          state = state.copyWith(customerRegisterModel: customerRegisterModel);
+          Timestamp timestamp = Timestamp.now();
 
-        // Firebase Authentication ile kullanıcı kaydı oluştur
-        final userCredential = await _auth.createUserWithEmailAndPassword(
-            email: state.customerRegisterModel.email!,
-            password: state.customerRegisterModel.password!);
-        await _firestore
-            .collection("customers")
-            .doc(_auth.currentUser?.uid)
-            .set({
-          'email': state.customerRegisterModel.email,
-          'createdAt': timestamp
-        }).then((value) {
-          state = state.copyWith(isLoading: false);
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-              /// need to set following properties for best effect of awesome_snackbar_content
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.white,
+          // Firebase Authentication ile kullanıcı kaydı oluştur
+          final userCredential = await _auth.createUserWithEmailAndPassword(
+              email: state.customerRegisterModel.email!.trim(), password: state.customerRegisterModel.password!);
+          await _firestore
+              .collection("customers")
+              .doc(_auth.currentUser?.uid)
+              .set({'email': state.customerRegisterModel.email, 'createdAt': timestamp}).then((value) {
+            state = state.copyWith(isLoading: false);
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                /// need to set following properties for best effect of awesome_snackbar_content
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.white,
 
-              content: AwesomeSnackbarContent(
-                color: secondary,
-                title: ConstantAuthExceptions.successfull,
-                message: ConstantAuthExceptions.registerSuccessful,
+                content: AwesomeSnackbarContent(
+                  color: secondary,
+                  title: ConstantAuthExceptions.successfull,
+                  message: ConstantAuthExceptions.registerSuccessful,
 
-                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                contentType: ContentType.success,
-              ),
-            ));
-          context.pushRoute( VerificationRoute(isHomePage: false));
-        });
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.success,
+                ),
+              ));
+            context.pushRoute(VerificationRoute());
+          });
 
-        // Kullanıcı oluşturulduysa Firebase'e e-posta doğrulama gönder
-        
+          // Kullanıcı oluşturulduysa Firebase'e e-posta doğrulama gönder
         }
       } else if (password.isEmpty || rePassword.isEmpty || email.isEmpty) {
         ScaffoldMessenger.of(context)
@@ -127,8 +114,6 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
             ),
           ));
       }
-
-
     } on FirebaseAuthException catch (e) {
       state = state.copyWith(isLoading: false);
       if (e.code == ConstantAuthExceptions.invalidEmail) {
@@ -213,7 +198,6 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
       // Hataları kullanıcıya göstermek veya işlem yapmak için uygun bir şekilde işleyebilirsiniz.
     }
   }
-  
 
   void isCustomerControl() {
     state = state.copyWith(iscustomer: true);
@@ -254,8 +238,8 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
       state = state.copyWith(salesRePasswordVisible: true);
     }
   }
-  void emailVerificationControl(bool verificate){
-    state = state.copyWith(isEmailVerified: verificate);
 
+  void emailVerificationControl(bool verificate) {
+    state = state.copyWith(isEmailVerified: verificate);
   }
 }

@@ -40,13 +40,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     VerificationRoute.name: (routeData) {
-      final args = routeData.argsAs<VerificationRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: VerificationView(
-          args.isHomePage,
-          key: args.key,
-        ),
+        child: const VerificationView(),
       );
     },
   };
@@ -110,38 +106,14 @@ class RegisterRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [VerificationView]
-class VerificationRoute extends PageRouteInfo<VerificationRouteArgs> {
-  VerificationRoute({
-    required bool isHomePage,
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
+class VerificationRoute extends PageRouteInfo<void> {
+  const VerificationRoute({List<PageRouteInfo>? children})
+      : super(
           VerificationRoute.name,
-          args: VerificationRouteArgs(
-            isHomePage: isHomePage,
-            key: key,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'VerificationRoute';
 
-  static const PageInfo<VerificationRouteArgs> page =
-      PageInfo<VerificationRouteArgs>(name);
-}
-
-class VerificationRouteArgs {
-  const VerificationRouteArgs({
-    required this.isHomePage,
-    this.key,
-  });
-
-  final bool isHomePage;
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'VerificationRouteArgs{isHomePage: $isHomePage, key: $key}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

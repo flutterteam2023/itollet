@@ -14,12 +14,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 @RoutePage()
 class VerificationView extends StatefulHookConsumerWidget {
-  final bool isHomePage;
-  const VerificationView(this.isHomePage, {super.key});
+  const VerificationView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _VerificationViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _VerificationViewState();
 }
 
 class _VerificationViewState extends ConsumerState<VerificationView> {
@@ -30,40 +28,30 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.currentUser?.sendEmailVerification();
-    timer =
-        Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
+    timer = Timer.periodic(const Duration(seconds: 3), (_) => checkEmailVerified());
   }
 
   checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser?.reload();
+    await FirebaseAuth.instance.currentUser?.reload().then((value) {
+      if (isEmailVerified) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+            "E mail doğrulama başarılı",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: secondary,
+        ));
+
+        context.pushRoute(const HomeRoute());
+
+        timer?.cancel();
+      }
+    });
 
     setState(() {
       isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-      ref
-          .watch(registerProvider.notifier)
-          .emailVerificationControl(isEmailVerified);
+      ref.watch(registerProvider.notifier).emailVerificationControl(isEmailVerified);
     });
-
-    if (isEmailVerified) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-          "E mail doğrulama başarılı",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: secondary,
-      ));
-      // ignore: use_build_context_synchronously
-      if (widget.isHomePage) {
-        context.replaceRoute(HomeRoute());
-      }else{
-              context.replaceRoute(const LoginRoute());
-
-
-      }
-
-      timer?.cancel();
-    }
   }
 
   @override
@@ -89,10 +77,7 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
             ),
             Text(
               AppString.accountVerification,
-              style: TextStyle(
-                  color: secondary,
-                  fontSize: 24.sp,
-                  fontWeight: FontWeight.w600),
+              style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600),
             ),
             SizedBox(
               height: 18.h,
@@ -102,10 +87,7 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
               child: Text(
                 AppString.verificationText,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400),
+                style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),
             ),
             SizedBox(
