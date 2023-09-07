@@ -6,12 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Categories/providers/category_notifier.dart';
 
 @RoutePage()
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final categories = ref.watch(categoryProvider);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,9 +38,7 @@ class HomeView extends ConsumerWidget {
               child: Container(
                 height: 55.r,
                 width: 55.r,
-                decoration: BoxDecoration(
-                    color: secondary,
-                    borderRadius: BorderRadius.circular(30.r)),
+                decoration: BoxDecoration(color: secondary, borderRadius: BorderRadius.circular(30.r)),
                 child: const Center(
                     child: Icon(
                   Icons.person_outlined,
@@ -50,15 +50,28 @@ class HomeView extends ConsumerWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(
-          top: 50.h,
-          left: 26.w,
-          right: 26.w
-        ),
+        padding: EdgeInsets.only(top: 50.h, left: 26.w, right: 26.w),
         child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, childAspectRatio: 1.6.h),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.6.h),
           children: [
+            Container(
+              padding: EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                    colors: [
+                      categories.categories.first.primaryColor!,
+                      categories.categories.first.secondaryColor!,
+                    ],
+                    begin: const FractionalOffset(0.0, 0.0),
+                    end: const FractionalOffset(1.0, 0.0),
+                    stops: [0.0, 1.0],
+                    tileMode: TileMode.clamp),
+              ),
+              child: Text(
+                categories.categories.toString(),
+              ),
+            ),
             Category(
               onTap: () {},
               title: "ARAÇ",
@@ -131,8 +144,6 @@ class HomeView extends ConsumerWidget {
               ellipsePath: AppImage.greenEllipse,
               iconPath: AppImage.iconCar,
             ),
-            
-
           ],
         ),
       ),
@@ -181,8 +192,7 @@ class Category extends StatelessWidget {
         ),
         Text(
           title,
-          style: TextStyle(
-              fontSize: 15.sp, fontWeight: FontWeight.w500, color: black),
+          style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500, color: black),
         )
       ],
     );
