@@ -39,9 +39,7 @@ class SubCategoryView extends ConsumerWidget {
               child: Container(
                 height: 55.r,
                 width: 55.r,
-                decoration: BoxDecoration(
-                    color: secondary,
-                    borderRadius: BorderRadius.circular(30.r)),
+                decoration: BoxDecoration(color: secondary, borderRadius: BorderRadius.circular(30.r)),
                 child: const Center(
                     child: Icon(
                   Icons.person_outlined,
@@ -69,70 +67,71 @@ class SubCategoryView extends ConsumerWidget {
                     ),
                   ),
                   child: AppBar(
+                    forceMaterialTransparency: true,
+                    surfaceTintColor: Colors.white,
+                    foregroundColor: Colors.white,
+                    shadowColor: Colors.white,
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
-                    title: Text(category.name,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w400
+                    title: Text(
+                      category.name,
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    ),
-                    backgroundColor: Colors
-                        .transparent, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
             ),
-            SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
-          child: Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            children: List.generate(5, (index) {
-              final subcategory = category.subCategories[index];
-              return SizedBox(
-                width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
-                height: 128,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Bounceable(
-                        onTap: () {
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
-                          ),
-                          child: Center(
-                            child: Image.network(
-                              subcategory.iconUrl,
-                              width: 35.w,
-                              height: 35.676.h,
-                              color: Colors.white,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
+                  child: Wrap(
+                    alignment: WrapAlignment.start,
+                    crossAxisAlignment: WrapCrossAlignment.start,
+                    children: List.generate(category.subCategories.length, (index) {
+                      final subcategory = category.subCategories[index];
+                      return SizedBox(
+                        width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
+                        height: 128,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Bounceable(
+                                onTap: () {},
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
+                                  ),
+                                  child: Center(
+                                    child: Image.network(
+                                      subcategory.iconUrl,
+                                      width: 35.w,
+                                      height: 35.676.h,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
+                            Expanded(
+                              child: Text(
+                                subcategory.name,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        subcategory.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
-                      ),
-                    )
-                  ],
+                      );
+                    }),
+                  ),
                 ),
-              );
-            }),
-          ),
-        ),
-      ),
+              ),
+            ),
           ],
         ),
       ),

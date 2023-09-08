@@ -56,7 +56,7 @@ class HomeView extends ConsumerWidget {
           child: Wrap(
             alignment: WrapAlignment.start,
             crossAxisAlignment: WrapCrossAlignment.start,
-            children: List.generate(5, (index) {
+            children: List.generate(categories.categories.length, (index) {
               final category = categories.categories[index];
               return SizedBox(
                 width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
