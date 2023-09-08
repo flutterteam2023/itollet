@@ -16,7 +16,7 @@ class CategoryModel with _$CategoryModel {
     //255, 244, 67, 54 şeklinde string olarak gelmeli
     @ColorSerializer() required Color primaryColor,
     @ColorSerializer() required Color secondaryColor,
-    required List<SubcategoryModel> subCategories,
+    @Default([]) List<SubcategoryModel> subCategories,
   }) = _CategoryModel;
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => _$CategoryModelFromJson(json);

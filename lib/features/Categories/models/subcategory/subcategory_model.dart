@@ -10,7 +10,7 @@ class SubcategoryModel with _$SubcategoryModel {
   factory SubcategoryModel({
     required String name,
     required String iconUrl,
-    required List<SubcategoryModel> subCategories,
+    @Default([]) List<SubcategoryModel> subCategories,
   }) = _SubcategoryModel;
 
   factory SubcategoryModel.fromJson(Map<String, dynamic> json) => _$SubcategoryModelFromJson(json);
