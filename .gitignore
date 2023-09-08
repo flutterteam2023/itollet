@@ -48,3 +48,4 @@ app.*.map.json
 #kodunu terminalde çalıştır ve değişiklikleri pushla
 *.freezed.dart
 *.g.dart 
+*.gr.dart
