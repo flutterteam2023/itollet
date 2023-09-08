@@ -17,6 +17,7 @@ class HomeView extends ConsumerWidget {
     final categories = ref.watch(categoryProvider);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: Image.asset(
           AppImage.logo,

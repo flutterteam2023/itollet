@@ -40,8 +40,9 @@ class _MyAppState extends ConsumerState<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'I-TOLLET',
             theme: ThemeData(
+              appBarTheme: const AppBarTheme(backgroundColor: Colors.white,elevation: 0,scrolledUnderElevation: 0),
               primaryColor: primary,
-              colorScheme: ColorScheme.fromSeed(primary: primary, seedColor: primary, secondary: secondary),
+              colorScheme: ColorScheme.fromSeed( seedColor: primary, secondary: secondary),
               useMaterial3: true,
             ),
           );
