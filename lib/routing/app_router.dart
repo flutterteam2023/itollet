@@ -3,9 +3,11 @@ import 'package:itollet/features/Auth/ForgotPassword/presentation/pages/forgot_p
 import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
 import 'package:itollet/features/Auth/Register/presentation/pages/register_view.dart';
 import 'package:itollet/features/Auth/Verification/presentation/pages/verification_view.dart';
+import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/Splash/presentation/pages/easy_splash.dart';
 import 'package:itollet/features/Splash/presentation/pages/splash_view.dart';
+import 'package:itollet/features/SubCategory/presentation/pages/sub_category_view.dart';
 
 part 'app_router.gr.dart';
 
@@ -20,5 +22,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
         AutoRoute(page: EasySplashRoute.page, initial: true),
+        AutoRoute(page: SubCategoryRoute.page, initial: false),
+
       ];
 }
