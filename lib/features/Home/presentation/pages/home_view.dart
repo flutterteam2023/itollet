@@ -4,7 +4,6 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:itollet/common_widgets/category.dart';
 import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
@@ -56,7 +55,7 @@ class HomeView extends ConsumerWidget {
         padding: EdgeInsets.only(top: 50.h, left: 50.w, right: 50.w),
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3, crossAxisSpacing: 30.h, mainAxisSpacing: 30),
+              crossAxisCount: 3,mainAxisSpacing: 30.h),
           itemCount: categories.categories.length,
           itemBuilder: (context, index) {
             final category = categories.categories[index];
@@ -82,12 +81,15 @@ class HomeView extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Text(category.name,
-                style: TextStyle(
-                  fontSize: 15.sp,
-                  fontWeight: FontWeight.w500,
-                  color: black
-                ),
+                Expanded(
+                  child: Text(category.name,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w500,
+                    color: black
+                  ),
+                  ),
                 )
               ],
             );
@@ -98,5 +100,3 @@ class HomeView extends ConsumerWidget {
   }
 }
 
-// categories.categories.first.primaryColor,
-//                       categories.categories.first.secondaryColor,
