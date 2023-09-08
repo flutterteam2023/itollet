@@ -20,8 +20,5 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
         AutoRoute(page: EasySplashRoute.page, initial: true),
-
-
-
       ];
 }
