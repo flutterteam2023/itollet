@@ -4,6 +4,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/common_widgets/category.dart';
 import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
@@ -38,7 +39,9 @@ class HomeView extends ConsumerWidget {
               child: Container(
                 height: 55.r,
                 width: 55.r,
-                decoration: BoxDecoration(color: secondary, borderRadius: BorderRadius.circular(30.r)),
+                decoration: BoxDecoration(
+                    color: secondary,
+                    borderRadius: BorderRadius.circular(30.r)),
                 child: const Center(
                     child: Icon(
                   Icons.person_outlined,
@@ -50,151 +53,50 @@ class HomeView extends ConsumerWidget {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 50.h, left: 26.w, right: 26.w),
-        child: GridView(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, childAspectRatio: 1.6.h),
-          children: [
-            Container(
-              padding: EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                    colors: [
-                      categories.categories.first.primaryColor!,
-                      categories.categories.first.secondaryColor!,
-                    ],
-                    begin: const FractionalOffset(0.0, 0.0),
-                    end: const FractionalOffset(1.0, 0.0),
-                    stops: [0.0, 1.0],
-                    tileMode: TileMode.clamp),
-              ),
-              child: Text(
-                categories.categories.toString(),
-              ),
-            ),
-            Category(
-              onTap: () {},
-              title: "ARAÇ",
-              ellipsePath: AppImage.blueEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "BEBEK",
-              ellipsePath: AppImage.pinkEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "ÇOCUK",
-              ellipsePath: AppImage.greenEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "ELEKTRONİK",
-              ellipsePath: AppImage.orangeEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "SPOR",
-              ellipsePath: AppImage.purpleEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "KADIN",
-              ellipsePath: AppImage.pinkEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "BEYAZ EŞYA",
-              ellipsePath: AppImage.greenEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "YEDEK PARÇA",
-              ellipsePath: AppImage.blueEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "ERKEK",
-              ellipsePath: AppImage.orangeEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "EVCİL HAYVAN",
-              ellipsePath: AppImage.purpleEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "MOBİLYA",
-              ellipsePath: AppImage.pinkEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-            Category(
-              onTap: () {},
-              title: "AKSESUAR",
-              ellipsePath: AppImage.greenEllipse,
-              iconPath: AppImage.iconCar,
-            ),
-          ],
+        padding: EdgeInsets.only(top: 50.h, left: 50.w, right: 50.w),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, crossAxisSpacing: 30.h, mainAxisSpacing: 30),
+          itemCount: categories.categories.length,
+          itemBuilder: (context, index) {
+            final category = categories.categories[index];
+            return Column(
+             
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(colors: [
+                        category.primaryColor,
+                        category.secondaryColor
+                      ]),
+                    ),
+                    child: Center(
+                      child: Image.network(
+                        category.iconUrl,
+                        width: 35.w,
+                        height: 35.676.h,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Text(category.name,
+                style: TextStyle(
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.w500,
+                  color: black
+                ),
+                )
+              ],
+            );
+          },
         ),
       ),
     );
   }
 }
 
-class Category extends StatelessWidget {
-  const Category({
-    super.key,
-    required this.title,
-    required this.ellipsePath,
-    required this.iconPath,
-    required this.onTap,
-  });
-  final String title;
-  final String ellipsePath;
-  final String iconPath;
-  final void Function() onTap;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Bounceable(
-          onTap: onTap,
-          child: Stack(
-            children: [
-              SvgPicture.asset(
-                ellipsePath,
-                width: 64.r,
-                height: 64.r,
-                fit: BoxFit.scaleDown,
-              ),
-              Positioned(
-                  top: 17.h,
-                  bottom: 16.32.h,
-                  left: 13.w,
-                  right: 13.w,
-                  child: SvgPicture.asset(
-                    iconPath,
-                    width: 32.w,
-                    height: 30.676.h,
-                  ))
-            ],
-          ),
-        ),
-        Text(
-          title,
-          style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500, color: black),
-        )
-      ],
-    );
-  }
-}
+// categories.categories.first.primaryColor,
+//                       categories.categories.first.secondaryColor,

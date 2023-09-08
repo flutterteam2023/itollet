@@ -1,11 +1,9 @@
-import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/constant_colors.dart';
-import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/firebase_options.dart';
 import 'package:itollet/routing/app_router.dart';
 
@@ -28,14 +26,7 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 1), () {
-      ref.watch(categoryProvider.notifier).getDocument();
-    });
-
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
