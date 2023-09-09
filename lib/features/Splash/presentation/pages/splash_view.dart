@@ -13,17 +13,13 @@ class SplashView extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SplashViewState();
 }
+
 class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 4),(){
-    ref.watch(categoryProvider.notifier).getDocument();
-
-
-    });
-
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,34 +33,26 @@ class _SplashViewState extends ConsumerState<SplashView> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return const Center(
-                  child: Text('Something went wron connection'));
-            }else if(snapshot.hasData){
-
-             return FutureBuilder(
-              future: ref.watch(categoryProvider.notifier).getDocument(),
-               builder: (context,futuresnapshot) {
-                if (futuresnapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                child: CircularProgressIndicator(
-                  color: secondary,
-                ),
-              );
-                  
-                }else if(futuresnapshot.hasError){
-                   return const Center(
-                  child: Text('Something went wron connection'));
-
-                }else if(futuresnapshot.hasData){
-                 return const HomeView();
-
-
-                }else{
-                  return CircularProgressIndicator();
-                }
-               }
-             );
-            }else{
+              return const Center(child: Text('Something went wron connection'));
+            } else if (snapshot.hasData) {
+              return FutureBuilder(
+                  future: ref.watch(categoryProvider.notifier).getCategories(),
+                  builder: (context, futuresnapshot) {
+                    if (futuresnapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(
+                          color: secondary,
+                        ),
+                      );
+                    } else if (futuresnapshot.hasError) {
+                      return const Center(child: Text('Something went wron connection'));
+                    } else if (futuresnapshot.hasData) {
+                      return const HomeView();
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  });
+            } else {
               return const LoginView();
             }
           }),
