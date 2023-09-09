@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,8 +25,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -40,34 +37,12 @@ class _MyAppState extends ConsumerState<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'I-TOLLET',
             theme: ThemeData(
-              appBarTheme: const AppBarTheme(backgroundColor: Colors.white,elevation: 0,scrolledUnderElevation: 0),
+              appBarTheme: const AppBarTheme(backgroundColor: Colors.white, elevation: 0, scrolledUnderElevation: 0),
               primaryColor: primary,
-              colorScheme: ColorScheme.fromSeed( seedColor: primary, secondary: secondary),
+              colorScheme: ColorScheme.fromSeed(seedColor: primary, secondary: secondary),
               useMaterial3: true,
             ),
           );
         });
   }
 }
-
-/* 
-class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
-
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-  
-    final state = ref.watch(categoryProvider);
-
-
-  }
- 
-}
- */

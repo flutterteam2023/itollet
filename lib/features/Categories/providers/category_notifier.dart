@@ -13,12 +13,12 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
 
   @override
   CategoryState build() {
-    getDocument();
+    getCategories();
     return CategoryState.initial();
   }
 
   ///get document function
-  Future<List<CategoryModel>> getDocument() async {
+  Future<List<CategoryModel>> getCategories() async {
     final list = <CategoryModel>[];
     try {
       await db
@@ -29,7 +29,7 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
           )
           .get()
           .then((value) {
-        logger.i("${value.docs.length} kategori getirildi. ${value.docs.first.data()}");
+        logger.i("${value.docs.length} kategori getirildi.");
         for (var doc in value.docs) {
           list.add(doc.data());
         }
@@ -37,11 +37,7 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
     } catch (e) {
       logger.w("$e");
     }
-    logger.w("**************************");
-    logger.i(list);
-
     state = state.copyWith(categories: list);
-    print("asdasda");
     return list;
   }
 }

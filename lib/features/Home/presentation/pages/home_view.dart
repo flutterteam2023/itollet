@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
+import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -15,7 +16,9 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(categoryProvider);
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
+      drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -24,14 +27,21 @@ class HomeView extends ConsumerWidget {
           width: 136.w,
           height: 49.h,
         ),
-        leading: Bounceable(
-            onTap: () {},
-            child: SvgPicture.asset(
-              AppImage.menuIcon,
-              width: 48.r,
-              height: 48.r,
-              fit: BoxFit.scaleDown,
-            )),
+        leading: Builder(
+          builder: (context) {
+            return Bounceable(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: SvgPicture.asset(
+                AppImage.menuIcon,
+                width: 48.r,
+                height: 48.r,
+                fit: BoxFit.scaleDown,
+              ),
+            );
+          },
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 10.w),

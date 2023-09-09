@@ -69,17 +69,13 @@ class SubCategoryView extends ConsumerWidget {
                     ),
                   ),
                   child: AppBar(
-                    forceMaterialTransparency: true,
-                    surfaceTintColor: Colors.white,
-                    foregroundColor: Colors.white,
-                    shadowColor: Colors.white,
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
                     title: Text(
                       category.name,
                       style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.transparent, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
