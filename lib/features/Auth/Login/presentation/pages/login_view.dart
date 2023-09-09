@@ -100,6 +100,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 height: 18.h,
               ),
               CustomFilledButton(
+                padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
+                radius: 16.r,
                 onTap: ()async {
                   ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text,ref);
                   

@@ -65,6 +65,8 @@ class RegisterView extends HookConsumerWidget {
               ),
               SizedBox(height: 18.w),
               CustomFilledButton(
+                padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
+                radius: 16.r,
                 text: AppString.registerButtonText,
                 onTap: () {
                   ref.read(registerProvider.notifier).customerSignUp(

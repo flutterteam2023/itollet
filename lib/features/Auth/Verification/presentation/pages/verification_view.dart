@@ -96,6 +96,8 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
               child: CustomFilledButton(
+                padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
+                radius: 16.r,
                   text: AppString.eMailAppOpen,
                   onTap: () {
                     ref.read(verificationProvider.notifier).launchEmailApp();
