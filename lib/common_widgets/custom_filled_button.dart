@@ -5,10 +5,12 @@ import 'package:itollet/constants/constant_colors.dart';
 
 class CustomFilledButton extends StatelessWidget {
   const CustomFilledButton({
-    super.key, required this.text, required this.onTap,
+    super.key, required this.text, required this.onTap, required this.radius, required this.padding,
   });
   final String text;
   final void Function() onTap;
+  final double radius;
+  final EdgeInsetsGeometry padding;
 
 
   @override
@@ -18,9 +20,9 @@ class CustomFilledButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: secondary,
-            borderRadius: BorderRadius.circular(16.r)),
+            borderRadius: BorderRadius.circular(radius)),
         child: Padding(
-          padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
+          padding: padding,
           child: Center(
             child: Text(
               text,
