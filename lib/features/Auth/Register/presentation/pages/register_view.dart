@@ -19,6 +19,8 @@ class RegisterView extends HookConsumerWidget {
     final customerEmailController = useTextEditingController(text: '');
     final customerPasswordController = useTextEditingController(text: '');
     final customerRePasswordController = useTextEditingController(text: '');
+    final customerUserNameController = useTextEditingController(text: '');
+
     final state = ref.watch(registerProvider);
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +33,7 @@ class RegisterView extends HookConsumerWidget {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 83.3.h, left: 18.w, right: 18.w, bottom: 50.h),
+          padding: EdgeInsets.only(top: 53.3.h, left: 18.w, right: 18.w, bottom: 50.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -46,9 +48,7 @@ class RegisterView extends HookConsumerWidget {
                 AppString.registerText,
                 style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),
-              SizedBox(
-                height: 18.w,
-              ),
+             
               SizedBox(height: 18.w),
               CustomerTextfield(
                 passwordOnPressed: () {
@@ -62,6 +62,7 @@ class RegisterView extends HookConsumerWidget {
                 emailController: customerEmailController,
                 passwordController: customerPasswordController,
                 rePasswordController: customerRePasswordController,
+                userNameController:customerUserNameController ,
               ),
               SizedBox(height: 18.w),
               CustomFilledButton(
@@ -74,6 +75,7 @@ class RegisterView extends HookConsumerWidget {
                         customerEmailController.text.trim(),
                         customerPasswordController.text,
                         customerRePasswordController.text,
+                        customerUserNameController.text
                       );
                 },
               ),

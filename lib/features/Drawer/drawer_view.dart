@@ -2,8 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 
-class CustomDrawer extends StatelessWidget {
+class CustomDrawer extends ConsumerWidget {
   const CustomDrawer({
     super.key,
     required this.scaffoldKey,
@@ -12,7 +14,8 @@ class CustomDrawer extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    final homeState = ref.watch(homeProvider);
     return Drawer(
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.white,
@@ -26,13 +29,13 @@ class CustomDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: MediaQuery.of(context).viewPadding.top),
-                const CircleAvatar(
-                  backgroundColor: Colors.red,
+                 CircleAvatar(
                   radius: 48,
+                  backgroundImage:homeState.user.photoUrl!.isNotEmpty? NetworkImage(homeState.user.photoUrl!):null,
                 ),
                 const SizedBox(height: 9),
                 Text(
-                  "User Name",
+                  homeState.user.userName!,
                   style: _buildTextStyle().copyWith(fontSize: 20),
                 ),
               ],

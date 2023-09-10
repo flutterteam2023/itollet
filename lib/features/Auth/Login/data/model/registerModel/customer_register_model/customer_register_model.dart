@@ -12,8 +12,10 @@ class CustomerRegisterModel with _$CustomerRegisterModel {
   const factory CustomerRegisterModel({
     required String? email,
     required String? password,
-    required String? rePassword
-    
+    required String? rePassword,
+    required String? userName,
+    required String? uid,
+    required String? photoUrl
     
 
 

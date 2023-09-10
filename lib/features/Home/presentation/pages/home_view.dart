@@ -8,6 +8,7 @@ import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -17,6 +18,7 @@ class HomeView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final categories = ref.watch(categoryProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final state = ref.watch(homeProvider);
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: AppBar(
@@ -46,7 +48,9 @@ class HomeView extends ConsumerWidget {
           Padding(
             padding: EdgeInsets.only(right: 10.w),
             child: Bounceable(
-              onTap: () {},
+              onTap: () {
+                context.pushRoute(ProfileRoute());
+              },
               child: Container(
                 height: 55.r,
                 width: 55.r,

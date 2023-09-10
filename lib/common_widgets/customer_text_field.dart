@@ -12,11 +12,12 @@ class CustomerTextfield extends StatelessWidget {
     required this.isVisible,
     required this.passwordOnPressed,
     required this.rePasswordOnPressed,
-    required this.rePasswordIsVisible,
+    required this.rePasswordIsVisible, required this.userNameController,
   });
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final TextEditingController rePasswordController;
+  final TextEditingController userNameController;
   final bool isVisible;
   final bool rePasswordIsVisible;
   final void Function() passwordOnPressed;
@@ -26,6 +27,9 @@ class CustomerTextfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        AuthTextField(controller: userNameController, label: 'Kullanıcı Adı', obscureText: false),
+        SizedBox(height: 18.w),
+
         AuthTextField(controller: emailController, label: 'Email', obscureText: false),
         SizedBox(height: 18.w),
         AuthTextField(

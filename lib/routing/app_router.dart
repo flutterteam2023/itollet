@@ -5,6 +5,7 @@ import 'package:itollet/features/Auth/Register/presentation/pages/register_view.
 import 'package:itollet/features/Auth/Verification/presentation/pages/verification_view.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
+import 'package:itollet/features/MyAds/presentation/pages/my_ads_view.dart';
 import 'package:itollet/features/PostDetail/presentation/pages/post_detail_view.dart';
 import 'package:itollet/features/Profile/presentation/pages/profile_view.dart';
 import 'package:itollet/features/Splash/presentation/pages/easy_splash.dart';
@@ -23,10 +24,12 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ForgotPasswordRoute.page, initial: false),
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
-        AutoRoute(page: EasySplashRoute.page, initial: false),
+        AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
-        AutoRoute(page: ProfileRoute.page,initial: true)
+        AutoRoute(page: ProfileRoute.page,initial: false),
+        AutoRoute(page: MyAdsRoute.page,initial: false)
+
 
 
       ];

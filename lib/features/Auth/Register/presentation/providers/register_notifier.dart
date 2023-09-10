@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/auth_exception_code.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Auth/Login/data/model/registerModel/customer_register_model/customer_register_model.dart';
+import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Auth/Register/presentation/states/register_state.dart';
 import 'package:itollet/routing/app_router.dart';
 
@@ -20,9 +21,9 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
     return RegisterState.initial();
   }
 
-  Future<void> customerSignUp(BuildContext context, String email, String password, String rePassword) async {
+  Future<void> customerSignUp(BuildContext context, String email, String password, String rePassword,String userName) async {
     try {
-      if (password == rePassword && password.isNotEmpty && rePassword.isNotEmpty) {
+      if (password == rePassword && password.isNotEmpty && rePassword.isNotEmpty&&userName.isNotEmpty) {
         if (password.length < 6) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -43,17 +44,18 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
             ));
         } else {
           state = state.copyWith(isLoading: true);
-          final customerRegisterModel = CustomerRegisterModel(email: email, password: password, rePassword: rePassword);
+          final customerRegisterModel = CustomerRegisterModel(email: email, password: password, rePassword: rePassword,userName: userName,uid: _auth.currentUser?.uid,photoUrl: '');
           state = state.copyWith(customerRegisterModel: customerRegisterModel);
           Timestamp timestamp = Timestamp.now();
+
 
           // Firebase Authentication ile kullanıcı kaydı oluştur
           final userCredential = await _auth.createUserWithEmailAndPassword(
               email: state.customerRegisterModel.email!.trim(), password: state.customerRegisterModel.password!);
           await _firestore
-              .collection("customers")
+              .collection("users")
               .doc(_auth.currentUser?.uid)
-              .set({'email': state.customerRegisterModel.email, 'createdAt': timestamp}).then((value) {
+              .set({'email': state.customerRegisterModel.email, 'createdAt': timestamp,'userName':userName,'uid':_auth.currentUser?.uid,'photoUrl':''}).then((value) {
             state = state.copyWith(isLoading: false);
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()

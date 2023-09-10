@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
+import 'package:itollet/features/Auth/Login/presentation/providers/login_notifier.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 
@@ -17,6 +18,9 @@ class SplashView extends ConsumerStatefulWidget {
 class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 3),(){
+
+    });
     super.initState();
   }
 
@@ -49,7 +53,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
                     } else if (futuresnapshot.hasData) {
                       return const HomeView();
                     } else {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     }
                   });
             } else {
