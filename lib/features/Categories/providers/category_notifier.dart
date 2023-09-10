@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/iberkeugur/log.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/states/category_state.dart';
 import 'package:logger/logger.dart';
@@ -9,7 +10,11 @@ final categoryProvider = NotifierProvider.autoDispose<CategoryNotifier, Category
 class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
   final db = FirebaseFirestore.instance;
   final collection = "categories";
-  final logger = Logger();
+  final logger = Logger(
+    printer: PrettyPrinter(
+      lineLength: 60,
+    ),
+  );
 
   @override
   CategoryState build() {
@@ -29,7 +34,11 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
           )
           .get()
           .then((value) {
-        logger.i("${value.docs.length} kategori getirildi.");
+        Log.info('${value.docs.length} kategori getirildi.');
+        Log.error('error log hatalı');
+        Log.warning('uyarı ter giden bir şeyler var');
+        Log.success('başarılı işlem.');
+
         for (var doc in value.docs) {
           list.add(doc.data());
         }
