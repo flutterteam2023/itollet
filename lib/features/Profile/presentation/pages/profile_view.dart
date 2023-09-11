@@ -80,7 +80,7 @@ class ProfileView extends ConsumerWidget {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: NetworkImage(homeState.user.photoUrl!),
+                            image: NetworkImage(homeState.user.photoUrl!.isNotEmpty?homeState.user.photoUrl!:'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
                             fit: BoxFit.cover)),
                   ),
                   SizedBox(
@@ -112,59 +112,62 @@ class ProfileView extends ConsumerWidget {
                       onTap: () {},
                     ),
                   ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.start,
-                      children: [
-                        ElementEllipse(
-                          title: 'İLANLARIM',
-                          colors: const [Color(0xffFF553D), Color(0xffFF864B)],
-                          onTap: () {
-                            context.pushRoute(const MyAdsRoute());
-                          },
-                        ),
-                        ElementEllipse(
-                          title: 'CÜZDANIM',
-                          colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
-                          onTap: () {},
-                        ),
-                        ElementEllipse(
-                          title: 'GİZLİLİK',
-                          colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
-                          onTap: () {},
-                        ),
-                        ElementEllipse(
-                          title: 'YARDIM',
-                          colors: const [Color(0xff834AFA), Color(0xffD14C88)],
-                          onTap: () {},
-                        ),
-                        ElementEllipse(
-                          title: 'DEĞERLENDİR',
-                          colors: const [Color(0xffFFAEF6), Color(0xffFFE0C6)],
-                          onTap: () {},
-                        ),
-                        ElementEllipse(
-                          title: 'ÇIKIŞ YAP',
-                          colors: const [Color(0xffFED552), Color(0xffFF8099)],
-                          onTap: () async {
-                            await FirebaseAuth.instance.signOut().then((value) {
-                              scaffoldKey.currentState?.closeDrawer();
-                              Future.delayed(const Duration(milliseconds: 500),
-                                  () {
-                                context.popRoute();
-                              });
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ),
+                  profileCard(context, scaffoldKey),
                 ],
               ),
             ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Padding profileCard(
+      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+    return Padding(
+      padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
+      child: Wrap(
+        alignment: WrapAlignment.start,
+        crossAxisAlignment: WrapCrossAlignment.start,
+        children: [
+          ElementEllipse(
+            title: 'İLANLARIM',
+            colors: const [Color(0xffFF553D), Color(0xffFF864B)],
+            onTap: () {
+              context.pushRoute(const MyAdsRoute());
+            },
+          ),
+          ElementEllipse(
+            title: 'CÜZDANIM',
+            colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
+            onTap: () {},
+          ),
+          ElementEllipse(
+            title: 'GİZLİLİK',
+            colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
+            onTap: () {},
+          ),
+          ElementEllipse(
+            title: 'YARDIM',
+            colors: const [Color(0xff834AFA), Color(0xffD14C88)],
+            onTap: () {},
+          ),
+          ElementEllipse(
+            title: 'DEĞERLENDİR',
+            colors: const [Color(0xffFFAEF6), Color(0xffFFE0C6)],
+            onTap: () {},
+          ),
+          ElementEllipse(
+            title: 'ÇIKIŞ YAP',
+            colors: const [Color(0xffFED552), Color(0xffFF8099)],
+            onTap: () async {
+              await FirebaseAuth.instance.signOut().then((value) {
+                scaffoldKey.currentState?.closeDrawer();
+                Future.delayed(const Duration(milliseconds: 500), () {
+                  context.popRoute();
+                });
+              });
+            },
           )
         ],
       ),

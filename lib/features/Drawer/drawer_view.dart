@@ -30,8 +30,9 @@ class CustomDrawer extends ConsumerWidget {
               children: [
                 SizedBox(height: MediaQuery.of(context).viewPadding.top),
                  CircleAvatar(
+                  backgroundColor: Colors.white,
                   radius: 48,
-                  backgroundImage:homeState.user.photoUrl!.isNotEmpty? NetworkImage(homeState.user.photoUrl!):null,
+                  backgroundImage: NetworkImage(homeState.user.photoUrl!.isNotEmpty?homeState.user.photoUrl!:'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
                 ),
                 const SizedBox(height: 9),
                 Text(
