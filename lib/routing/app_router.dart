@@ -11,6 +11,7 @@ import 'package:itollet/features/Profile/presentation/pages/profile_view.dart';
 import 'package:itollet/features/Splash/presentation/pages/easy_splash.dart';
 import 'package:itollet/features/Splash/presentation/pages/splash_view.dart';
 import 'package:itollet/features/SubCategory/presentation/pages/sub_category_view.dart';
+import 'package:itollet/features/SubSubCategory/presentation/pages/sub_sub_category_view.dart';
 
 part 'app_router.gr.dart';
 
@@ -28,7 +29,9 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
         AutoRoute(page: ProfileRoute.page,initial: false),
-        AutoRoute(page: MyAdsRoute.page,initial: false)
+        AutoRoute(page: MyAdsRoute.page,initial: false),
+        AutoRoute(page: SubSubCategoryRoute.page,initial: false)
+
 
 
 

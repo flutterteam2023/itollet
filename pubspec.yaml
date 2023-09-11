@@ -111,6 +111,9 @@ flutter:
     - family: Poppins Regular
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
+    - family: Poppins Italic
+      fonts:
+        - asset: assets/fonts/Poppins-Italic.ttf
 
     #         style: italic
     - family: Poppins Bold

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
+import 'package:itollet/routing/app_router.dart';
 
 import '../../../../constants/app_image.dart';
 
@@ -98,7 +99,9 @@ class SubCategoryView extends ConsumerWidget {
                           children: [
                             Expanded(
                               child: Bounceable(
-                                onTap: () {},
+                                onTap: () {
+                                  context.pushRoute(SubSubCategoryRoute());
+                                },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
