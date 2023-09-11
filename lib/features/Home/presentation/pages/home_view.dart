@@ -2,9 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:itollet/constants/app_image.dart';
+import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
@@ -21,50 +20,7 @@ class HomeView extends ConsumerWidget {
     final state = ref.watch(homeProvider);
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Image.asset(
-          AppImage.logo,
-          width: 136.w,
-          height: 49.h,
-        ),
-        leading: Builder(
-          builder: (context) {
-            return Bounceable(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: SvgPicture.asset(
-                AppImage.menuIcon,
-                width: 48.r,
-                height: 48.r,
-                fit: BoxFit.scaleDown,
-              ),
-            );
-          },
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10.w),
-            child: Bounceable(
-              onTap: () {
-                context.pushRoute(ProfileRoute());
-              },
-              child: Container(
-                height: 55.r,
-                width: 55.r,
-                decoration: BoxDecoration(color: secondary, borderRadius: BorderRadius.circular(30.r)),
-                child: const Center(
-                    child: Icon(
-                  Icons.person_outlined,
-                  color: Colors.white,
-                )),
-              ),
-            ),
-          )
-        ],
-      ),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
@@ -118,3 +74,5 @@ class HomeView extends ConsumerWidget {
     );
   }
 }
+
+
