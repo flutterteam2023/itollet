@@ -55,7 +55,7 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
           await _firestore
               .collection("users")
               .doc(_auth.currentUser?.uid)
-              .set({'email': state.customerRegisterModel.email, 'createdAt': timestamp,'userName':userName,'uid':_auth.currentUser?.uid,'photoUrl':''}).then((value) {
+              .set({'email': state.customerRegisterModel.email, 'createdAt': timestamp,'userName':userName,'uid':_auth.currentUser?.uid,'photoUrl':null}).then((value) {
             state = state.copyWith(isLoading: false);
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
