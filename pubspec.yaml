@@ -122,6 +122,11 @@ flutter:
     - family: LeagueGothic-Regular
       fonts:
         - asset: assets/fonts/LeagueGothic-Regular.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+  
+  
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #

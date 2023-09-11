@@ -8,6 +8,8 @@ class AppImage{
   static const greenEllipse = 'assets/svg/greenEllipse.svg';
   static const orangeEllipse = 'assets/svg/orangeEllipse.svg';
   static const purpleEllipse = 'assets/svg/orangeEllipse.svg';
+  static const pencil = 'assets/svg/pencil.svg';
+
 
 
 

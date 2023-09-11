@@ -5,30 +5,37 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PostDetailButton extends StatelessWidget {
   const PostDetailButton({
     super.key,
+    required this.title,
+    required this.colors,
+    this.onTap,
   });
+  final String title;
+  final List<Color> colors;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(left:18.w,right: 9.w ),
+      padding: EdgeInsets.only(left: 18.w, right: 9.w),
       child: Bounceable(
-        onTap: () {
-          
-        },
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18.r),
-            color: const Color(0xffFF553D),
-          ),
+              borderRadius: BorderRadius.circular(18.r),
+              gradient: LinearGradient(
+                colors: colors,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              )),
           child: Padding(
-            padding:  EdgeInsets.symmetric(vertical:13.h ),
+            padding: EdgeInsets.symmetric(vertical: 13.h),
             child: Center(
-              child: Text("TEKLİF VER (3.75₺)",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20.sp,
-                fontWeight:FontWeight.w400
-              ),
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w400),
               ),
             ),
           ),

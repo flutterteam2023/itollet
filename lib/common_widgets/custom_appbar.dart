@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/routing/app_router.dart';
@@ -34,7 +33,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Container(
                 height: 40.r,
                 width: 40.r,
-                decoration: BoxDecoration(color: secondary,shape: BoxShape.circle),
+                decoration: const BoxDecoration(color: secondary,shape: BoxShape.circle),
                 child: const Center(
                     child: Icon(
                   Icons.menu,
@@ -50,12 +49,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           padding: EdgeInsets.only(right: 18.w),
           child: Bounceable(
             onTap: () {
-              context.pushRoute(ProfileRoute());
+              context.pushRoute(const ProfileRoute());
             },
             child: Container(
               height: 40.r,
               width: 40.r,
-              decoration: BoxDecoration(color: secondary,shape: BoxShape.circle),
+              decoration: const BoxDecoration(color: secondary,shape: BoxShape.circle),
               child: const Center(
                   child: Icon(
                 Icons.person_outlined,
@@ -69,6 +68,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
   
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
