@@ -20,7 +20,7 @@ class HomeView extends ConsumerWidget {
     final state = ref.watch(homeProvider);
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),

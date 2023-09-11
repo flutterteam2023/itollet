@@ -5,6 +5,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/common_widgets/element_ellipse.dart';
 import 'package:itollet/constants/app_image.dart';
@@ -23,50 +24,7 @@ class ProfileView extends ConsumerWidget {
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: Image.asset(
-          AppImage.logo,
-          width: 136.w,
-          height: 49.h,
-        ),
-        leading: Builder(
-          builder: (context) {
-            return Bounceable(
-              onTap: () {
-                Scaffold.of(context).openDrawer();
-              },
-              child: SvgPicture.asset(
-                AppImage.menuIcon,
-                width: 48.r,
-                height: 48.r,
-                fit: BoxFit.scaleDown,
-              ),
-            );
-          },
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10.w),
-            child: Bounceable(
-              onTap: () {},
-              child: Container(
-                height: 55.r,
-                width: 55.r,
-                decoration: BoxDecoration(
-                    color: secondary,
-                    borderRadius: BorderRadius.circular(30.r)),
-                child: const Center(
-                    child: Icon(
-                  Icons.person_outlined,
-                  color: Colors.white,
-                )),
-              ),
-            ),
-          )
-        ],
-      ),
+      appBar: const CustomAppBar(),
       body: Column(
         children: [
           Padding(

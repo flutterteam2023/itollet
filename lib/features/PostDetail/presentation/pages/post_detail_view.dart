@@ -3,57 +3,23 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/common_widgets/link_card.dart';
 import 'package:itollet/common_widgets/post_detail_button.dart';
-import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Drawer/drawer_view.dart';
 
 @RoutePage()
 class PostDetailView extends ConsumerWidget {
   const PostDetailView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset(
-          AppImage.logo,
-          width: 136.w,
-          height: 49.h,
-        ),
-        leading: Bounceable(
-            onTap: () {},
-            child: SvgPicture.asset(
-              AppImage.menuIcon,
-              width: 48.r,
-              height: 48.r,
-              fit: BoxFit.scaleDown,
-            )),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10.w),
-            child: Bounceable(
-              onTap: () {},
-              child: Container(
-                height: 55.r,
-                width: 55.r,
-                decoration: BoxDecoration(
-                    color: secondary,
-                    borderRadius: BorderRadius.circular(30.r)),
-                child: const Center(
-                    child: Icon(
-                  Icons.person_outlined,
-                  color: Colors.white,
-                )),
-              ),
-            ),
-          )
-        ],
-      ),
+      drawer: CustomDrawer(scaffoldKey: scaffoldKey),
+      appBar: const CustomAppBar(),
       body: Padding(
         padding: EdgeInsets.only(top: 24.h),
         child: Column(
@@ -185,4 +151,3 @@ class PostDetailView extends ConsumerWidget {
     );
   }
 }
-
