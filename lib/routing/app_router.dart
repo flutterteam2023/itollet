@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:itollet/features/Auth/ForgotPassword/presentation/pages/forgot_password_view.dart';
 import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
 import 'package:itollet/features/Auth/Register/presentation/pages/register_view.dart';
@@ -25,13 +26,13 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ForgotPasswordRoute.page, initial: false),
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
-        AutoRoute(page: EasySplashRoute.page, initial: false),
+        AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
 
         AutoRoute(page: ProfileRoute.page,initial: false),
         AutoRoute(page: MyAdsRoute.page,initial: false),
-        AutoRoute(page: SubSubCategoryRoute.page,initial: true)
+        AutoRoute(page: SubSubCategoryRoute.page,initial: false)
 
 
 

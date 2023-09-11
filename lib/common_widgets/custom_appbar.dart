@@ -25,30 +25,37 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       leading: Builder(
         builder: (context) {
-          return Bounceable(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: SvgPicture.asset(
-              AppImage.menuIcon,
-              width: 48.r,
-              height: 48.r,
-              fit: BoxFit.scaleDown,
+          return Padding(
+            padding:  EdgeInsets.only(left: 20.w),
+            child: Bounceable(
+              onTap: () {
+                Scaffold.of(context).openDrawer();
+              },
+              child: Container(
+                height: 40.r,
+                width: 40.r,
+                decoration: BoxDecoration(color: secondary,shape: BoxShape.circle),
+                child: const Center(
+                    child: Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                )),
+              ),
             ),
           );
         },
       ),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: 10.w),
+          padding: EdgeInsets.only(right: 18.w),
           child: Bounceable(
             onTap: () {
               context.pushRoute(ProfileRoute());
             },
             child: Container(
-              height: 45.r,
-              width: 45.r,
-              decoration: BoxDecoration(color: secondary, borderRadius: BorderRadius.circular(30.r)),
+              height: 40.r,
+              width: 40.r,
+              decoration: BoxDecoration(color: secondary,shape: BoxShape.circle),
               child: const Center(
                   child: Icon(
                 Icons.person_outlined,
