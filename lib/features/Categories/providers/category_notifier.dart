@@ -34,10 +34,10 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
           )
           .get()
           .then((value) {
-        Log.info('${value.docs.length} kategori getirildi.');
-        Log.error('error log hatalı');
-        Log.warning('uyarı ter giden bir şeyler var');
-        Log.success('başarılı işlem.');
+        Log.instance.info('${value.docs.length} kategori getirildi.');
+        Log.instance.error('error log hatalı');
+        Log.instance.warning('uyarı ter giden bir şeyler var');
+        Log.instance.success('başarılı işlem.');
 
         for (var doc in value.docs) {
           list.add(doc.data());

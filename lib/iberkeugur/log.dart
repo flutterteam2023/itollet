@@ -3,14 +3,6 @@ import 'dart:developer' as developer;
 
 const String reset = "\x1B[0m";
 
-/*
-  final int numOfFirstRowSpace = minWidth - name.length;
-  final int numOfSecondRowSpace = minWidth - msg.length - name.length;
-  final int numOfLastRowSpace = minWidth - name.length;
-  final firstRowString = " " * numOfFirstRowSpace;
-  final secondRowString = " " * numOfSecondRowSpace;
-  final lastRowString = " " * numOfLastRowSpace;
-*/
 class TextDecorations {
   String get bold => "\u001b[1m";
   String get underline => "\u001b[4m";
@@ -42,50 +34,56 @@ class TextBackgrounds {
 int minWidth = 60;
 
 class Log {
-  static info(String msg, {String? path}) {
+  factory Log() => instance;
+  Log._instance() : super();
+  static final Log instance = Log._instance();
+
+  final colors = TextColors();
+  final backgrounds = TextBackgrounds();
+  final decorations = TextDecorations();
+  info(String msg, {String? path}) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
 
-    final name = "INFO -- Time: $time";
-
+    final name = "INFO -- Time: $time$reset";
     developer.log(
-      '${TextColors().white}$msg$reset',
+      '${colors.white}$msg$reset',
       name: name,
       zone: Zone.root,
     );
   }
 
-  static success(String msg) {
+  success(String msg) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
-    final name = "SUCCESS Time: $time";
+    final name = "SUCCESS Time: $time$reset";
 
     developer.log(
-      '${TextColors().green}$msg$reset',
+      '${colors.green}$msg$reset',
       name: name,
       zone: Zone.root,
     );
   }
 
-  static warning(String msg) {
+  warning(String msg) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
-    final name = "WARNING Time: $time";
+    final name = "WARNING Time: $time$reset";
 
     developer.log(
-      '${TextColors().yellow}$msg$reset',
+      '${colors.yellow}$msg$reset',
       name: name,
       zone: Zone.root,
     );
   }
 
-  static error(String msg) {
+  error(String msg) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
-    final name = "ERROR - Time: $time";
+    final name = "ERROR - Time: $time$reset";
 
     developer.log(
-      '${TextColors().red}$msg$reset',
+      '${colors.white}${backgrounds.red}$msg$reset',
       name: name,
       zone: Zone.root,
     );
