@@ -27,10 +27,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
-        AutoRoute(page: ProfileRoute.page,initial: false),
-        AutoRoute(page: MyAdsRoute.page,initial: false)
-
-
-
+        AutoRoute(page: ProfileRoute.page, initial: false),
+        AutoRoute(page: MyAdsRoute.page, initial: false)
       ];
 }
