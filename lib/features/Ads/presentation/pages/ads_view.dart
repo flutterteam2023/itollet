@@ -3,17 +3,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/ads_edit_textfield.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
-import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/common_widgets/link_card.dart';
 import 'package:itollet/common_widgets/offer_balance.dart';
 import 'package:itollet/common_widgets/post_detail_button.dart';
-import 'package:itollet/common_widgets/show_modal_bottom_sheet.dart';
 import 'package:itollet/common_widgets/small_filled_balance.dart';
-import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 
@@ -201,6 +197,13 @@ class AdsView extends ConsumerWidget {
                                 AdsEditTextField(
                                   label: 'İlan bağlantınız',
                                   onPressed: () {},
+                                ),SizedBox(height: 12.h,),
+                                Text('Sadece bağlantı paylaşabilirsiniz.',
+                                style: TextStyle(
+                                  color: Color(0xff49454F),
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w400
+                                ),
                                 ),
                                 SizedBox(
                                   height: 55.h,
