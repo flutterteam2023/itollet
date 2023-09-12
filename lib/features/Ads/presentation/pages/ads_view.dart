@@ -178,12 +178,14 @@ class AdsView extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text(
-                                  'TEKLİF VER',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w600),
+                                Center(
+                                  child: Text(
+                                    'TEKLİF VER',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w600),
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 15.h,
