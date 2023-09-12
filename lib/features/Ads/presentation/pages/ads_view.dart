@@ -3,17 +3,23 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/common_widgets/ads_edit_textfield.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
+import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/common_widgets/link_card.dart';
+import 'package:itollet/common_widgets/offer_balance.dart';
 import 'package:itollet/common_widgets/post_detail_button.dart';
 import 'package:itollet/common_widgets/show_modal_bottom_sheet.dart';
+import 'package:itollet/common_widgets/small_filled_balance.dart';
+import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 
 @RoutePage()
-class PostDetailView extends ConsumerWidget {
-  const PostDetailView({super.key});
+class AdsView extends ConsumerWidget {
+  const AdsView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -54,7 +60,7 @@ class PostDetailView extends ConsumerWidget {
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
                     title: Text(
-                      'İLANIM',
+                      'İLAN SAHİBİ ADI',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 24.sp,
@@ -155,42 +161,93 @@ class PostDetailView extends ConsumerWidget {
               },
             ),
             PostDetailButton(
-              title: 'Düzenle',
+              title: 'TEKLİF VER (3.75₺)',
               onTap: () {
-                CustomBottomSheet().ModalBottomSheet(context);
+                showModalBottomSheet(
+                    enableDrag: true,
+                    showDragHandle: true,
+                    context: context,
+                    builder: (context) {
+                      return SingleChildScrollView(
+                        child: Container(
+                          width: 400.w,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(22.r),
+                                  topRight: Radius.circular(22.r))),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: 20.w, right: 22.w, bottom: 28.h),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                Text(
+                                  'TEKLİF VER',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                const SmaillFilledBalance(),
+                                SizedBox(
+                                  height: 18.h,
+                                ),
+                                const OfferBalance(),
+                                SizedBox(height: 26.h,),
+                                AdsEditTextField(
+                                  label: 'İlan bağlantınız',
+                                  onPressed: () {},
+                                ),
+                                SizedBox(
+                                  height: 55.h,
+                                ),
+                                Bounceable(
+                                  onTap: () {},
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(113.r),
+                                        gradient: const LinearGradient(colors: [
+                                          Color(0xffFF533C),
+                                          Color(0xffFF884B)
+                                        ])),
+                                    child: Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 13.h),
+                                      child: Center(
+                                        child: Text(
+                                          'TEKLİF VER (3.75₺)',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20.sp,
+                                              fontWeight: FontWeight.w400),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                    });
               },
               colors: const [Color(0xffFF543D), Color(0xffFF884B)],
             ),
             SizedBox(
               height: 11.h,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 7.w),
-              child: Bounceable(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18.r),
-                      color: Colors.white,
-                      border: Border.all(width: 3.w, color: black)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 13.h),
-                    child: Center(
-                      child: Text(
-                        'KALDIR',
-                        style: TextStyle(
-                            color: black,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),
     );
   }
 }
+
+
+
