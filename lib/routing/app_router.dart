@@ -1,11 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-<<<<<<< Updated upstream
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:itollet/features/Ads/presentation/pages/ads_view.dart';
-=======
-import 'package:flutter/material.dart';
->>>>>>> Stashed changes
 import 'package:itollet/features/Auth/ForgotPassword/presentation/pages/forgot_password_view.dart';
 import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
 import 'package:itollet/features/Auth/Register/presentation/pages/register_view.dart';
@@ -36,24 +31,10 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
-<<<<<<< Updated upstream
-
-        AutoRoute(page: ProfileRoute.page,initial: false),
-        AutoRoute(page: MyAdsRoute.page,initial: false),
-        AutoRoute(page: SubSubCategoryRoute.page,initial: false),
-        AutoRoute(page: AdsRoute.page,initial: true),
-
-        
-
-
-
-
-
-=======
         AutoRoute(page: ProfileRoute.page, initial: false),
         AutoRoute(page: MyAdsRoute.page, initial: false),
         AutoRoute(page: SubSubCategoryRoute.page, initial: false),
+        AutoRoute(page: AdsRoute.page, initial: true),
         AutoRoute(page: PostAddRoute.page, initial: false),
->>>>>>> Stashed changes
       ];
 }
