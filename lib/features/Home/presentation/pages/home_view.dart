@@ -19,6 +19,14 @@ class HomeView extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.pushRoute(const PostAddRoute());
+        },
+        child: const Icon(
+          Icons.add,
+        ),
+      ),
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -74,5 +82,3 @@ class HomeView extends ConsumerWidget {
     );
   }
 }
-
-

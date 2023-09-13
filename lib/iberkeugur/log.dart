@@ -59,7 +59,7 @@ class Log {
     final name = "SUCCESS Time: $time$reset";
 
     developer.log(
-      '${colors.green}$msg$reset',
+      '${backgrounds.magenta}${colors.white}$msg$reset',
       name: name,
       zone: Zone.root,
     );
