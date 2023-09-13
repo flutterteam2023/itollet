@@ -6,15 +6,18 @@ import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
 import 'package:itollet/features/Auth/Register/presentation/pages/register_view.dart';
 import 'package:itollet/features/Auth/Verification/presentation/pages/verification_view.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
+import 'package:itollet/features/Help/presentation/pages/help_view.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/MyAds/presentation/pages/my_ads_view.dart';
 import 'package:itollet/features/PostAdd/postadd_view.dart';
 import 'package:itollet/features/PostDetail/presentation/pages/post_detail_view.dart';
+import 'package:itollet/features/Privacy/presentation/pages/privacy_view.dart';
 import 'package:itollet/features/Profile/presentation/pages/profile_view.dart';
 import 'package:itollet/features/Splash/presentation/pages/easy_splash.dart';
 import 'package:itollet/features/Splash/presentation/pages/splash_view.dart';
 import 'package:itollet/features/SubCategory/presentation/pages/sub_category_view.dart';
 import 'package:itollet/features/SubSubCategory/presentation/pages/sub_sub_category_view.dart';
+import 'package:itollet/features/Wallet/presentation/pages/wallet_view.dart';
 
 part 'app_router.gr.dart';
 
@@ -31,11 +34,15 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
-
+        AutoRoute(page: WalletRoute.page),
         AutoRoute(page: ProfileRoute.page,initial: false),
         AutoRoute(page: MyAdsRoute.page,initial: false),
         AutoRoute(page: SubSubCategoryRoute.page,initial: false),
         AutoRoute(page: AdsRoute.page,initial: false),
+        AutoRoute(page: PrivacyRoute.page,initial: false),
+        AutoRoute(page: HelpRoute.page,initial: false),
+
+
 
         
 

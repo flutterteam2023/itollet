@@ -39,6 +39,10 @@ class SubCategoryView extends ConsumerWidget {
                   ),
                   child: AppBar(
                     iconTheme: const IconThemeData(color: Colors.white),
+                    automaticallyImplyLeading: false,
+                    leading: IconButton(onPressed:() {
+                      context.back();
+                    }, icon: const Icon(Icons.arrow_back_ios)),
                     centerTitle: true,
                     title: Text(
                       category.name,

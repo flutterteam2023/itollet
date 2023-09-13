@@ -98,17 +98,25 @@ class ProfileView extends ConsumerWidget {
           ElementEllipse(
             title: 'CÜZDANIM',
             colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const WalletRoute());
+            },
           ),
           ElementEllipse(
             title: 'GİZLİLİK',
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const PrivacyRoute());
+
+            },
           ),
           ElementEllipse(
             title: 'YARDIM',
             colors: const [Color(0xff834AFA), Color(0xffD14C88)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const HelpRoute());
+
+            },
           ),
           ElementEllipse(
             title: 'DEĞERLENDİR',
