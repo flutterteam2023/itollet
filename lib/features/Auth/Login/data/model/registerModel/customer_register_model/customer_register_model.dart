@@ -15,7 +15,8 @@ class CustomerRegisterModel with _$CustomerRegisterModel {
     required String? rePassword,
     required String? userName,
     required String? uid,
-    required String? photoUrl
+    required String? photoUrl,
+    required double? balance,
     
 
 

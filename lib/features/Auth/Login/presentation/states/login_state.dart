@@ -17,7 +17,7 @@ class LoginState with _$LoginState {
         isLoading: false,
         isVisible: true,
         iscustomer: true,
-        user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: ''),
+        user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
         loginModel: const LoginModel(email: '', password: '')
         
       );

@@ -13,6 +13,7 @@ class UserModel with _$UserModel {
     required String? uid,
     required String? userName,
     required String? email,
+    required double? balance,
     
     @TimestampSerializer() required DateTime? createdAt,
 

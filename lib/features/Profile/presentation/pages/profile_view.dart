@@ -38,7 +38,7 @@ class ProfileView extends ConsumerWidget {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: NetworkImage(homeState.user.photoUrl!.isNotEmpty?homeState.user.photoUrl!:'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
+                            image: NetworkImage(homeState.user.photoUrl??'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
                             fit: BoxFit.cover)),
                   ),
                   SizedBox(

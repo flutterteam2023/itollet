@@ -23,7 +23,7 @@ class RegisterState with _$RegisterState {
   factory RegisterState.initial() => RegisterState(
     isEmailVerified: false,
         isLoading: false,
-        customerRegisterModel: const CustomerRegisterModel( email: '', password: '',rePassword: '',userName: '',uid: '',photoUrl: ''),
+        customerRegisterModel: const CustomerRegisterModel( email: '', password: '',rePassword: '',userName: '',uid: '',photoUrl: '',balance: null),
         salesRegisterModel: SalesRegisterModel(email: '', companyName: '', companyPhone: '', password: '', rePassword: '', createdAt: DateTime.now()),
         iscustomer: true,
         isVisible:true ,

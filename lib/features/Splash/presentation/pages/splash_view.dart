@@ -50,10 +50,10 @@ class _SplashViewState extends ConsumerState<SplashView> {
                       );
                     } else if (futuresnapshot.hasError) {
                       return const Center(child: Text('Something went wron connection'));
-                    } else if (futuresnapshot.hasData) {
+                    } else if (futuresnapshot.hasData&&snapshot.data?.emailVerified==true) {
                       return const HomeView();
                     } else {
-                      return const CircularProgressIndicator();
+                      return const LoginView();
                     }
                   });
             } else {

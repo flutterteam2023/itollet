@@ -44,7 +44,7 @@ class RegisterNotifier extends AutoDisposeNotifier<RegisterState> {
             ));
         } else {
           state = state.copyWith(isLoading: true);
-          final customerRegisterModel = CustomerRegisterModel(email: email, password: password, rePassword: rePassword,userName: userName,uid: _auth.currentUser?.uid,photoUrl: '');
+          final customerRegisterModel = CustomerRegisterModel(email: email, password: password, rePassword: rePassword,userName: userName,uid: _auth.currentUser?.uid,photoUrl: '',balance: null);
           state = state.copyWith(customerRegisterModel: customerRegisterModel);
           Timestamp timestamp = Timestamp.now();
 

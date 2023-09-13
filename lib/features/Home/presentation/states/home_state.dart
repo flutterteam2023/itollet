@@ -13,7 +13,7 @@ class HomeState with _$HomeState {
   factory HomeState.initial() => HomeState(
         isLoading: false,
         
-        user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: ''),
+        user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
         
       );
 }

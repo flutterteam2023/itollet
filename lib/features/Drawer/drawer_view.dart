@@ -32,7 +32,7 @@ class CustomDrawer extends ConsumerWidget {
                  CircleAvatar(
                   backgroundColor: Colors.white,
                   radius: 48,
-                  backgroundImage: NetworkImage(homeState.user.photoUrl!.isNotEmpty?homeState.user.photoUrl!:'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
+                  backgroundImage: NetworkImage(homeState.user.photoUrl??'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
                 ),
                 const SizedBox(height: 9),
                 Text(

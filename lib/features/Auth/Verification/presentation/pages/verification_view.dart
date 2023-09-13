@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_filled_button.dart';
@@ -103,6 +104,19 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
                     ref.read(verificationProvider.notifier).launchEmailApp();
                   }),
             ),
+            SizedBox(height: 18.h,),
+            Bounceable(
+              onTap: () {
+                context.pushRoute(const LoginRoute());
+              },
+              child: Text('Farklı Bir Hesapla Giriş Yap',
+              style: TextStyle(
+                color: secondary,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w600
+              ),
+              ),
+            )
           ],
         ),
       ),

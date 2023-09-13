@@ -28,14 +28,14 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ForgotPasswordRoute.page, initial: false),
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
-        AutoRoute(page: EasySplashRoute.page, initial: false),
+        AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
 
         AutoRoute(page: ProfileRoute.page,initial: false),
         AutoRoute(page: MyAdsRoute.page,initial: false),
         AutoRoute(page: SubSubCategoryRoute.page,initial: false),
-        AutoRoute(page: AdsRoute.page,initial: true),
+        AutoRoute(page: AdsRoute.page,initial: false),
 
         
 
