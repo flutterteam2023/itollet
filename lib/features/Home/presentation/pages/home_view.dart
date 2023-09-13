@@ -18,64 +18,67 @@ class HomeView extends ConsumerWidget {
     final categories = ref.watch(categoryProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.pushRoute(const PostAddRoute());
-        },
-        child: const Icon(
-          Icons.add,
+    return WillPopScope(
+      onWillPop: () async=> false,
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            context.pushRoute(const PostAddRoute());
+          },
+          child: const Icon(
+            Icons.add,
+          ),
         ),
-      ),
-      drawer: CustomDrawer(scaffoldKey: scaffoldKey),
-      appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
-          child: Wrap(
-            alignment: WrapAlignment.start,
-            crossAxisAlignment: WrapCrossAlignment.start,
-            children: List.generate(categories.categories.length, (index) {
-              final category = categories.categories[index];
-              return SizedBox(
-                width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
-                height: 128,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Bounceable(
-                        onTap: () {
-                          context.pushRoute(SubCategoryRoute(category: category));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
-                          ),
-                          child: Center(
-                            child: Image.network(
-                              category.iconUrl,
-                              width: 35.w,
-                              height: 35.676.h,
-                              color: Colors.white,
+        drawer: CustomDrawer(scaffoldKey: scaffoldKey),
+        appBar: const CustomAppBar(),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
+            child: Wrap(
+              alignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.start,
+              children: List.generate(categories.categories.length, (index) {
+                final category = categories.categories[index];
+                return SizedBox(
+                  width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
+                  height: 128,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Bounceable(
+                          onTap: () {
+                            context.pushRoute(SubCategoryRoute(category: category));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
+                            ),
+                            child: Center(
+                              child: Image.network(
+                                category.iconUrl,
+                                width: 35.w,
+                                height: 35.676.h,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        category.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
-                      ),
-                    )
-                  ],
-                ),
-              );
-            }),
+                      Expanded(
+                        child: Text(
+                          category.name,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }),
+            ),
           ),
         ),
       ),

@@ -89,6 +89,13 @@ class ProfileView extends ConsumerWidget {
         crossAxisAlignment: WrapCrossAlignment.start,
         children: [
           ElementEllipse(
+            title: 'ANASAYFA',
+            colors: const [Color(0xffFF553D), Color(0xffFF864B)],
+            onTap: () {
+              context.pushRoute(const HomeRoute());
+            },
+          ),
+          ElementEllipse(
             title: 'İLANLARIM',
             colors: const [Color(0xffFF553D), Color(0xffFF864B)],
             onTap: () {
