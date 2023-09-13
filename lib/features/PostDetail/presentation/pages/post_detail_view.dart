@@ -31,11 +31,7 @@ class PostDetailView extends ConsumerWidget {
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xffFF543D), Color(0xffFF884B)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+                   color: secondary
                   ),
                   child: AppBar(
                     automaticallyImplyLeading: false,
@@ -110,7 +106,7 @@ class PostDetailView extends ConsumerWidget {
                               Text(
                                 "Bütçe 3.000₺",
                                 style: TextStyle(
-                                    color: red,
+                                    color: secondary,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -120,7 +116,7 @@ class PostDetailView extends ConsumerWidget {
                               Text(
                                 "Kalan Süre 22:56",
                                 style: TextStyle(
-                                    color: red,
+                                    color: secondary,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               )
@@ -159,7 +155,7 @@ class PostDetailView extends ConsumerWidget {
               onTap: () {
                 CustomBottomSheet().ModalBottomSheet(context);
               },
-              colors: const [Color(0xffFF543D), Color(0xffFF884B)],
+              colors: const [secondary,secondary],
             ),
             SizedBox(
               height: 11.h,

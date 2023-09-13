@@ -34,7 +34,7 @@ class LinkCard extends StatelessWidget {
                       width: 12.r,
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Color(0xffFF553D)),
+                          color: secondary),
                     ),
                     SizedBox(
                       width: 7.w,
@@ -42,7 +42,7 @@ class LinkCard extends StatelessWidget {
                     Text(
                       "https://www.letgo.com/item/ps-4-pro-2-tb-hafiz...",
                       style: TextStyle(
-                          color: const Color(0xffFF553D),
+                          color:  secondary,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400),
                     ),
@@ -50,7 +50,7 @@ class LinkCard extends StatelessWidget {
                 ),
                 const Icon(
                   Icons.arrow_forward_ios,
-                  color: Color(0xffFF553D),
+                  color: secondary,
                 )
               ],
             ),

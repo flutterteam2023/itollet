@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class MyAdsView extends ConsumerWidget {
@@ -92,54 +94,59 @@ class SubSubCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18.r), color: greyCard),
-      child: Padding(
-        padding:
-            EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
-        child: Column(
-          children: [
-            Container(
-              height: 128.r,
-              width: 128.r,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: const DecorationImage(image: AssetImage('assets/images/phone.png'),fit: BoxFit.fill),
-                  border: Border.all(width: 3, color: secondary)),
-                  
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Text(
-              'IPhone 11 128 gb',
-              style: TextStyle(
-                  color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Text(
-              '1.000₺',
-              style: TextStyle(
-                  color: secondary,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Poppins Italic'),
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Text(
-              'Kalan Süre 1:59',
-              style: TextStyle(
-                color: secondary,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
+    return Bounceable(
+      onTap: () {
+        context.pushRoute(PostDetailRoute());
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18.r), color: greyCard),
+        child: Padding(
+          padding:
+              EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
+          child: Column(
+            children: [
+              Container(
+                height: 128.r,
+                width: 128.r,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: const DecorationImage(image: AssetImage('assets/images/phone.png'),fit: BoxFit.fill),
+                    border: Border.all(width: 3, color: secondary)),
+                    
               ),
-            )
-          ],
+              SizedBox(
+                height: 10.h,
+              ),
+              Text(
+                'IPhone 11 128 gb',
+                style: TextStyle(
+                    color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              Text(
+                '1.000₺',
+                style: TextStyle(
+                    color: secondary,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Poppins Italic'),
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              Text(
+                'Kalan Süre 1:59',
+                style: TextStyle(
+                  color: secondary,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
