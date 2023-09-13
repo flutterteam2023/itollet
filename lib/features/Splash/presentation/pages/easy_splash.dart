@@ -15,7 +15,7 @@ class EasySplashView extends ConsumerWidget {
       body: FlutterSplashScreen.fadeIn(
         backgroundColor: Colors.white,
         onEnd: () {
-          context.pushRoute(const SplashRoute());
+          context.replaceRoute(const SplashRoute());
         },
         childWidget: Padding(
         padding:  EdgeInsets.only(left: 15.w,right: 15.w),

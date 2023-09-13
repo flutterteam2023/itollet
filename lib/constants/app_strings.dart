@@ -23,8 +23,6 @@ class AppString {
   static const companyName = 'Firma İsmi';
   static const companyPhoneNum = 'Firma Telefon Numarası';
   static const accountVerification = 'Hesabınızı Doğrulayın';
-  static const verificationText =
-      'Doğrulama bağlantısını isim@mail.com adresine gönderdik. Bağlantıya tıklayarak hesabını onayla ve itollet’i hemen kullanmaya başla';
   static const eMailAppOpen = 'E-posta Uygulamasını Aç';
   static const forgotPassword2 = 'Şifrenizi Mi Unuttunuz?';
   static const forgotPasswordText =

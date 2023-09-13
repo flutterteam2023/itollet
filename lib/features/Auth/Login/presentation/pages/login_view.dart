@@ -28,118 +28,121 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final passswordController = useTextEditingController(text: '');
     final state  = ref.watch(loginProvider);
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(top: 200.h, left: 18.w, right: 18.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppString.welcome,
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: -1),
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
-              Text(
-                AppString.loginText,
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400),
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
-              
-              SizedBox(
-                height: 18.23.h,
-              ),
-               AuthTextField(
-                controller: emailController,
-                obscureText: false,
-                label: AppString.email,
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
-              AuthTextField(
-                controller: passswordController,
-                suffixIcon: IconButton(
-                    onPressed: () {
-                      ref.read(loginProvider.notifier).visibleControl();
-                    },
-                    icon:  Icon(
-                     state.isVisible==false? Icons.visibility_outlined:Icons.visibility_off_outlined,
-                      color: secondary,
-                    )),
-                obscureText:state.isVisible,
-                label: AppString.password,
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
-              Bounceable(
-                onTap: () {
-                  context.pushRoute(const ForgotPasswordRoute());
-                },
-                child: Text(
-                  AppString.forgotPassword,
+    return WillPopScope(
+      onWillPop:()async=> false,
+      child: Scaffold(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.only(top: 200.h, left: 18.w, right: 18.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  AppString.welcome,
                   style: TextStyle(
                       color: secondary,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600),
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: -1),
                 ),
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
-              CustomFilledButton(
-                padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
-                radius: 16.r,
-                onTap: ()async {
-                  ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text,ref);
-                  
-                },
-                text: AppString.login,
-              ),
-              SizedBox(
-                height: 18.h,
-              ),
-              Center(
-                child: RichText(
-                  text: TextSpan(
-                    text: '${AppString.notAccount} ',
-                    style: TextStyle(
-                      fontSize: 14.sp, 
+                SizedBox(
+                  height: 18.h,
+                ),
+                Text(
+                  AppString.loginText,
+                  style: TextStyle(
                       color: secondary,
-                      fontWeight: FontWeight.w400
-                      ),
-                    children:  [
-                      TextSpan(
-                        recognizer: TapGestureRecognizer()..onTap =() {
-                          context.pushRoute(const RegisterRoute());
-                        },
-                        text: AppString.registerAccount,
-                        style: TextStyle(
-                            color:
-                                secondary, // Kelimenin rengini burada belirleyebilirsiniz
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600
-              
-                            
-                            ),
-                      ),
-                    ],
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400),
+                ),
+                SizedBox(
+                  height: 18.h,
+                ),
+                
+                SizedBox(
+                  height: 18.23.h,
+                ),
+                 AuthTextField(
+                  controller: emailController,
+                  obscureText: false,
+                  label: AppString.email,
+                ),
+                SizedBox(
+                  height: 18.h,
+                ),
+                AuthTextField(
+                  controller: passswordController,
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        ref.read(loginProvider.notifier).visibleControl();
+                      },
+                      icon:  Icon(
+                       state.isVisible==false? Icons.visibility_outlined:Icons.visibility_off_outlined,
+                        color: secondary,
+                      )),
+                  obscureText:state.isVisible,
+                  label: AppString.password,
+                ),
+                SizedBox(
+                  height: 18.h,
+                ),
+                Bounceable(
+                  onTap: () {
+                    context.pushRoute(const ForgotPasswordRoute());
+                  },
+                  child: Text(
+                    AppString.forgotPassword,
+                    style: TextStyle(
+                        color: secondary,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(
+                  height: 18.h,
+                ),
+                CustomFilledButton(
+                  padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
+                  radius: 16.r,
+                  onTap: ()async {
+                    ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text,ref);
+                    
+                  },
+                  text: AppString.login,
+                ),
+                SizedBox(
+                  height: 18.h,
+                ),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: '${AppString.notAccount} ',
+                      style: TextStyle(
+                        fontSize: 14.sp, 
+                        color: secondary,
+                        fontWeight: FontWeight.w400
+                        ),
+                      children:  [
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()..onTap =() {
+                            context.pushRoute(const RegisterRoute());
+                          },
+                          text: AppString.registerAccount,
+                          style: TextStyle(
+                              color:
+                                  secondary, // Kelimenin rengini burada belirleyebilirsiniz
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600
+                
+                              
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

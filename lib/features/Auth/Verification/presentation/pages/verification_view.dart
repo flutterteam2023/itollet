@@ -9,6 +9,7 @@ import 'package:itollet/constants/app_strings.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Auth/Register/presentation/providers/register_notifier.dart';
 import 'package:itollet/features/Auth/Verification/presentation/providers/verification_notifier.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -85,8 +86,9 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Text(
-                AppString.verificationText,
+              child:  Text(
+                      'Doğrulama bağlantısını ${auth.currentUser?.email} adresine gönderdik. Bağlantıya tıklayarak hesabını onayla ve itollet’i hemen kullanmaya başla',
+
                 textAlign: TextAlign.center,
                 style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),

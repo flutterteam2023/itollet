@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
+import 'package:itollet/routing/app_router.dart';
 
 class CustomDrawer extends ConsumerWidget {
   const CustomDrawer({
@@ -92,7 +93,7 @@ class CustomDrawer extends ConsumerWidget {
               await FirebaseAuth.instance.signOut().then((value) {
                 scaffoldKey.currentState?.closeDrawer();
                 Future.delayed(const Duration(milliseconds: 500), () {
-                  context.popRoute();
+                  context.replaceRoute(const SplashRoute());
                 });
               });
             },
@@ -100,7 +101,7 @@ class CustomDrawer extends ConsumerWidget {
               "OTURUMU SONLANDIR",
               style: _buildTextStyle(),
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.logout,
             ),
           ),
