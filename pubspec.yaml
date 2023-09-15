@@ -38,20 +38,25 @@ dependencies:
   easy_localization: ^3.0.2
   firebase_auth: ^4.8.0
   firebase_core: ^2.15.1
+  firebase_storage: ^11.2.6
   flutter:
     sdk: flutter
   flutter_bounceable: ^1.1.0
   flutter_hooks: null
+  flutter_image_compress: ^2.0.4
   flutter_screenutil: ^5.8.4
   flutter_svg: ^2.0.7
   freezed_annotation: ^2.4.1
   get_it: ^7.6.0
   hooks_riverpod: ^2.3.6
+  image_cropper: ^5.0.0
+  image_picker: ^1.0.4
   injectable: ^2.1.2
   json_annotation: ^4.8.1
   logger: ^2.0.2
   multi_value_listenable_builder: ^0.0.2
   url_launcher: ^6.1.14
+  uuid: ^3.0.7
   validatorless: ^1.2.3
 
 dev_dependencies:

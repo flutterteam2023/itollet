@@ -1,9 +1,20 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
+import 'package:itollet/features/PostAdd/post_model.dart';
+import 'package:itollet/iberkeugur/log.dart';
+import 'package:uuid/uuid.dart';
 import 'package:validatorless/validatorless.dart';
 
 @RoutePage()
@@ -19,6 +30,8 @@ class PostAddView extends HookConsumerWidget {
     final max = useTextEditingController();
     final des = useTextEditingController();
     final list = <String>[];
+    final imageFile = useValueNotifier<File?>(null);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("İLAN EKLE"),
@@ -30,9 +43,162 @@ class PostAddView extends HookConsumerWidget {
             padding: const EdgeInsets.all(18),
             child: Column(
               children: [
+                Bounceable(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return ValueListenableBuilder(
+                            valueListenable: imageFile,
+                            builder: (context, _, __) {
+                              return Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(height: 18),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Opacity(
+                                        opacity: 0.40,
+                                        child: Container(
+                                          width: 32,
+                                          height: 4,
+                                          decoration: ShapeDecoration(
+                                            color: const Color(0xFF79747E),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(100),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  const SizedBox(height: 18),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Bounceable(
+                                        onTap: () async {
+                                          final picker = ImagePicker();
+
+                                          final image = await picker.pickImage(source: ImageSource.camera);
+
+                                          if (image != null) {
+                                            await ImageCropper().cropImage(
+                                              sourcePath: image.path,
+                                              cropStyle: CropStyle.circle,
+                                              aspectRatioPresets: [
+                                                CropAspectRatioPreset.square,
+                                              ],
+                                            ).then((value) {
+                                              if (value != null) {
+                                                final path = value.path;
+                                                imageFile.value = File(path);
+                                              }
+                                              Navigator.of(context).pop();
+                                            });
+                                          }
+                                        },
+                                        child: const CircleAvatar(
+                                          radius: 64,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(18),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(Icons.photo_camera),
+                                                Text(
+                                                  "Kameradan Ekle",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Bounceable(
+                                        onTap: () async {
+                                          final picker = ImagePicker();
+
+                                          final image = await picker.pickImage(source: ImageSource.gallery);
+
+                                          if (image != null) {
+                                            await ImageCropper().cropImage(
+                                              sourcePath: image.path,
+                                              cropStyle: CropStyle.circle,
+                                              aspectRatioPresets: [
+                                                CropAspectRatioPreset.square,
+                                              ],
+                                            ).then((value) {
+                                              if (value != null) {
+                                                final path = value.path;
+                                                imageFile.value = File(path);
+                                              }
+                                              Navigator.of(context).pop();
+                                            });
+                                          }
+                                        },
+                                        child: const CircleAvatar(
+                                          radius: 64,
+                                          child: Padding(
+                                            padding: EdgeInsets.all(18),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Icon(Icons.photo_album),
+                                                Text(
+                                                  "Galeriden Ekle",
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: MediaQuery.of(context).viewPadding.bottom),
+                                ],
+                              );
+                            });
+                      },
+                    );
+                  },
+                  child: ValueListenableBuilder(
+                      valueListenable: imageFile,
+                      builder: (context, _, __) {
+                        return Column(
+                          children: [
+                            CircleAvatar(
+                              radius: 64,
+                              child: imageFile.value != null
+                                  ? ClipRRect(
+                                      borderRadius: BorderRadius.circular(999),
+                                      child: Image.file(imageFile.value!),
+                                    )
+                                  : const Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.add),
+                                      ],
+                                    ),
+                            ),
+                            const Text("Fotoğraf Ekle"),
+                          ],
+                        );
+                      }),
+                ),
+                const SizedBox(height: 18),
                 StatefulBuilder(builder: (context, setStateButton) {
-                  return TextButton(
-                    onPressed: () {
+                  return InkWell(
+                    onTap: () {
+                      setStateButton(() {
+                        list.clear();
+                      });
                       showModalBottomSheet(
                           context: context,
                           builder: (context) {
@@ -167,9 +333,26 @@ class PostAddView extends HookConsumerWidget {
                             );
                           });
                     },
-                    child: Text("Kategori seç $list"),
+                    child: Container(
+                      padding: const EdgeInsets.all(18),
+                      decoration: BoxDecoration(
+                        color: secondary,
+                        borderRadius: BorderRadius.circular(99),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${list.isEmpty ? "Kategori seç" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
+                            style: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 }),
+                const SizedBox(height: 18),
                 TextFormField(
                   autocorrect: true,
                   controller: tit,
@@ -315,11 +498,48 @@ class PostAddView extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 18),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Processing Data')),
-                      );
+                      try {
+                        final docRef = FirebaseFirestore.instance.collection("posts").doc();
+                        final imageData = await XFile(imageFile.value!.path).readAsBytes();
+                        final featuredPhoto = imageData;
+                        var ref = FirebaseStorage.instance.ref().child(
+                              'posts/${docRef.id}',
+                            );
+                        final id = const Uuid().v1();
+                        ref = ref.child(id);
+
+                        final uploadTask = ref.putData(
+                          featuredPhoto,
+                          SettableMetadata(contentType: 'image/png'),
+                        );
+                        final snapshot = await uploadTask;
+                        final downloadUrl = await snapshot.ref.getDownloadURL();
+
+                        await docRef
+                            .set(
+                          PostModel(
+                            fromUID: FirebaseAuth.instance.currentUser!.uid,
+                            title: tit.text,
+                            photoUrl: downloadUrl,
+                            categoryID: "categoryID",
+                            balanceMin: min.text.isEmpty ? null : min.text,
+                            balanceMax: max.text.isEmpty ? null : max.text,
+                            description: des.text,
+                            createdAt: Timestamp.now().toDate(),
+                          ).toJson(),
+                        )
+                            .then((value) {
+                          Log.instance.success("Post add success");
+                          tit.clear();
+                          min.clear();
+                          max.clear();
+                          des.clear();
+                        });
+                      } catch (e) {
+                        Log.instance.error(e.toString());
+                      }
                     }
                   },
                   child: Container(
