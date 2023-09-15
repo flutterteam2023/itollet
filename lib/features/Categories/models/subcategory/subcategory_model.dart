@@ -10,6 +10,7 @@ class SubcategoryModel with _$SubcategoryModel {
   factory SubcategoryModel({
     required String name,
     required String iconUrl,
+    required String id,
     @Default([]) List<SubcategoryModel> subCategories,
   }) = _SubcategoryModel;
 

@@ -31,6 +31,7 @@ class PostAddView extends HookConsumerWidget {
     final des = useTextEditingController();
     final list = <String>[];
     final imageFile = useValueNotifier<File?>(null);
+    final categoryID = useValueNotifier<String?>(null);
 
     return Scaffold(
       appBar: AppBar(
@@ -244,6 +245,7 @@ class PostAddView extends HookConsumerWidget {
                                             onTap: () {
                                               Navigator.of(context).pop();
                                               list.add(cat.categories[index].name);
+                                              categoryID.value = mainCategory.id;
                                               setStateButton(() {});
                                               showModalBottomSheet(
                                                 context: context,
@@ -298,6 +300,7 @@ class PostAddView extends HookConsumerWidget {
                                                                     list.removeLast();
                                                                   }
                                                                   list.add(mainCategory.subCategories[subindex].name);
+                                                                  categoryID.value = mainCategory.subCategories[index].id;
                                                                   setStateButton(() {});
                                                                   Navigator.of(context).pop();
                                                                 },
@@ -500,6 +503,7 @@ class PostAddView extends HookConsumerWidget {
                 InkWell(
                   onTap: () async {
                     if (formKey.currentState!.validate()) {
+                      if (tit.text.isNotEmpty && categoryID.value != null && imageFile.value != null && des.text.isNotEmpty) {}
                       try {
                         final docRef = FirebaseFirestore.instance.collection("posts").doc();
                         final imageData = await XFile(imageFile.value!.path).readAsBytes();
@@ -523,7 +527,7 @@ class PostAddView extends HookConsumerWidget {
                             fromUID: FirebaseAuth.instance.currentUser!.uid,
                             title: tit.text,
                             photoUrl: downloadUrl,
-                            categoryID: "categoryID",
+                            categoryID: categoryID.value!,
                             balanceMin: min.text.isEmpty ? null : min.text,
                             balanceMax: max.text.isEmpty ? null : max.text,
                             description: des.text,
@@ -536,6 +540,8 @@ class PostAddView extends HookConsumerWidget {
                           min.clear();
                           max.clear();
                           des.clear();
+                          imageFile.value = null;
+                          categoryID.value = null;
                         });
                       } catch (e) {
                         Log.instance.error(e.toString());

@@ -11,6 +11,7 @@ class CategoryModel with _$CategoryModel {
   factory CategoryModel({
     required String name,
     required String iconUrl,
+    required String id,
     @Default(0) int orderBy,
     //firebase de renkler argb formatında olmalı örneğin
     //255, 244, 67, 54 şeklinde string olarak gelmeli
