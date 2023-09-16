@@ -6,8 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
+import 'package:itollet/features/Categories/utils/category_find.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
+import 'package:itollet/iberkeugur/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -18,8 +20,22 @@ class HomeView extends ConsumerWidget {
     final categories = ref.watch(categoryProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
+
+    Log.instance.error(
+      subcategoryNameFindWithSubcategoryID(
+        "21b15084-01a9-4e76-ba04-dbd85258c286",
+        categories.categories,
+      ).toString(),
+    );
+    Log.instance.error(
+      mainCategoryNameFindWithSubCategoryID(
+        "21b15084-01a9-4e76-ba04-dbd85258c286",
+        categories.categories,
+      ).toString(),
+    );
+
     return WillPopScope(
-      onWillPop: () async=> false,
+      onWillPop: () async => false,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
