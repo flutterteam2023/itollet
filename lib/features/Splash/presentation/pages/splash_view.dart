@@ -7,6 +7,7 @@ import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
 import 'package:itollet/features/Auth/Login/presentation/providers/login_notifier.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 
 @RoutePage()
 class SplashView extends ConsumerStatefulWidget {
@@ -19,6 +20,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3),(){
+      ref.watch(homeProvider.notifier).getPosts();
 
     });
     super.initState();

@@ -6,6 +6,8 @@ import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
 import 'package:itollet/features/Auth/Register/presentation/pages/register_view.dart';
 import 'package:itollet/features/Auth/Verification/presentation/pages/verification_view.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
+import 'package:itollet/features/Categories/models/post_model/post_model.dart';
+import 'package:itollet/features/Categories/models/subcategory/subcategory_model.dart';
 import 'package:itollet/features/Help/presentation/pages/help_view.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/MyAds/presentation/pages/my_ads_view.dart';

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:itollet/features/Categories/utils/color_serializer.dart';
 
 part 'subcategory_model.freezed.dart';
 part 'subcategory_model.g.dart';

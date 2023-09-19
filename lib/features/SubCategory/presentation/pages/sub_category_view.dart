@@ -6,9 +6,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
+import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
-
 
 @RoutePage()
 class SubCategoryView extends ConsumerWidget {
@@ -17,6 +18,7 @@ class SubCategoryView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final state = ref.watch(homeProvider);
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -40,9 +42,11 @@ class SubCategoryView extends ConsumerWidget {
                   child: AppBar(
                     iconTheme: const IconThemeData(color: Colors.white),
                     automaticallyImplyLeading: false,
-                    leading: IconButton(onPressed:() {
-                      context.back();
-                    }, icon: const Icon(Icons.arrow_back_ios)),
+                    leading: IconButton(
+                        onPressed: () {
+                          context.back();
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
                     centerTitle: true,
                     title: Text(
                       category.name,
@@ -66,7 +70,14 @@ class SubCategoryView extends ConsumerWidget {
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children:
                         List.generate(category.subCategories.length, (index) {
+                      List<PostModel> postModel = [];
+
                       final subcategory = category.subCategories[index];
+                      for (var e in state.postModels) {
+                        if (subcategory.id == e.categoryID) {
+                          postModel.add(e);
+                        }
+                      }
                       return SizedBox(
                         width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
                         height: 128,
@@ -77,8 +88,11 @@ class SubCategoryView extends ConsumerWidget {
                             Expanded(
                               child: Bounceable(
                                 onTap: () {
-                                  context
-                                      .pushRoute(const SubSubCategoryRoute());
+                                  context.pushRoute(SubSubCategoryRoute(
+                                      subcategoryModel: subcategory,
+                                      postModel: postModel,
+                                      categoryModel: category
+                                      ));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
