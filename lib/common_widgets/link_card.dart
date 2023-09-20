@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Categories/models/category/category_model.dart';
 
 class LinkCard extends StatelessWidget {
   const LinkCard({
-    super.key,
+    super.key, required this.categoryModel,
   });
+  final CategoryModel categoryModel;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +34,9 @@ class LinkCard extends StatelessWidget {
                     Container(
                       height: 12.r,
                       width: 12.r,
-                      decoration: const BoxDecoration(
+                      decoration:  BoxDecoration(
                           shape: BoxShape.circle,
-                          color: secondary),
+                          color: categoryModel.primaryColor),
                     ),
                     SizedBox(
                       width: 7.w,
@@ -42,15 +44,15 @@ class LinkCard extends StatelessWidget {
                     Text(
                       "https://www.letgo.com/item/ps-4-pro-2-tb-hafiz...",
                       style: TextStyle(
-                          color:  secondary,
+                          color:  categoryModel.primaryColor,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400),
                     ),
                   ],
                 ),
-                const Icon(
+                 Icon(
                   Icons.arrow_forward_ios,
-                  color: secondary,
+                  color: categoryModel.primaryColor,
                 )
               ],
             ),

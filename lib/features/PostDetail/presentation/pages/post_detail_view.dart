@@ -9,11 +9,15 @@ import 'package:itollet/common_widgets/link_card.dart';
 import 'package:itollet/common_widgets/post_detail_button.dart';
 import 'package:itollet/common_widgets/show_modal_bottom_sheet.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Categories/models/category/category_model.dart';
+import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 
 @RoutePage()
 class PostDetailView extends ConsumerWidget {
-  const PostDetailView({super.key});
+  final PostModel postModel;
+  final CategoryModel categoryModel;
+  const PostDetailView(this.postModel, this.categoryModel, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -30,8 +34,12 @@ class PostDetailView extends ConsumerWidget {
               child: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  decoration: const BoxDecoration(
-                   color: secondary
+                  decoration:  BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
                   ),
                   child: AppBar(
                     automaticallyImplyLeading: false,
@@ -77,13 +85,12 @@ class PostDetailView extends ConsumerWidget {
                       Container(
                         height: 128.r,
                         width: 128.r,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
+                          border: Border.all(color: categoryModel.primaryColor,width: 2),
                           shape: BoxShape.circle,
+                          image: DecorationImage(image: NetworkImage(postModel.photoUrl),fit: BoxFit.fill)
                         ),
-                        child: Image.asset(
-                          "assets/images/phone.png",
-                          fit: BoxFit.cover,
-                        ),
+                        
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 16.w),
@@ -93,7 +100,7 @@ class PostDetailView extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AutoSizeText(
-                                "Ps 4 pro en az 2tb hafıza",
+                                postModel.title,
                                 style: TextStyle(
                                     color: black,
                                     fontSize: 20.sp,
@@ -104,9 +111,9 @@ class PostDetailView extends ConsumerWidget {
                                 height: 14.h,
                               ),
                               Text(
-                                "Bütçe 3.000₺",
+                                "Bütçe ${postModel.description}₺",
                                 style: TextStyle(
-                                    color: secondary,
+                                    color: categoryModel.primaryColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -114,9 +121,9 @@ class PostDetailView extends ConsumerWidget {
                                 height: 10.h,
                               ),
                               Text(
-                                "Kalan Süre 22:56",
+                                "Kalan Süre: ${postModel.createdAt!.hour}: ${postModel.createdAt!.minute}",
                                 style: TextStyle(
-                                    color: secondary,
+                                    color: categoryModel.primaryColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               )
@@ -135,7 +142,7 @@ class PostDetailView extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
               child: Text(
-                "Playstation 4 pro slim istiyorum. 2 terabyte hafızası olmalı. Yanında spider man oyunu da istiyorum. Mutlaka 2 tane çalışan kol olmalı.",
+                postModel.description,
                 style: TextStyle(
                     height: 1.7,
                     color: black,
@@ -147,7 +154,7 @@ class PostDetailView extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: 2,
               itemBuilder: (context, index) {
-                return const LinkCard();
+                return  LinkCard(categoryModel: categoryModel,);
               },
             ),
             PostDetailButton(
@@ -155,7 +162,7 @@ class PostDetailView extends ConsumerWidget {
               onTap: () {
                 CustomBottomSheet().ModalBottomSheet(context);
               },
-              colors: const [secondary,secondary],
+              colors:  [categoryModel.primaryColor,categoryModel.secondaryColor],
             ),
             SizedBox(
               height: 11.h,

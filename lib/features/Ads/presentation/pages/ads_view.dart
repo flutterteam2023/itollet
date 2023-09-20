@@ -12,11 +12,15 @@ import 'package:itollet/common_widgets/post_detail_button.dart';
 import 'package:itollet/common_widgets/show_modal_bottom_sheet.dart';
 import 'package:itollet/common_widgets/small_filled_balance.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Categories/models/category/category_model.dart';
+import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 
 @RoutePage()
 class AdsView extends ConsumerWidget {
-  const AdsView({super.key});
+  final CategoryModel categoryModel;
+  final PostModel postModel;
+  const AdsView(this.postModel, this.categoryModel, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,9 +37,9 @@ class AdsView extends ConsumerWidget {
               child: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xffFF543D), Color(0xffFF884B)],
+                      colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -84,13 +88,14 @@ class AdsView extends ConsumerWidget {
                       Container(
                         height: 128.r,
                         width: 128.r,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
+                          image: DecorationImage(
+                            
+                            image: NetworkImage(postModel.photoUrl),fit: BoxFit.fill),
+                            border: Border.all(color: categoryModel.primaryColor,width: 2),
                           shape: BoxShape.circle,
                         ),
-                        child: Image.asset(
-                          "assets/images/phone.png",
-                          fit: BoxFit.cover,
-                        ),
+                        
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 16.w),
@@ -100,7 +105,7 @@ class AdsView extends ConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AutoSizeText(
-                                "Ps 4 pro en az 2tb hafıza",
+                                postModel.title,
                                 style: TextStyle(
                                     color: black,
                                     fontSize: 20.sp,
@@ -111,9 +116,9 @@ class AdsView extends ConsumerWidget {
                                 height: 14.h,
                               ),
                               Text(
-                                "Bütçe 3.000₺",
+                                "Bütçe ${postModel.balanceMax}₺",
                                 style: TextStyle(
-                                    color: red,
+                                    color: categoryModel.primaryColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -121,9 +126,9 @@ class AdsView extends ConsumerWidget {
                                 height: 10.h,
                               ),
                               Text(
-                                "Kalan Süre 22:56",
+                                "Kalan Süre: ${postModel.createdAt!.hour}:${postModel.createdAt!.minute}",
                                 style: TextStyle(
-                                    color: red,
+                                    color: categoryModel.primaryColor,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               )
@@ -142,7 +147,7 @@ class AdsView extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
               child: Text(
-                "Playstation 4 pro slim istiyorum. 2 terabyte hafızası olmalı. Yanında spider man oyunu da istiyorum. Mutlaka 2 tane çalışan kol olmalı.",
+                postModel.description,
                 style: TextStyle(
                     height: 1.7,
                     color: black,
@@ -154,7 +159,9 @@ class AdsView extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: 2,
               itemBuilder: (context, index) {
-                return const LinkCard();
+                return  LinkCard(
+                  categoryModel: categoryModel,
+                );
               },
             ),
             PostDetailButton(
@@ -162,7 +169,7 @@ class AdsView extends ConsumerWidget {
               onTap: () {
                 CustomBottomSheet().AdsModalBottomSheet(context);
               },
-              colors: const [Color(0xffFF543D), Color(0xffFF884B)],
+              colors:  [categoryModel.primaryColor, categoryModel.secondaryColor],
             ),
             SizedBox(
               height: 11.h,

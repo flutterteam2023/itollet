@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
@@ -8,6 +10,7 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Categories/models/subcategory/subcategory_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class SubSubCategoryView extends ConsumerStatefulWidget {
@@ -87,12 +90,23 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                         width: (MediaQuery.of(context).size.width-36)/2,
                         child: Padding(
                           padding:  EdgeInsets.only(left: 12.w,bottom: 22.h),
-                          child:  SubSubCard(
-                            title:post.title,
-                            price: post.description,
-                            time: post.createdAt!,
-                            imageUrl: post.photoUrl,
-                            categoryModel:widget.categoryModel,
+                          child:  Bounceable(
+                            onTap: () {
+                              if (post.fromUID== FirebaseAuth.instance.currentUser?.uid) {
+                                context.pushRoute( PostDetailRoute(postModel: post,categoryModel: widget.categoryModel));
+                                
+                              }else{
+                                context.pushRoute( AdsRoute(postModel: post,categoryModel: widget.categoryModel));
+                              }
+                              
+                            },
+                            child: SubSubCard(
+                              title:post.title,
+                              price: post.description,
+                              time: post.createdAt!,
+                              imageUrl: post.photoUrl,
+                              categoryModel:widget.categoryModel,
+                            ),
                           ),
                         ));
 
