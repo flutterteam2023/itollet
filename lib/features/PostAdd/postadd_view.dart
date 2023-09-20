@@ -13,7 +13,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/PostAdd/post_model.dart';
-import 'package:itollet/iberkeugur/log.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
+import 'package:itollet/iberkeugur/Space/spaces.dart';
 import 'package:uuid/uuid.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -564,7 +565,7 @@ class PostAddView extends HookConsumerWidget {
                         ),
                         borderRadius: BorderRadius.circular(9999),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -578,6 +579,11 @@ class PostAddView extends HookConsumerWidget {
                               fontWeight: FontWeight.w400,
                               height: 1.40,
                             ),
+                          ),
+                          Spaces.M.width,
+                          Spaces.M.height,
+                          Padding(
+                            padding: EdgeInsets.all(Spaces.M.size),
                           ),
                         ],
                       )),
