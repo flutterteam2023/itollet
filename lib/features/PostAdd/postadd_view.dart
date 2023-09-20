@@ -360,31 +360,8 @@ class PostAddView extends HookConsumerWidget {
                 TextFormField(
                   autocorrect: true,
                   controller: tit,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey[400]!),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: secondary, width: 2),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
+                  decoration: const InputDecoration(
                     hintText: "İlan Başlığı",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.required("Doldurmak zorunludur."),
@@ -395,31 +372,8 @@ class PostAddView extends HookConsumerWidget {
                   autocorrect: true,
                   controller: min,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey[400]!),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: secondary, width: 2),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
+                  decoration: const InputDecoration(
                     hintText: "Bütçe en az",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.number("Sayı girmek zorunludur."),
@@ -431,31 +385,8 @@ class PostAddView extends HookConsumerWidget {
                   autocorrect: true,
                   controller: max,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey[400]!),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: secondary, width: 2),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
+                  decoration: const InputDecoration(
                     hintText: "Bütçe en fazla",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(999),
-                      ),
-                    ),
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.number("Sayı girmek zorunludur."),
@@ -474,27 +405,25 @@ class PostAddView extends HookConsumerWidget {
                       horizontal: 15,
                       vertical: 9,
                     ),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(18),
+                      ),
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey[400]!),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(18),
                       ),
                     ),
-                    focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color: secondary, width: 2),
-                      borderRadius: BorderRadius.all(
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey[400]!),
+                      borderRadius: const BorderRadius.all(
                         Radius.circular(18),
                       ),
                     ),
                     hintText: "Açıklama giriniz",
-                    hintStyle: TextStyle(
-                      color: Colors.grey[500],
-                    ),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(18),
-                      ),
-                    ),
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.required("Açıklama girmek zorunludur."),
@@ -569,7 +498,7 @@ class PostAddView extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
+                          const Text(
                             'KAYDET',
                             textAlign: TextAlign.center,
                             style: TextStyle(

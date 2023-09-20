@@ -21,19 +21,6 @@ class HomeView extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
 
-    Log.instance.error(
-      subcategoryNameFindWithSubcategoryID(
-        "21b15084-01a9-4e76-ba04-dbd85258c286",
-        categories.categories,
-      ).toString(),
-    );
-    Log.instance.error(
-      mainCategoryNameFindWithSubCategoryID(
-        "21b15084-01a9-4e76-ba04-dbd85258c286",
-        categories.categories,
-      ).toString(),
-    );
-
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

@@ -117,7 +117,7 @@ class ProfileView extends ConsumerWidget {
             iconUrl: ProfileIcons.privacy,
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
             onTap: () {
-              context.pushRoute(const PrivacyRoute());
+              context.pushRoute(PrivacyRoute());
             },
           ),
           ElementEllipse(

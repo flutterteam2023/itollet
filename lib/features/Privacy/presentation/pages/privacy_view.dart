@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
@@ -9,12 +12,12 @@ import 'package:itollet/constants/profile_icons.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 
 @RoutePage()
-class PrivacyView extends ConsumerWidget {
+class PrivacyView extends HookConsumerWidget {
   const PrivacyView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
+    final verifyEmailController = useTextEditingController();
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
@@ -55,7 +58,11 @@ class PrivacyView extends ConsumerWidget {
               child: Center(
                 child: Column(
                   children: [
-                    walletCard(context, scaffoldKey),
+                    walletCard(
+                      context,
+                      scaffoldKey,
+                      verifyEmailController,
+                    ),
                   ],
                 ),
               ),
@@ -66,7 +73,7 @@ class PrivacyView extends ConsumerWidget {
     );
   }
 
-  Padding walletCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+  Padding walletCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey, TextEditingController? textEditingController) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(
@@ -77,7 +84,34 @@ class PrivacyView extends ConsumerWidget {
             title: 'HESABIMI SİL',
             iconUrl: PrivacyIcons.delete,
             colors: const [Color(0xffFF553D), Color(0xffFF864B)],
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Emin Misiniz?"),
+                  content: TextFormField(
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                      hintText: FirebaseAuth.instance.currentUser?.email ?? "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text("İptal"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        if (textEditingController?.text == FirebaseAuth.instance.currentUser?.uid) {
+                          //Silme fonsksiyonu
+                        }
+                      },
+                      child: const Text("besabımı Sil"),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
           ElementEllipse(
             title: 'GİZLİLİK POLİTİKASI',

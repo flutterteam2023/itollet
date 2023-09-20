@@ -9,9 +9,7 @@ import 'package:itollet/routing/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Log.instance.success("Başarılı işlem");
-  Log.instance.error("deneme");
-  Log.instance.info("Bilgi data getirildi");
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -41,8 +39,37 @@ class _MyAppState extends ConsumerState<MyApp> {
             debugShowCheckedModeBanner: false,
             title: 'I-TOLLET',
             theme: ThemeData(
-              appBarTheme: const AppBarTheme(backgroundColor: Colors.white, elevation: 0, scrolledUnderElevation: 0),
+              appBarTheme: const AppBarTheme(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                scrolledUnderElevation: 0,
+              ),
               primaryColor: primary,
+              inputDecorationTheme: InputDecorationTheme(
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 15,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey[400]!),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(999),
+                  ),
+                ),
+                focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: secondary, width: 2),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(999),
+                  ),
+                ),
+                hintStyle: TextStyle(
+                  color: Colors.grey[500],
+                ),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(999),
+                  ),
+                ),
+              ),
               colorScheme: ColorScheme.fromSeed(seedColor: primary, secondary: secondary),
               useMaterial3: true,
             ),
