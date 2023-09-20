@@ -92,12 +92,14 @@ class PrivacyView extends HookConsumerWidget {
                   content: TextFormField(
                     controller: textEditingController,
                     decoration: InputDecoration(
+                      helperText: "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
+                      helperMaxLines: 99,
                       hintText: FirebaseAuth.instance.currentUser?.email ?? "Hata Oluştu Daha Sonra Tekrar Deneyin",
                     ),
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).pop(),
                       child: const Text("İptal"),
                     ),
                     TextButton(
@@ -106,7 +108,7 @@ class PrivacyView extends HookConsumerWidget {
                           //Silme fonsksiyonu
                         }
                       },
-                      child: const Text("besabımı Sil"),
+                      child: const Text("Hesabımı Sil"),
                     ),
                   ],
                 ),
