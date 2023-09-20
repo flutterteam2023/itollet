@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -14,7 +15,7 @@ class MyAdsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
+    final state = ref.watch(homeProvider);
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
@@ -67,7 +68,8 @@ class MyAdsView extends ConsumerWidget {
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
                   
-                    children:List.generate(10, (index) {
+                    children:List.generate( state.postModels.length, (index) {
+                     
                       return SizedBox(
                         width: (MediaQuery.of(context).size.width-36)/2,
                         child: Padding(
@@ -96,7 +98,7 @@ class SubSubCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Bounceable(
       onTap: () {
-        context.pushRoute(PostDetailRoute());
+        // context.pushRoute(PostDetailRoute());
       },
       child: Container(
         decoration: BoxDecoration(
