@@ -47,7 +47,7 @@ class Log {
 
     final name = "INFO -- Time: $time$reset";
     developer.log(
-      '${colors.white}$msg$reset',
+      '${backgrounds.white} 🫵 ${colors.black}${backgrounds.yellow}  $msg  $reset',
       name: name,
       zone: Zone.root,
     );
@@ -59,19 +59,7 @@ class Log {
     final name = "SUCCESS Time: $time$reset";
 
     developer.log(
-      '${backgrounds.magenta}${colors.white}$msg$reset',
-      name: name,
-      zone: Zone.root,
-    );
-  }
-
-  warning(String msg) {
-    final time =
-        "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
-    final name = "WARNING Time: $time$reset";
-
-    developer.log(
-      '${colors.yellow}$msg$reset',
+      '${backgrounds.white} ✅ ${backgrounds.green}${colors.black}  $msg  $reset',
       name: name,
       zone: Zone.root,
     );
@@ -83,7 +71,7 @@ class Log {
     final name = "ERROR - Time: $time$reset";
 
     developer.log(
-      '${colors.white}${backgrounds.red}$msg$reset',
+      '${backgrounds.white} 👹 ${colors.white}${backgrounds.red}  $msg  $reset',
       name: name,
       zone: Zone.root,
     );

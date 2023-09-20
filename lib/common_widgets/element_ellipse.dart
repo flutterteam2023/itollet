@@ -10,10 +10,12 @@ class ElementEllipse extends StatelessWidget {
     required this.title,
     required this.colors,
     required this.onTap,
+    required this.iconUrl,
   });
   final String title;
   final List<Color> colors;
   final void Function() onTap;
+  final String iconUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +35,26 @@ class ElementEllipse extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(colors: colors),
                   ),
-                  child: Center(child: SvgPicture.asset('assets/svg/exit.svg')),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Image.network(
+                        iconUrl,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 5.h,
+            ),
             Expanded(
               child: Text(
                 title,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
+                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
               ),
             )
           ],

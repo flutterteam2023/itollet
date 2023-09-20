@@ -9,7 +9,7 @@ import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Categories/utils/category_find.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
-import 'package:itollet/iberkeugur/log.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()

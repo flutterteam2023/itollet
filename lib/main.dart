@@ -4,10 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/firebase_options.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Log.instance.success("Başarılı işlem");
+  Log.instance.error("deneme");
+  Log.instance.info("Bilgi data getirildi");
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
