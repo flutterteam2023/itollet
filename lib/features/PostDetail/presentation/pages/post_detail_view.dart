@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +14,7 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 
 @RoutePage()
 class PostDetailView extends ConsumerWidget {
@@ -35,7 +37,7 @@ class PostDetailView extends ConsumerWidget {
               child: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
                       begin: Alignment.topCenter,
@@ -60,13 +62,9 @@ class PostDetailView extends ConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       'İLANIM',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor:
-                        Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -79,19 +77,35 @@ class PostDetailView extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
+                  padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
                   child: Row(
                     children: [
                       Container(
                         height: 128.r,
                         width: 128.r,
-                        decoration:  BoxDecoration(
-                          border: Border.all(color: categoryModel.primaryColor,width: 2),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: NetworkImage(postModel.photoUrl),fit: BoxFit.fill)
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(0),
+                          child: CachedNetworkImage(
+                            imageUrl: postModel.photoUrl,
+                            fit: BoxFit.fill,
+                            progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                              dimension: 15,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                                value: downloadProgress.progress,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) {
+                              Log.instance.error(error);
+                              return const Icon(Icons.error_outline);
+                            },
+                          ),
                         ),
-                        
+                        decoration: BoxDecoration(
+                          border: Border.all(color: categoryModel.primaryColor, width: 2),
+                          shape: BoxShape.circle,
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 16.w),
@@ -102,10 +116,7 @@ class PostDetailView extends ConsumerWidget {
                             children: [
                               AutoSizeText(
                                 postModel.title,
-                                style: TextStyle(
-                                    color: black,
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
                                 maxLines: 2,
                               ),
                               SizedBox(
@@ -113,20 +124,14 @@ class PostDetailView extends ConsumerWidget {
                               ),
                               Text(
                                 "Bütçe ${postModel.description}₺",
-                                style: TextStyle(
-                                    color: categoryModel.primaryColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                               ),
                               SizedBox(
                                 height: 10.h,
                               ),
                               Text(
                                 "Kalan Süre: ${postModel.createdAt!.hour}: ${postModel.createdAt!.minute}",
-                                style: TextStyle(
-                                    color: categoryModel.primaryColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                               )
                             ],
                           ),
@@ -144,20 +149,21 @@ class PostDetailView extends ConsumerWidget {
               padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
               child: Text(
                 postModel.description,
-                style: TextStyle(
-                    height: 1.7,
-                    color: black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
             ),
             ListView.builder(
               shrinkWrap: true,
               itemCount: 2,
               itemBuilder: (context, index) {
-                return  LinkCard(categoryModel: categoryModel,onTap: () {
-                  ref.read(postDetailProvider.notifier).launchUrls('https://www.letgo.com/item/bir-kac-kere-kullanildi-herseyi-saglam-aktif-calisiyor-iid-1663062522');
-                },);
+                return LinkCard(
+                  categoryModel: categoryModel,
+                  onTap: () {
+                    ref
+                        .read(postDetailProvider.notifier)
+                        .launchUrls('https://www.letgo.com/item/bir-kac-kere-kullanildi-herseyi-saglam-aktif-calisiyor-iid-1663062522');
+                  },
+                );
               },
             ),
             PostDetailButton(
@@ -165,7 +171,7 @@ class PostDetailView extends ConsumerWidget {
               onTap: () {
                 CustomBottomSheet().ModalBottomSheet(context);
               },
-              colors:  [categoryModel.primaryColor,categoryModel.secondaryColor],
+              colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
             ),
             SizedBox(
               height: 11.h,
@@ -175,19 +181,14 @@ class PostDetailView extends ConsumerWidget {
               child: Bounceable(
                 onTap: () {},
                 child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18.r),
-                      color: Colors.white,
-                      border: Border.all(width: 3.w, color: black)),
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(18.r), color: Colors.white, border: Border.all(width: 3.w, color: black)),
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 13.h),
                     child: Center(
                       child: Text(
                         'KALDIR',
-                        style: TextStyle(
-                            color: black,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w400),
+                        style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w400),
                       ),
                     ),
                   ),

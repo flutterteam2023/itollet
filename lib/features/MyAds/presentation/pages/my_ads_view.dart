@@ -27,15 +27,14 @@ class MyAdsView extends ConsumerWidget {
               child: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  decoration: const BoxDecoration(
-                    color: secondary
-                  ),
+                  decoration: const BoxDecoration(color: secondary),
                   child: AppBar(
                     automaticallyImplyLeading: false,
-                    leading: IconButton(onPressed:() {
-                      context.back();
-                      
-                    }, icon: const Icon(Icons.arrow_back_ios)),
+                    leading: IconButton(
+                        onPressed: () {
+                          context.back();
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
                     forceMaterialTransparency: true,
                     surfaceTintColor: Colors.white,
                     foregroundColor: Colors.white,
@@ -44,13 +43,9 @@ class MyAdsView extends ConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       'İLANLARIM',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor:
-                        Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -62,35 +57,30 @@ class MyAdsView extends ConsumerWidget {
               height: 700.h,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding:  EdgeInsets.only(left: 12.w,right: 24.w),
+                  padding: EdgeInsets.only(left: 12.w, right: 24.w),
                   child: Wrap(
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
-                  
-                    children:List.generate( state.myPostList.length, (index) {
-                     final myPost = state.myPostList[index];
+                    children: List.generate(state.myPostList.length, (index) {
+                      final myPost = state.myPostList[index];
                       return SizedBox(
-                        width: (MediaQuery.of(context).size.width-36)/2,
-                        child: Padding(
-                          padding:  EdgeInsets.only(left: 12.w,bottom: 22.h),
-                          child:  SubSubCard(
-                            description: myPost.title,
-                            price: myPost.balanceMax,
-                            time: myPost.createdAt!.hour.toString(),
-                            url: myPost.photoUrl,
-                            onTap: () {
-                              
-                            },
-
-                          ),
-                        ));
-
-                    }
+                          width: (MediaQuery.of(context).size.width - 36) / 2,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
+                            child: SubSubCard(
+                              description: myPost.title,
+                              price: myPost.balanceMax,
+                              time: myPost.createdAt!.hour.toString(),
+                              url: myPost.photoUrl,
+                              onTap: () {},
+                            ),
+                          ));
+                    }),
                   ),
                 ),
               ),
-            ),
-            )],
+            )
+          ],
         ),
       ),
     );
@@ -99,23 +89,26 @@ class MyAdsView extends ConsumerWidget {
 
 class SubSubCard extends StatelessWidget {
   const SubSubCard({
-    super.key, required this.onTap, required this.url, required this.description, required this.price, required this.time,
+    super.key,
+    required this.onTap,
+    required this.url,
+    required this.description,
+    required this.price,
+    required this.time,
   });
-final void Function() onTap;
-final String url;
-final String description;
-final String price;
-final String time;
+  final void Function() onTap;
+  final String url;
+  final String description;
+  final String? price;
+  final String time;
   @override
   Widget build(BuildContext context) {
     return Bounceable(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18.r), color: greyCard),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.r), color: greyCard),
         child: Padding(
-          padding:
-              EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
+          padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
           child: Column(
             children: [
               Container(
@@ -123,9 +116,8 @@ final String time;
                 width: 128.r,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image:  DecorationImage(image: NetworkImage(url),fit: BoxFit.fill),
+                    image: DecorationImage(image: NetworkImage(url), fit: BoxFit.fill),
                     border: Border.all(width: 3, color: secondary)),
-                    
               ),
               SizedBox(
                 height: 10.h,
@@ -133,20 +125,14 @@ final String time;
               Text(
                 description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  
-                    color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                style: TextStyle(color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 height: 5.h,
               ),
               Text(
                 '$price₺',
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Poppins Italic'),
+                style: TextStyle(color: secondary, fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: 'Poppins Italic'),
               ),
               SizedBox(
                 height: 5.h,

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -50,13 +52,9 @@ class SubCategoryView extends ConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       category.name,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor: Colors
-                        .transparent, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.transparent, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -68,8 +66,7 @@ class SubCategoryView extends ConsumerWidget {
                   child: Wrap(
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
-                    children:
-                        List.generate(category.subCategories.length, (index) {
+                    children: List.generate(category.subCategories.length, (index) {
                       List<PostModel> postModel = [];
 
                       final subcategory = category.subCategories[index];
@@ -88,26 +85,32 @@ class SubCategoryView extends ConsumerWidget {
                             Expanded(
                               child: Bounceable(
                                 onTap: () {
-                                  context.pushRoute(SubSubCategoryRoute(
-                                      subcategoryModel: subcategory,
-                                      postModel: postModel,
-                                      categoryModel: category
-                                      ));
+                                  context
+                                      .pushRoute(SubSubCategoryRoute(subcategoryModel: subcategory, postModel: postModel, categoryModel: category));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    gradient: LinearGradient(colors: [
-                                      category.primaryColor,
-                                      category.secondaryColor
-                                    ]),
+                                    gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
                                   ),
                                   child: Center(
-                                    child: Image.network(
-                                      subcategory.iconUrl,
+                                    child: CachedNetworkImage(
+                                      imageUrl: subcategory.iconUrl,
+                                      color: Colors.white,
                                       width: 35.w,
                                       height: 35.676.h,
-                                      color: Colors.white,
+                                      progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                                        dimension: 15,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                          value: downloadProgress.progress,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) {
+                                        Log.instance.error(error);
+                                        return const Icon(Icons.error_outline);
+                                      },
                                     ),
                                   ),
                                 ),
@@ -117,10 +120,7 @@ class SubCategoryView extends ConsumerWidget {
                               child: Text(
                                 subcategory.name,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 13.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: black),
+                                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
                               ),
                             )
                           ],

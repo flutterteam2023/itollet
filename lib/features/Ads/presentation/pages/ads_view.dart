@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 
 @RoutePage()
 class AdsView extends ConsumerWidget {
@@ -33,7 +35,7 @@ class AdsView extends ConsumerWidget {
               child: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
                       begin: Alignment.topCenter,
@@ -58,13 +60,9 @@ class AdsView extends ConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       'İLAN SAHİBİ ADI',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor:
-                        Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -77,21 +75,35 @@ class AdsView extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(18.r),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
+                  padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
                   child: Row(
                     children: [
                       Container(
                         height: 128.r,
                         width: 128.r,
-                        decoration:  BoxDecoration(
-                          image: DecorationImage(
-                            
-                            image: NetworkImage(postModel.photoUrl),fit: BoxFit.fill),
-                            border: Border.all(color: categoryModel.primaryColor,width: 2),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: categoryModel.primaryColor, width: 2),
                           shape: BoxShape.circle,
                         ),
-                        
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(999),
+                          child: CachedNetworkImage(
+                            imageUrl: postModel.photoUrl,
+                            fit: BoxFit.fill,
+                            progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                              dimension: 15,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                                value: downloadProgress.progress,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) {
+                              Log.instance.error(error);
+                              return const Icon(Icons.error_outline);
+                            },
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 16.w),
@@ -102,10 +114,7 @@ class AdsView extends ConsumerWidget {
                             children: [
                               AutoSizeText(
                                 postModel.title,
-                                style: TextStyle(
-                                    color: black,
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w500),
+                                style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
                                 maxLines: 2,
                               ),
                               SizedBox(
@@ -113,20 +122,14 @@ class AdsView extends ConsumerWidget {
                               ),
                               Text(
                                 "Bütçe ${postModel.balanceMax}₺",
-                                style: TextStyle(
-                                    color: categoryModel.primaryColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                               ),
                               SizedBox(
                                 height: 10.h,
                               ),
                               Text(
                                 "Kalan Süre: ${postModel.createdAt!.hour}:${postModel.createdAt!.minute}",
-                                style: TextStyle(
-                                    color: categoryModel.primaryColor,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
+                                style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                               )
                             ],
                           ),
@@ -144,21 +147,15 @@ class AdsView extends ConsumerWidget {
               padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
               child: Text(
                 postModel.description,
-                style: TextStyle(
-                    height: 1.7,
-                    color: black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
+                style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
             ),
             ListView.builder(
               shrinkWrap: true,
               itemCount: 2,
               itemBuilder: (context, index) {
-                return  LinkCard(
-                  onTap: () {
-                    
-                  },
+                return LinkCard(
+                  onTap: () {},
                   categoryModel: categoryModel,
                 );
               },
@@ -168,7 +165,7 @@ class AdsView extends ConsumerWidget {
               onTap: () {
                 CustomBottomSheet().AdsModalBottomSheet(context);
               },
-              colors:  [categoryModel.primaryColor, categoryModel.secondaryColor],
+              colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
             ),
             SizedBox(
               height: 11.h,
@@ -179,6 +176,3 @@ class AdsView extends ConsumerWidget {
     );
   }
 }
-
-
-

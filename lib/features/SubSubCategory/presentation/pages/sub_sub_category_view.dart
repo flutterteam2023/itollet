@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -10,6 +11,7 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Categories/models/subcategory/subcategory_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -21,12 +23,11 @@ class SubSubCategoryView extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SubSubCategoryViewState();
 }
+
 class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
-  
   @override
   Widget build(BuildContext context) {
-     final scaffoldKey = GlobalKey<ScaffoldState>();
-    
+    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -40,7 +41,7 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
               child: PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
                 child: Container(
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
                       begin: Alignment.topCenter,
@@ -49,10 +50,11 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                   ),
                   child: AppBar(
                     automaticallyImplyLeading: false,
-                    leading: IconButton(onPressed:() {
-                      context.back();
-                      
-                    }, icon: const Icon(Icons.arrow_back_ios)),
+                    leading: IconButton(
+                        onPressed: () {
+                          context.back();
+                        },
+                        icon: const Icon(Icons.arrow_back_ios)),
                     forceMaterialTransparency: true,
                     surfaceTintColor: Colors.white,
                     foregroundColor: Colors.white,
@@ -61,13 +63,9 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                     centerTitle: true,
                     title: Text(
                       widget.subcategoryModel.name,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor:
-                        Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -79,53 +77,53 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
               height: 700.h,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding:  EdgeInsets.only(left: 12.w,right: 24.w),
+                  padding: EdgeInsets.only(left: 12.w, right: 24.w),
                   child: Wrap(
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
-                  
-                    children:List.generate(widget.postModel.length, (index) {
+                    children: List.generate(widget.postModel.length, (index) {
                       final post = widget.postModel[index];
                       return SizedBox(
-                        width: (MediaQuery.of(context).size.width-36)/2,
-                        child: Padding(
-                          padding:  EdgeInsets.only(left: 12.w,bottom: 22.h),
-                          child:  Bounceable(
-                            onTap: () {
-                              if (post.fromUID== FirebaseAuth.instance.currentUser?.uid) {
-                                context.pushRoute( PostDetailRoute(postModel: post,categoryModel: widget.categoryModel));
-                                
-                              }else{
-                                context.pushRoute( AdsRoute(postModel: post,categoryModel: widget.categoryModel));
-                              }
-                              
-                            },
-                            child: SubSubCard(
-                              title:post.title,
-                              price: post.description,
-                              time: post.createdAt!,
-                              imageUrl: post.photoUrl,
-                              categoryModel:widget.categoryModel,
+                          width: (MediaQuery.of(context).size.width - 36) / 2,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
+                            child: Bounceable(
+                              onTap: () {
+                                if (post.fromUID == FirebaseAuth.instance.currentUser?.uid) {
+                                  context.pushRoute(PostDetailRoute(postModel: post, categoryModel: widget.categoryModel));
+                                } else {
+                                  context.pushRoute(AdsRoute(postModel: post, categoryModel: widget.categoryModel));
+                                }
+                              },
+                              child: SubSubCard(
+                                title: post.title,
+                                price: post.description,
+                                time: post.createdAt!,
+                                imageUrl: post.photoUrl,
+                                categoryModel: widget.categoryModel,
+                              ),
                             ),
-                          ),
-                        ));
-
-                    }
+                          ));
+                    }),
                   ),
                 ),
               ),
-            ),
-            )],
+            )
+          ],
         ),
       ),
     );
   }
-  }
-
+}
 
 class SubSubCard extends StatelessWidget {
   const SubSubCard({
-    super.key, required this.title, required this.price, required this.time, required this.imageUrl, required this.categoryModel,
+    super.key,
+    required this.title,
+    required this.price,
+    required this.time,
+    required this.imageUrl,
+    required this.categoryModel,
   });
   final String title;
   final String price;
@@ -135,41 +133,52 @@ class SubSubCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18.r), color: greyCard),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.r), color: greyCard),
       child: Padding(
-        padding:
-            EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
+        padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
         child: Column(
           children: [
             Container(
               height: 128.r,
               width: 128.r,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(999),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.fill,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                    dimension: 15,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                      value: downloadProgress.progress,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) {
+                    Log.instance.error(error);
+                    return const Icon(Icons.error_outline);
+                  },
+                ),
+              ),
               decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image:  DecorationImage(image: NetworkImage(imageUrl),fit: BoxFit.fill),
-                  border: Border.all(width: 3, color: categoryModel.primaryColor)),
-                  
+                shape: BoxShape.circle,
+                border: Border.all(width: 3, color: categoryModel.primaryColor),
+              ),
             ),
             SizedBox(
               height: 10.h,
             ),
             Text(
               title,
-              style: TextStyle(
-                  color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
-                  textAlign: TextAlign.center,
+              style: TextStyle(color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
             ),
             SizedBox(
               height: 5.h,
             ),
             Text(
               "$price ₺",
-              style: TextStyle(
-                  color: categoryModel.primaryColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Poppins Italic'),
+              style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: 'Poppins Italic'),
             ),
             SizedBox(
               height: 5.h,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,9 +39,18 @@ class ElementEllipse extends StatelessWidget {
                   child: Center(
                     child: Padding(
                       padding: const EdgeInsets.all(15),
-                      child: Image.network(
-                        iconUrl,
+                      child: CachedNetworkImage(
+                        imageUrl: iconUrl,
                         color: Colors.white,
+                        progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                          dimension: 15,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                            value: downloadProgress.progress,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ),

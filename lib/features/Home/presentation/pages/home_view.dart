@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,11 +59,20 @@ class HomeView extends ConsumerWidget {
                               gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
                             ),
                             child: Center(
-                              child: Image.network(
-                                category.iconUrl,
+                              child: CachedNetworkImage(
+                                imageUrl: category.iconUrl,
+                                color: Colors.white,
                                 width: 35.w,
                                 height: 35.676.h,
-                                color: Colors.white,
+                                progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                                  dimension: 15,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                    value: downloadProgress.progress,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Icon(Icons.error),
                               ),
                             ),
                           ),
