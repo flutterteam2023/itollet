@@ -23,6 +23,7 @@ class RegisterView extends HookConsumerWidget {
 
     final state = ref.watch(registerProvider);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         iconTheme: const IconThemeData(color: secondary),
@@ -48,7 +49,6 @@ class RegisterView extends HookConsumerWidget {
                 AppString.registerText,
                 style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),
-             
               SizedBox(height: 18.w),
               CustomerTextfield(
                 passwordOnPressed: () {
@@ -62,7 +62,7 @@ class RegisterView extends HookConsumerWidget {
                 emailController: customerEmailController,
                 passwordController: customerPasswordController,
                 rePasswordController: customerRePasswordController,
-                userNameController:customerUserNameController ,
+                userNameController: customerUserNameController,
               ),
               SizedBox(height: 18.w),
               CustomFilledButton(
@@ -70,13 +70,8 @@ class RegisterView extends HookConsumerWidget {
                 radius: 16.r,
                 text: AppString.registerButtonText,
                 onTap: () {
-                  ref.read(registerProvider.notifier).customerSignUp(
-                        context,
-                        customerEmailController.text.trim(),
-                        customerPasswordController.text,
-                        customerRePasswordController.text,
-                        customerUserNameController.text
-                      );
+                  ref.read(registerProvider.notifier).customerSignUp(context, customerEmailController.text.trim(), customerPasswordController.text,
+                      customerRePasswordController.text, customerUserNameController.text);
                 },
               ),
               SizedBox(height: 18.w),
@@ -117,4 +112,3 @@ class RegisterView extends HookConsumerWidget {
     );
   }
 }
-

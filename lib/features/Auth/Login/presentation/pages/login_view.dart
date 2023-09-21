@@ -1,4 +1,3 @@
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -20,16 +19,16 @@ class LoginView extends StatefulHookConsumerWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginViewState();
 }
+
 class _LoginViewState extends ConsumerState<LoginView> {
-  
   @override
   Widget build(BuildContext context) {
     final emailController = useTextEditingController(text: '');
     final passswordController = useTextEditingController(text: '');
-    final state  = ref.watch(loginProvider);
+    final state = ref.watch(loginProvider);
 
     return WillPopScope(
-      onWillPop:()async=> false,
+      onWillPop: () async => false,
       child: Scaffold(
         body: SingleChildScrollView(
           child: Padding(
@@ -39,30 +38,22 @@ class _LoginViewState extends ConsumerState<LoginView> {
               children: [
                 Text(
                   AppString.welcome,
-                  style: TextStyle(
-                      color: secondary,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -1),
+                  style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600, letterSpacing: -1),
                 ),
                 SizedBox(
                   height: 18.h,
                 ),
                 Text(
                   AppString.loginText,
-                  style: TextStyle(
-                      color: secondary,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400),
+                  style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
                 ),
                 SizedBox(
                   height: 18.h,
                 ),
-                
                 SizedBox(
                   height: 18.23.h,
                 ),
-                 AuthTextField(
+                AuthTextField(
                   controller: emailController,
                   obscureText: false,
                   label: AppString.email,
@@ -76,11 +67,11 @@ class _LoginViewState extends ConsumerState<LoginView> {
                       onPressed: () {
                         ref.read(loginProvider.notifier).visibleControl();
                       },
-                      icon:  Icon(
-                       state.isVisible==false? Icons.visibility_outlined:Icons.visibility_off_outlined,
+                      icon: Icon(
+                        state.isVisible == false ? Icons.visibility_outlined : Icons.visibility_off_outlined,
                         color: secondary,
                       )),
-                  obscureText:state.isVisible,
+                  obscureText: state.isVisible,
                   label: AppString.password,
                 ),
                 SizedBox(
@@ -92,10 +83,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   },
                   child: Text(
                     AppString.forgotPassword,
-                    style: TextStyle(
-                        color: secondary,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600),
+                    style: TextStyle(color: secondary, fontSize: 14.sp, fontWeight: FontWeight.w600),
                   ),
                 ),
                 SizedBox(
@@ -104,9 +92,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                 CustomFilledButton(
                   padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
                   radius: 16.r,
-                  onTap: ()async {
-                    ref.read(loginProvider.notifier).login(context,emailController.text,passswordController.text,ref);
-                    
+                  onTap: () async {
+                    ref.read(loginProvider.notifier).login(context, emailController.text, passswordController.text, ref);
                   },
                   text: AppString.login,
                 ),
@@ -117,25 +104,18 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   child: RichText(
                     text: TextSpan(
                       text: '${AppString.notAccount} ',
-                      style: TextStyle(
-                        fontSize: 14.sp, 
-                        color: secondary,
-                        fontWeight: FontWeight.w400
-                        ),
-                      children:  [
+                      style: TextStyle(fontSize: 14.sp, color: secondary, fontWeight: FontWeight.w400),
+                      children: [
                         TextSpan(
-                          recognizer: TapGestureRecognizer()..onTap =() {
-                            context.pushRoute(const RegisterRoute());
-                          },
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              context.pushRoute(const RegisterRoute());
+                            },
                           text: AppString.registerAccount,
                           style: TextStyle(
-                              color:
-                                  secondary, // Kelimenin rengini burada belirleyebilirsiniz
+                              color: secondary, // Kelimenin rengini burada belirleyebilirsiniz
                               fontSize: 14.sp,
-                              fontWeight: FontWeight.w600
-                
-                              
-                              ),
+                              fontWeight: FontWeight.w600),
                         ),
                       ],
                     ),
@@ -149,4 +129,3 @@ class _LoginViewState extends ConsumerState<LoginView> {
     );
   }
 }
-

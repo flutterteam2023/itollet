@@ -15,6 +15,10 @@ import 'package:itollet/features/PostAdd/postadd_view.dart';
 import 'package:itollet/features/PostDetail/presentation/pages/post_detail_view.dart';
 import 'package:itollet/features/Privacy/presentation/pages/privacy_view.dart';
 import 'package:itollet/features/Profile/presentation/pages/profile_view.dart';
+import 'package:itollet/features/ProfileEdit/presentation/password_change_view.dart';
+import 'package:itollet/features/ProfileEdit/presentation/profile_edit_view.dart';
+import 'package:itollet/features/ProfileEdit/presentation/profile_photo_change_view.dart';
+import 'package:itollet/features/ProfileEdit/presentation/user_name_change_view.dart';
 import 'package:itollet/features/Splash/presentation/pages/easy_splash.dart';
 import 'package:itollet/features/Splash/presentation/pages/splash_view.dart';
 import 'package:itollet/features/SubCategory/presentation/pages/sub_category_view.dart';
@@ -37,23 +41,16 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
         AutoRoute(page: WalletRoute.page),
-        AutoRoute(page: ProfileRoute.page,initial: false),
-        AutoRoute(page: MyAdsRoute.page,initial: false),
-        AutoRoute(page: SubSubCategoryRoute.page,initial: false),
-        AutoRoute(page: AdsRoute.page,initial: false),
-        AutoRoute(page: PrivacyRoute.page,initial: false),
-        AutoRoute(page: HelpRoute.page,initial: false),
-
-
-
-        
-
-
-
-
-
-
-        
+        AutoRoute(page: ProfileRoute.page, initial: false),
+        AutoRoute(page: MyAdsRoute.page, initial: false),
+        AutoRoute(page: SubSubCategoryRoute.page, initial: false),
+        AutoRoute(page: AdsRoute.page, initial: false),
+        AutoRoute(page: PrivacyRoute.page, initial: false),
+        AutoRoute(page: HelpRoute.page, initial: false),
+        AutoRoute(page: ProfileEditRoute.page, initial: false),
         AutoRoute(page: PostAddRoute.page, initial: false),
+        AutoRoute(page: ProfilePhotoChangeRoute.page, initial: false),
+        AutoRoute(page: UserNameChangeRoute.page, initial: false),
+        AutoRoute(page: PasswordChangeRoute.page, initial: false),
       ];
 }

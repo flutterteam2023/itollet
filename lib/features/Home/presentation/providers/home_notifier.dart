@@ -18,31 +18,45 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     return HomeState.initial();
   }
 
+  Future<bool> changeUserName(String newUserName) async {
+    bool isSuccess = false;
+    try {
+      await _auth.currentUser?.updateDisplayName(newUserName);
+      await getUser();
+      UserModel user = state.user;
+      await FirebaseFirestore.instance.collection("users").doc(_auth.currentUser?.uid).update(
+            user.copyWith(userName: newUserName).toJson(),
+          );
+      isSuccess = true;
+    } catch (e) {
+      isSuccess = false;
+    }
+    return isSuccess;
+  }
 
-
-   ///get document function
+  ///get document function
   Future<void> getUser() async {
     final db = FirebaseFirestore.instance;
-    UserModel? user  ;
+    UserModel? user;
     try {
       await db
-          .collection('users').doc(_auth.currentUser?.uid)
+          .collection('users')
+          .doc(_auth.currentUser?.uid)
           .withConverter<UserModel>(
             fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
             toFirestore: (model, _) => model.toJson(),
           )
           .get()
           .then((value) {
-            user = value.data()!;
-                  print("user geldi");
-
-       
+        user = value.data()!;
+        print("user geldi");
       });
     } catch (e) {
       print("users başarısız");
     }
     state = state.copyWith(user: user!);
   }
+
   Future<List<PostModel>> getPosts() async {
     final db = FirebaseFirestore.instance;
     final list = <PostModel>[];
@@ -52,8 +66,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
       await db
           .collection('posts')
           .withConverter<PostModel>(
-            fromFirestore: (snapshot, _) =>
-                PostModel.fromJson(snapshot.data()!),
+            fromFirestore: (snapshot, _) => PostModel.fromJson(snapshot.data()!),
             toFirestore: (model, _) => model.toJson(),
           )
           .get()

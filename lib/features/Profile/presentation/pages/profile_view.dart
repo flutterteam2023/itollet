@@ -1,14 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/common_widgets/element_ellipse.dart';
-import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/constants/profile_icons.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
@@ -37,11 +34,13 @@ class ProfileView extends ConsumerWidget {
                     height: 128.h,
                     width: 127.w,
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                homeState.user.photoUrl ?? 'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
-                            fit: BoxFit.cover)),
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image:
+                            NetworkImage(homeState.user.photoUrl ?? 'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 18.sp,
@@ -68,7 +67,9 @@ class ProfileView extends ConsumerWidget {
                       padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
                       radius: 18.r,
                       text: "PROFİLİ DÜZENLE",
-                      onTap: () {},
+                      onTap: () {
+                        context.pushRoute(const ProfileEditRoute());
+                      },
                     ),
                   ),
                   profileCard(context, scaffoldKey),

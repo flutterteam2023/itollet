@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:developer' as developer;
 
+import 'package:flutter/material.dart';
+import 'package:itollet/iberkeugur/Snackbar/snackbar_extension.dart';
+
 const String reset = "\x1B[0m";
 
 class TextDecorations {
@@ -41,7 +44,7 @@ class Log {
   final colors = TextColors();
   final backgrounds = TextBackgrounds();
   final decorations = TextDecorations();
-  info(String msg, {String? path}) {
+  info(dynamic msg, {String? path}) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
 
@@ -53,7 +56,7 @@ class Log {
     );
   }
 
-  success(String msg) {
+  success(dynamic msg) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
     final name = "SUCCESS Time: $time$reset";
@@ -65,7 +68,7 @@ class Log {
     );
   }
 
-  error(String msg) {
+  error(dynamic msg) {
     final time =
         "${DateTime.now().hour < 10 ? "0${DateTime.now().hour}" : DateTime.now().hour}.${DateTime.now().minute < 10 ? "0${DateTime.now().minute}" : DateTime.now().minute}.${DateTime.now().second < 10 ? "0${DateTime.now().second}" : DateTime.now().second}.${DateTime.now().millisecond < 10 ? "00${DateTime.now().millisecond}" : DateTime.now().millisecond < 100 && DateTime.now().millisecond > 10 ? "0${DateTime.now().millisecond}" : DateTime.now().millisecond}";
     final name = "ERROR - Time: $time$reset";

@@ -44,6 +44,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                 elevation: 0,
                 scrolledUnderElevation: 0,
               ),
+              scaffoldBackgroundColor: Colors.white,
               primaryColor: primary,
               inputDecorationTheme: InputDecorationTheme(
                 contentPadding: const EdgeInsets.symmetric(

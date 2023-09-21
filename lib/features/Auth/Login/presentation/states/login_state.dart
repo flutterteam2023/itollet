@@ -11,14 +11,18 @@ class LoginState with _$LoginState {
       required bool isVisible,
       required bool iscustomer,
       required UserModel user,
-      required LoginModel loginModel
-      }) = _LoginState;
+      required LoginModel loginModel}) = _LoginState;
   factory LoginState.initial() => LoginState(
-        isLoading: false,
-        isVisible: true,
-        iscustomer: true,
-        user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
-        loginModel: const LoginModel(email: '', password: '')
-        
-      );
+      isLoading: false,
+      isVisible: true,
+      iscustomer: true,
+      user: const UserModel(
+        uid: '',
+        userName: '',
+        email: '',
+        createdAt: null,
+        photoUrl: '',
+        balance: null,
+      ),
+      loginModel: const LoginModel(email: '', password: ''));
 }
