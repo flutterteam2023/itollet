@@ -35,23 +35,6 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
           } else {
             context.replaceRoute(const VerificationRoute());
           }
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-              /// need to set following properties for best effect of awesome_snackbar_content
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.white,
-
-              content: AwesomeSnackbarContent(
-                color: secondary,
-                title: ConstantAuthExceptions.successfull,
-                message: ConstantAuthExceptions.signIn,
-
-                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                contentType: ContentType.success,
-              ),
-            ));
         });
       } on FirebaseAuthException catch (e) {
         state = state.copyWith(isLoading: false);
@@ -170,24 +153,22 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
     }
   }
 
-
-   ///get document function
+  ///get document function
   Future<void> getUser() async {
     final db = FirebaseFirestore.instance;
-    UserModel? user  ;
+    UserModel? user;
     try {
       await db
-          .collection('users').doc(_auth.currentUser?.uid)
+          .collection('users')
+          .doc(_auth.currentUser?.uid)
           .withConverter<UserModel>(
             fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
             toFirestore: (model, _) => model.toJson(),
           )
           .get()
           .then((value) {
-            user = value.data()!;
-                  print("user geldi");
-
-       
+        user = value.data()!;
+        print("user geldi");
       });
     } catch (e) {
       print("users başarısız");
