@@ -8,6 +8,7 @@ import 'package:itollet/features/Auth/Verification/presentation/pages/verificati
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Categories/models/subcategory/subcategory_model.dart';
+import 'package:itollet/features/Help/post_proccess_view.dart';
 import 'package:itollet/features/Help/presentation/pages/help_view.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/MyAds/presentation/pages/my_ads_view.dart';
@@ -46,7 +47,15 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SubSubCategoryRoute.page, initial: false),
         AutoRoute(page: AdsRoute.page, initial: false),
         AutoRoute(page: PrivacyRoute.page, initial: false),
-        AutoRoute(page: HelpRoute.page, initial: false),
+        AutoRoute(
+          page: HelpRoute.page,
+          initial: false,
+        ),
+        AutoRoute(
+          page: PostProccessRoute.page,
+          initial: false,
+          fullscreenDialog: true,
+        ),
         AutoRoute(page: ProfileEditRoute.page, initial: false),
         AutoRoute(page: PostAddRoute.page, initial: false),
         AutoRoute(page: ProfilePhotoChangeRoute.page, initial: false),

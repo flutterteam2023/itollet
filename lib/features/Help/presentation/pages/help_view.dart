@@ -7,6 +7,7 @@ import 'package:itollet/common_widgets/element_ellipse.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/constants/profile_icons.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class HelpView extends ConsumerWidget {
@@ -107,7 +108,9 @@ class HelpView extends ConsumerWidget {
             title: 'İLAN SÜREÇLERİ',
             iconUrl: HelpIcons.postProcesses,
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const PostProccessRoute());
+            },
           ),
         ],
       ),
