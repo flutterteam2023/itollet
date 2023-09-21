@@ -9,12 +9,14 @@ class HomeState with _$HomeState {
   factory HomeState(
       {required bool isLoading,
       required List<PostModel> postModels,
+      required List<PostModel> myPostList,
     
       required UserModel user,
       }) = _HomeState;
   factory HomeState.initial() => HomeState(
         isLoading: false,
         postModels: [],
+        myPostList: [],
         user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
         
       );

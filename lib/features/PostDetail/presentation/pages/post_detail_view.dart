@@ -12,6 +12,7 @@ import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
 
 @RoutePage()
 class PostDetailView extends ConsumerWidget {
@@ -154,7 +155,9 @@ class PostDetailView extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: 2,
               itemBuilder: (context, index) {
-                return  LinkCard(categoryModel: categoryModel,);
+                return  LinkCard(categoryModel: categoryModel,onTap: () {
+                  ref.read(postDetailProvider.notifier).launchUrls('https://www.letgo.com/item/bir-kac-kere-kullanildi-herseyi-saglam-aktif-calisiyor-iid-1663062522');
+                },);
               },
             ),
             PostDetailButton(

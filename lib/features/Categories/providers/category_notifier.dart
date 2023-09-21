@@ -18,7 +18,6 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
 
   @override
   CategoryState build() {
-    getCategories();
     return CategoryState.initial();
   }
 

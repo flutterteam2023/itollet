@@ -13,6 +13,8 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
   @override
   HomeState build() {
     getUser();
+       
+
     return HomeState.initial();
   }
 
@@ -44,6 +46,8 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
   Future<List<PostModel>> getPosts() async {
     final db = FirebaseFirestore.instance;
     final list = <PostModel>[];
+    final myList = <PostModel>[];
+
     try {
       await db
           .collection('posts')
@@ -56,12 +60,20 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
           .then((value) {
         for (var doc in value.docs) {
           list.add(doc.data());
+          if (doc.data().fromUID==_auth.currentUser?.uid) {
+            myList.add(doc.data());
+            
+          }
         }
       });
     } catch (e) {
       print(e.toString());
     }
     state = state.copyWith(postModels: list);
+      state = state.copyWith(myPostList: myList);
+
+
     return list;
   }
+  
 }

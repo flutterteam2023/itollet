@@ -6,9 +6,10 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 
 class LinkCard extends StatelessWidget {
   const LinkCard({
-    super.key, required this.categoryModel,
+    super.key, required this.categoryModel, required this.onTap,
   });
   final CategoryModel categoryModel;
+  final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +17,7 @@ class LinkCard extends StatelessWidget {
       padding:
           EdgeInsets.only(left: 16.w, right: 11.w, bottom: 7.h),
       child: Bounceable(
-        onTap: () {
-          
-        },
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
               color: greyCard,

@@ -14,6 +14,8 @@ class PostModel with _$PostModel {
     required String? balanceMax,
     required String description,
     @TimestampSerializer() required DateTime? createdAt,
+    @TimestampSerializer() required DateTime? endDate,
+
   }) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) => _$PostModelFromJson(json);

@@ -7,7 +7,6 @@ import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
-import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class MyAdsView extends ConsumerWidget {
@@ -68,13 +67,22 @@ class MyAdsView extends ConsumerWidget {
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
                   
-                    children:List.generate( state.postModels.length, (index) {
-                     
+                    children:List.generate( state.myPostList.length, (index) {
+                     final myPost = state.myPostList[index];
                       return SizedBox(
                         width: (MediaQuery.of(context).size.width-36)/2,
                         child: Padding(
                           padding:  EdgeInsets.only(left: 12.w,bottom: 22.h),
-                          child: const SubSubCard(),
+                          child:  SubSubCard(
+                            description: myPost.title,
+                            price: myPost.balanceMax,
+                            time: myPost.createdAt!.hour.toString(),
+                            url: myPost.photoUrl,
+                            onTap: () {
+                              
+                            },
+
+                          ),
                         ));
 
                     }
@@ -91,15 +99,17 @@ class MyAdsView extends ConsumerWidget {
 
 class SubSubCard extends StatelessWidget {
   const SubSubCard({
-    super.key,
+    super.key, required this.onTap, required this.url, required this.description, required this.price, required this.time,
   });
-
+final void Function() onTap;
+final String url;
+final String description;
+final String price;
+final String time;
   @override
   Widget build(BuildContext context) {
     return Bounceable(
-      onTap: () {
-        // context.pushRoute(PostDetailRoute());
-      },
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(18.r), color: greyCard),
@@ -113,7 +123,7 @@ class SubSubCard extends StatelessWidget {
                 width: 128.r,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: const DecorationImage(image: AssetImage('assets/images/phone.png'),fit: BoxFit.fill),
+                    image:  DecorationImage(image: NetworkImage(url),fit: BoxFit.fill),
                     border: Border.all(width: 3, color: secondary)),
                     
               ),
@@ -121,15 +131,17 @@ class SubSubCard extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                'IPhone 11 128 gb',
+                description,
+                textAlign: TextAlign.center,
                 style: TextStyle(
+                  
                     color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 height: 5.h,
               ),
               Text(
-                '1.000₺',
+                '$price₺',
                 style: TextStyle(
                     color: secondary,
                     fontSize: 16.sp,
@@ -140,7 +152,7 @@ class SubSubCard extends StatelessWidget {
                 height: 5.h,
               ),
               Text(
-                'Kalan Süre 1:59',
+                'Kalan Süre : $time',
                 style: TextStyle(
                   color: secondary,
                   fontSize: 12.sp,

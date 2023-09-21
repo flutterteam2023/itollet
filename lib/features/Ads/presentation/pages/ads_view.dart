@@ -1,16 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:itollet/common_widgets/ads_edit_textfield.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/common_widgets/link_card.dart';
-import 'package:itollet/common_widgets/offer_balance.dart';
 import 'package:itollet/common_widgets/post_detail_button.dart';
 import 'package:itollet/common_widgets/show_modal_bottom_sheet.dart';
-import 'package:itollet/common_widgets/small_filled_balance.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
@@ -160,6 +156,9 @@ class AdsView extends ConsumerWidget {
               itemCount: 2,
               itemBuilder: (context, index) {
                 return  LinkCard(
+                  onTap: () {
+                    
+                  },
                   categoryModel: categoryModel,
                 );
               },

@@ -454,6 +454,7 @@ class PostAddView extends HookConsumerWidget {
                         await docRef
                             .set(
                           PostModel(
+                            endDate:DateTime.now() ,
                             fromUID: FirebaseAuth.instance.currentUser!.uid,
                             title: tit.text,
                             photoUrl: downloadUrl,
