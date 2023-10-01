@@ -12,6 +12,8 @@ import 'package:itollet/features/Help/post_proccess_view.dart';
 import 'package:itollet/features/Help/presentation/pages/help_view.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/MyAds/presentation/pages/my_ads_view.dart';
+import 'package:itollet/features/Payment/Views/payment_view.dart';
+import 'package:itollet/features/Payment/Views/webview_view.dart';
 import 'package:itollet/features/PostAdd/postadd_view.dart';
 import 'package:itollet/features/PostDetail/presentation/pages/post_detail_view.dart';
 import 'package:itollet/features/Privacy/presentation/pages/privacy_view.dart';
@@ -38,7 +40,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ForgotPasswordRoute.page, initial: false),
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
-        AutoRoute(page: EasySplashRoute.page, initial: true),
+        AutoRoute(page: EasySplashRoute.page, initial: false),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
         AutoRoute(page: WalletRoute.page),
@@ -61,5 +63,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ProfilePhotoChangeRoute.page, initial: false),
         AutoRoute(page: UserNameChangeRoute.page, initial: false),
         AutoRoute(page: PasswordChangeRoute.page, initial: false),
+        AutoRoute(page: PaymentRoute.page, initial: true),
+        AutoRoute(page: WebviewRoute.page, initial: false),
       ];
 }
