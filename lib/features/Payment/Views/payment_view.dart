@@ -14,14 +14,15 @@ class PaymentView extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _PaymentViewState();
 }
+
 class _PaymentViewState extends ConsumerState<PaymentView> {
-    String cardNumber = '';
+  String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
   final formKey = GlobalKey<FormState>();
-  
+
   @override
   Widget build(BuildContext context) {
     final border = OutlineInputBorder(
@@ -111,11 +112,12 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
       ),
     );
   }
-   void _onValidate() {
+
+  void _onValidate() {
     if (formKey.currentState!.validate()) {
       final paymentCardModel = PaymentCardModel(
         cardHolderName: cardHolderName,
-        cardNumber: cardNumber,
+        cardNumber: cardNumber.replaceAll(" ", ""),
         expireMonth: expiryDate.split("/").first,
         expireYear: expiryDate.split("/").last,
         cvc: cvvCode,
@@ -139,8 +141,3 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
     });
   }
 }
-
- 
-
-
-

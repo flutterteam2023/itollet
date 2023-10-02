@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,12 +9,14 @@ import 'package:itollet/routing/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
+  await FirebaseAuth.instance.currentUser?.getIdToken().then((token) {
+    print(token);
+  });
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -74,7 +74,8 @@ class _MyAppState extends ConsumerState<MyApp> {
                   ),
                 ),
               ),
-              colorScheme: ColorScheme.fromSeed(seedColor: primary, secondary: secondary),
+              colorScheme: ColorScheme.fromSeed(
+                  seedColor: primary, secondary: secondary),
               useMaterial3: true,
             ),
           );
