@@ -72,6 +72,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
           .get()
           .then((value) {
         for (var doc in value.docs) {
+         
           list.add(doc.data());
           if (doc.data().fromUID==_auth.currentUser?.uid) {
             myList.add(doc.data());
@@ -88,5 +89,52 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
 
     return list;
   }
+  Future<void> postUrl(String postId,String url)async{
+    final list = <String>[];
+    
+    final db = FirebaseFirestore.instance;
+   await db.collection('posts').doc(postId).get().then((value){
+      for (var e in value.data()!["postUrl"]) {
+        list.add(e);
+      }
+      
+    });
+ 
+    list.add(url);
+    try {
+      await db
+      .collection('posts')
+      .doc(postId)
+      .update({
+        'postUrl':list
+      }); 
+      list.clear();
+    } catch (e) {
+      print(e); 
+    }
+
+  }
+  Stream<List<String>> getPostUrlStream(String postId) async* {
+    
+  final db = FirebaseFirestore.instance;
+  final list = <String>[];
+
+  try {
+    final value = await db
+        .collection('posts')
+        .doc(postId)
+        
+        .get();
+for (var e in value.data()!["postUrl"]!) {
+  list.add(e);
+  
+}
+state =state.copyWith(postUrls: list);
+ 
+  } catch (e) {
+  }
+
+  yield state.postUrls;
+}
   
 }

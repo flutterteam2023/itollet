@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
@@ -17,14 +18,16 @@ import 'package:itollet/features/PostDetail/presentation/providers/post_detail_n
 import 'package:itollet/iberkeugur/Log/log.dart';
 
 @RoutePage()
-class PostDetailView extends ConsumerWidget {
+class PostDetailView extends HookConsumerWidget {
   final PostModel postModel;
   final CategoryModel categoryModel;
   const PostDetailView(this.postModel, this.categoryModel, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-
+ final titleController = useTextEditingController(text: '');
+    final budgetController = useTextEditingController(text: '');
+    final descriptionController = useTextEditingController(text: '');
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
@@ -169,7 +172,7 @@ class PostDetailView extends ConsumerWidget {
             PostDetailButton(
               title: 'Düzenle',
               onTap: () {
-                CustomBottomSheet().ModalBottomSheet(context);
+                CustomBottomSheet().ModalBottomSheet(context,titleController,budgetController,descriptionController);
               },
               colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
             ),

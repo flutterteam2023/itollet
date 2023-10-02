@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/ads_edit_textfield.dart';
 import 'package:itollet/common_widgets/offer_balance.dart';
 import 'package:itollet/common_widgets/small_filled_balance.dart';
 import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Categories/models/category/category_model.dart';
 
 class CustomBottomSheet{
-  void ModalBottomSheet(BuildContext context){
+  void ModalBottomSheet(BuildContext context,TextEditingController titleController,TextEditingController budgetController,TextEditingController descriptionController){
     showModalBottomSheet(
       isScrollControlled: true,
                     enableDrag: true,
@@ -63,6 +65,7 @@ class CustomBottomSheet{
                                 height: 25.h,
                               ),
                               AdsEditTextField(
+                                controller: titleController,
                                 label: 'İlan Başlığı',
                                 onPressed: () {},
                               ),
@@ -70,6 +73,7 @@ class CustomBottomSheet{
                                 height: 17.h,
                               ),
                               AdsEditTextField(
+                                controller:budgetController ,
                                 label: 'Bütçe',
                                 onPressed: () {},
                               ),
@@ -77,6 +81,7 @@ class CustomBottomSheet{
                                 height: 17.h,
                               ),
                               AdsEditTextField(
+                                controller:descriptionController ,
                                 label: 'Açıklama',
                                 onPressed: () {},
                               ),
@@ -112,7 +117,7 @@ class CustomBottomSheet{
                       );
                     });
   }
-  void AdsModalBottomSheet(BuildContext context){
+  void AdsModalBottomSheet(BuildContext context, CategoryModel categoryModel,TextEditingController controller,void Function()? onTap){
     showModalBottomSheet(
                     enableDrag: true,
                     showDragHandle: true,
@@ -144,13 +149,14 @@ class CustomBottomSheet{
                                 SizedBox(
                                   height: 15.h,
                                 ),
-                                const SmaillFilledBalance(),
+                                 SmaillFilledBalance(categoryModel: categoryModel,),
                                 SizedBox(
                                   height: 18.h,
                                 ),
                                 const OfferBalance(),
                                 SizedBox(height: 26.h,),
                                 AdsEditTextField(
+                                  controller:controller ,
                                   label: 'İlan bağlantınız',
                                   onPressed: () {},
                                 ),SizedBox(height: 12.h,),
@@ -165,14 +171,14 @@ class CustomBottomSheet{
                                   height: 55.h,
                                 ),
                                 Bounceable(
-                                  onTap: () {},
+                                  onTap: onTap,
                                   child: Container(
                                     decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(113.r),
-                                        gradient: const LinearGradient(colors: [
-                                          Color(0xffFF533C),
-                                          Color(0xffFF884B)
+                                        gradient:  LinearGradient(colors: [
+                                          categoryModel.primaryColor,
+                                          categoryModel.secondaryColor
                                         ])),
                                     child: Padding(
                                       padding:

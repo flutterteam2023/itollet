@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
@@ -12,16 +13,20 @@ import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 
 @RoutePage()
-class AdsView extends ConsumerWidget {
+class AdsView extends HookConsumerWidget {
   final CategoryModel categoryModel;
   final PostModel postModel;
   const AdsView(this.postModel, this.categoryModel, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final urlController = useTextEditingController(text: '');
+    final homestate = ref.watch(homeProvider);
+    
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -150,20 +155,29 @@ class AdsView extends ConsumerWidget {
                 style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return LinkCard(
-                  onTap: () {},
-                  categoryModel: categoryModel,
+         // ignore: unnecessary_null_comparison
+            StreamBuilder(
+              stream: ref.watch(homeProvider.notifier).getPostUrlStream(postModel.postId!),
+              builder: (context,builder) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  // ignore: unnecessary_null_comparison
+                  itemCount:homestate.postUrls.length,
+                  itemBuilder: (context, index) {
+                    return LinkCard(
+                      onTap: () {},
+                      categoryModel: categoryModel,
+                    );
+                  },
                 );
-              },
+              }
             ),
             PostDetailButton(
               title: 'TEKLİF VER (3.75₺)',
               onTap: () {
-                CustomBottomSheet().AdsModalBottomSheet(context);
+                CustomBottomSheet().AdsModalBottomSheet(context,categoryModel,urlController,(){
+                  ref.read(homeProvider.notifier).postUrl(postModel.postId!, urlController.text);
+                });
               },
               colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
             ),

@@ -10,6 +10,8 @@ class PostModel with _$PostModel {
       {required String? balanceMax,
       required String? balanceMin,
       required String categoryID,
+      required String? postId,
+      required List<String>? postUrl,
       @TimestampSerializer() required DateTime? createdAt,
       required String description,
       required String fromUID,

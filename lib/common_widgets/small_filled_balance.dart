@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:itollet/features/Categories/models/category/category_model.dart';
 
 class SmaillFilledBalance extends StatelessWidget {
+  final CategoryModel categoryModel;
   const SmaillFilledBalance({
-    super.key,
+    super.key, required this.categoryModel,
   });
 
   @override
@@ -11,8 +13,8 @@ class SmaillFilledBalance extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(114.r),
-          gradient: const LinearGradient(
-              colors: [Color(0xffFF533C), Color(0xffFF884B)])),
+          gradient:  LinearGradient(
+              colors: [categoryModel.primaryColor, categoryModel.secondaryColor])),
       child: Padding(
         padding:
             EdgeInsets.only(left: 16.w, right: 17.w, top: 5.h, bottom: 5.h),
