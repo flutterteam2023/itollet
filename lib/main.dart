@@ -11,33 +11,7 @@ import 'package:itollet/routing/app_router.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var headers = {
-  'Content-Type': 'application/json'
-};
-var data = json.encode({
-  "cardHolderName": "Berke Uğur",
-  "cardNumber": "4603450000000000",
-  "expireMonth": "11",
-  "expireYear": "27",
-  "cvc": "123",
-  "registerCard": "0"
-});
-var dio = Dio();
-var response = await dio.request(
-  'https://tame-lime-bison-tam.cyclic.cloud/api/iyzico/pay',
-  options: Options(
-    method: 'POST',
-    headers: headers,
-  ),
-  data: data,
-);
-
-if (response.statusCode == 200) {
-  print('datalarımız:'+json.encode(response.data).toString());
-}
-else {
-  print(response.statusMessage);
-}
+  
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

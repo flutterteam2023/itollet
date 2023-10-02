@@ -3,24 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Payment/Models/payment_card_model.dart';
+import 'package:itollet/features/Payment/providers/payment_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
-class PaymentView extends StatefulWidget {
+class PaymentView extends ConsumerStatefulWidget {
   const PaymentView({super.key});
-
   @override
-  State<PaymentView> createState() => _PaymentViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _PaymentViewState();
 }
-
-class _PaymentViewState extends State<PaymentView> {
-  String cardNumber = '';
+class _PaymentViewState extends ConsumerState<PaymentView> {
+    String cardNumber = '';
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
   bool isCvvFocused = false;
   final formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
     final border = OutlineInputBorder(
@@ -110,17 +111,17 @@ class _PaymentViewState extends State<PaymentView> {
       ),
     );
   }
-
-  void _onValidate() {
+   void _onValidate() {
     if (formKey.currentState!.validate()) {
       final paymentCardModel = PaymentCardModel(
         cardHolderName: cardHolderName,
         cardNumber: cardNumber,
         expireMonth: expiryDate.split("/").first,
-        expireYear: "20${expiryDate.split("/").last}",
+        expireYear: expiryDate.split("/").last,
         cvc: cvvCode,
         registerCard: "0",
       );
+      ref.read(paymentProvider.notifier).payment(paymentCardModel);
       context.pushRoute(WebviewRoute());
       print(paymentCardModel);
     } else {
@@ -138,3 +139,8 @@ class _PaymentViewState extends State<PaymentView> {
     });
   }
 }
+
+ 
+
+
+
