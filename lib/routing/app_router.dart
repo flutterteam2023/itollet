@@ -64,6 +64,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: UserNameChangeRoute.page, initial: false),
         AutoRoute(page: PasswordChangeRoute.page, initial: false),
         AutoRoute(page: PaymentRoute.page, initial: true),
-        AutoRoute(page: WebviewRoute.page, initial: false),
+        AutoRoute(page: WebRoute.page, initial: false),
       ];
 }

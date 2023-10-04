@@ -1,11 +1,17 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/features/InAppPurchase/data/model/Response/response_model.dart';
 import 'package:itollet/features/Payment/Models/payment_card_model.dart';
 
 import 'package:itollet/features/Payment/states/payment_state.dart';
+import 'package:itollet/routing/app_router.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 final paymentProvider =
     NotifierProvider.autoDispose<PaymentNotifier, PaymentState>(
@@ -19,7 +25,7 @@ class PaymentNotifier extends AutoDisposeNotifier<PaymentState> {
     return PaymentState.initial();
   }
 
-  Future<void> payment(PaymentCardModel paymentCardModel) async {
+  Future<void> payment(PaymentCardModel paymentCardModel,BuildContext context) async {
     var headers = {'Content-Type': 'application/json'};
     var data = json.encode({
       "cardHolderName": paymentCardModel.cardHolderName,
@@ -38,11 +44,24 @@ class PaymentNotifier extends AutoDisposeNotifier<PaymentState> {
       ),
       data: data,
     );
+   
+    state = state.copyWith(responseModel: ResponseModel.fromJson(response.data["data"]) );
 
-    if (response.statusCode == 200) {
-      print('datalarımız:' + json.encode(response.data).toString());
+    if (state.responseModel.status=="success") {
+      // print('datalarımız:' + json.encode(response.data["data"]["threeDSHtmlContent"]));
+       String base64Data = base64Encode(utf8.encode(json.encode(state.responseModel.threeDSHtmlContent)));
+           String decodedString = utf8.decode(base64.decode(state.responseModel.threeDSHtmlContent!));
+
+       print(decodedString);
+       state = state.copyWith(html: decodedString);
+       // ignore: use_build_context_synchronously
+       context.pushRoute(WebRoute(html: state.html!));
+
+      
     } else {
       print(response.statusMessage);
+      
     }
   }
+   
 }

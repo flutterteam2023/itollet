@@ -6,11 +6,11 @@ part 'response_model.g.dart';
 @freezed
 class ResponseModel with _$ResponseModel {
   const factory ResponseModel({
-    required String status,
-    required String locale,
-    required int systemTime,
-    required String conversationId,
-    required String threeDSHtmlContent,
+    required String? status,
+    required String? locale,
+    required int? systemTime,
+    required String? conversationId,
+    required String? threeDSHtmlContent,
   }) = _ResponseModel;
 
   factory ResponseModel.fromJson(Map<String, dynamic> json) =>

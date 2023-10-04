@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
@@ -7,6 +9,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Payment/Models/payment_card_model.dart';
 import 'package:itollet/features/Payment/providers/payment_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 @RoutePage()
 class PaymentView extends ConsumerStatefulWidget {
@@ -123,8 +126,8 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
         cvc: cvvCode,
         registerCard: "0",
       );
-      ref.read(paymentProvider.notifier).payment(paymentCardModel);
-      context.pushRoute(WebviewRoute());
+      ref.read(paymentProvider.notifier).payment(paymentCardModel,context);
+      
       print(paymentCardModel);
     } else {
       print('invalid!');
@@ -140,4 +143,6 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
       isCvvFocused = creditCardModel.isCvvFocused;
     });
   }
+
+ 
 }
