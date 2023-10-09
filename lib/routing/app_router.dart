@@ -26,7 +26,11 @@ import 'package:itollet/features/Splash/presentation/pages/easy_splash.dart';
 import 'package:itollet/features/Splash/presentation/pages/splash_view.dart';
 import 'package:itollet/features/SubCategory/presentation/pages/sub_category_view.dart';
 import 'package:itollet/features/SubSubCategory/presentation/pages/sub_sub_category_view.dart';
+import 'package:itollet/features/Wallet/presentation/pages/balance_activities_view.dart';
+import 'package:itollet/features/Wallet/presentation/pages/balance_view.dart';
 import 'package:itollet/features/Wallet/presentation/pages/wallet_view.dart';
+
+import '../features/Wallet/presentation/pages/add_balance_view.dart';
 
 part 'app_router.gr.dart';
 
@@ -40,10 +44,31 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ForgotPasswordRoute.page, initial: false),
         AutoRoute(page: HomeRoute.page, initial: false),
         AutoRoute(page: SplashRoute.page, initial: false),
-        AutoRoute(page: EasySplashRoute.page, initial: false),
+        AutoRoute(page: EasySplashRoute.page, initial: true),
         AutoRoute(page: SubCategoryRoute.page, initial: false),
         AutoRoute(page: PostDetailRoute.page, initial: false),
-        AutoRoute(page: WalletRoute.page),
+        //Wallet Screens
+        AutoRoute(
+          page: WalletRoute.page,
+          initial: false,
+        ),
+        AutoRoute(
+          page: AddBalanceRoute.page,
+          initial: false,
+          fullscreenDialog: true,
+        ),
+        AutoRoute(
+          page: BalanceRoute.page,
+          initial: false,
+          fullscreenDialog: true,
+        ),
+        AutoRoute(
+          page: BalanceActivitiesRoute.page,
+          initial: false,
+          fullscreenDialog: true,
+        ),
+        //!SECTION
+
         AutoRoute(page: ProfileRoute.page, initial: false),
         AutoRoute(page: MyAdsRoute.page, initial: false),
         AutoRoute(page: SubSubCategoryRoute.page, initial: false),
@@ -63,7 +88,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: ProfilePhotoChangeRoute.page, initial: false),
         AutoRoute(page: UserNameChangeRoute.page, initial: false),
         AutoRoute(page: PasswordChangeRoute.page, initial: false),
-        AutoRoute(page: PaymentRoute.page, initial: true),
+        AutoRoute(page: PaymentRoute.page, initial: false),
         AutoRoute(page: WebRoute.page, initial: false),
       ];
 }

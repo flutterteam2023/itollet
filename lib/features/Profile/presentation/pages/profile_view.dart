@@ -29,16 +29,21 @@ class ProfileView extends ConsumerWidget {
             padding: EdgeInsets.only(top: 31.h),
             child: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 128.h,
-                    width: 127.w,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image:
-                            NetworkImage(homeState.user.photoUrl ?? 'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
-                        fit: BoxFit.cover,
+                  CircleAvatar(
+                    radius: 64.h,
+                    child: Container(
+                      height: 64.h,
+                      width: 64.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(homeState.user.photoUrl ??
+                              'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -47,6 +52,7 @@ class ProfileView extends ConsumerWidget {
                   ),
                   Text(
                     homeState.user.userName!,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w500,
@@ -55,14 +61,16 @@ class ProfileView extends ConsumerWidget {
                   ),
                   Text(
                     homeState.user.email!,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       color: black02,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 132.w, right: 117.w, top: 15.h, bottom: 43.h),
+                  const SizedBox(height: 9),
+                  SizedBox(
+                    width: 180.w,
                     child: CustomFilledButton(
                       padding: EdgeInsets.only(top: 12.h, bottom: 12.h),
                       radius: 18.r,
@@ -82,7 +90,8 @@ class ProfileView extends ConsumerWidget {
     );
   }
 
-  Padding profileCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+  Padding profileCard(
+      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(

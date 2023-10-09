@@ -7,6 +7,7 @@ import 'package:itollet/common_widgets/element_ellipse.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/constants/profile_icons.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class WalletView extends ConsumerWidget {
@@ -32,7 +33,7 @@ class WalletView extends ConsumerWidget {
                     automaticallyImplyLeading: false,
                     leading: IconButton(
                         onPressed: () {
-                          context.back();
+                          context.popRoute();
                         },
                         icon: const Icon(Icons.arrow_back_ios)),
                     forceMaterialTransparency: true,
@@ -43,9 +44,13 @@ class WalletView extends ConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       'CÜZDANIM',
-                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor:
+                        Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -66,7 +71,8 @@ class WalletView extends ConsumerWidget {
     );
   }
 
-  Padding walletCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+  Padding walletCard(
+      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(
@@ -77,19 +83,25 @@ class WalletView extends ConsumerWidget {
             title: 'BAKİYE',
             iconUrl: WalletIcons.balance,
             colors: const [Color(0xffFF553D), Color(0xffFF864B)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const BalanceRoute());
+            },
           ),
           ElementEllipse(
             title: 'BAKİYE\nYÜKLE',
             iconUrl: WalletIcons.addBalance,
             colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const AddBalanceRoute());
+            },
           ),
           ElementEllipse(
             title: 'HESAP HAREKETLERİ',
             iconUrl: WalletIcons.accountActivities,
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const BalanceActivitiesRoute());
+            },
           ),
         ],
       ),
