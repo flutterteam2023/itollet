@@ -6,10 +6,11 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 
 class LinkCard extends StatelessWidget {
   const LinkCard({
-    super.key, required this.categoryModel, required this.onTap,
+    super.key, required this.categoryModel, required this.onTap, required this.url,
   });
   final CategoryModel categoryModel;
   final void Function() onTap;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +41,15 @@ class LinkCard extends StatelessWidget {
                     SizedBox(
                       width: 7.w,
                     ),
-                    Text(
-                      "https://www.letgo.com/item/ps-4-pro-2-tb-hafiz...",
-                      style: TextStyle(
-                          color:  categoryModel.primaryColor,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w400),
+                    SizedBox(
+                      width: 250.w,
+                      child: Text(
+                       url,
+                        style: TextStyle(
+                            color:  categoryModel.primaryColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                   ],
                 ),

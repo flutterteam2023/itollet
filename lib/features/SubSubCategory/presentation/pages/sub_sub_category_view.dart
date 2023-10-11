@@ -32,84 +32,86 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
-      body: Padding(
-        padding: EdgeInsets.only(top: 24.h),
-        child: Column(
-          children: [
-            PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: PreferredSize(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(top: 24.h),
+          child: Column(
+            children: [
+              PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                child: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                     ),
-                  ),
-                  child: AppBar(
-                    automaticallyImplyLeading: false,
-                    leading: IconButton(
-                        onPressed: () {
-                          context.back();
-                        },
-                        icon: const Icon(Icons.arrow_back_ios)),
-                    forceMaterialTransparency: true,
-                    surfaceTintColor: Colors.white,
-                    foregroundColor: Colors.white,
-                    shadowColor: Colors.white,
-                    iconTheme: const IconThemeData(color: Colors.white),
-                    centerTitle: true,
-                    title: Text(
-                      widget.subcategoryModel.name,
-                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                    child: AppBar(
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          onPressed: () {
+                            context.back();
+                          },
+                          icon: const Icon(Icons.arrow_back_ios)),
+                      forceMaterialTransparency: true,
+                      surfaceTintColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      shadowColor: Colors.white,
+                      iconTheme: const IconThemeData(color: Colors.white),
+                      centerTitle: true,
+                      title: Text(
+                        widget.subcategoryModel.name,
+                        style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                      ),
+                      backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                     ),
-                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 26.h,
-            ),
-            SizedBox(
-              height: 700.h,
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.w, right: 24.w),
-                  child: Wrap(
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    children: List.generate(widget.postModel.length, (index) {
-                      final post = widget.postModel[index];
-                      return SizedBox(
-                          width: (MediaQuery.of(context).size.width - 36) / 2,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
-                            child: Bounceable(
-                              onTap: () {
-                                if (post.fromUID == FirebaseAuth.instance.currentUser?.uid) {
-                                  context.pushRoute(PostDetailRoute(postModel: post, categoryModel: widget.categoryModel));
-                                } else {
-                                  context.pushRoute(AdsRoute(postModel: post, categoryModel: widget.categoryModel));
-                                }
-                              },
-                              child: SubSubCard(
-                                title: post.title,
-                                price: post.description,
-                                time: post.createdAt!,
-                                imageUrl: post.photoUrl,
-                                categoryModel: widget.categoryModel,
+              SizedBox(
+                height: 26.h,
+              ),
+              SizedBox(
+                height: 700.h,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 12.w, right: 24.w),
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      crossAxisAlignment: WrapCrossAlignment.start,
+                      children: List.generate(widget.postModel.length, (index) {
+                        final post = widget.postModel[index];
+                        return SizedBox(
+                            width: (MediaQuery.of(context).size.width - 36) / 2,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
+                              child: Bounceable(
+                                onTap: () {
+                                  if (post.fromUID == FirebaseAuth.instance.currentUser?.uid) {
+                                    context.pushRoute(PostDetailRoute(postModel: post, categoryModel: widget.categoryModel));
+                                  } else {
+                                    context.pushRoute(AdsRoute(postModel: post, categoryModel: widget.categoryModel));
+                                  }
+                                },
+                                child: SubSubCard(
+                                  title: post.title,
+                                  price: post.description,
+                                  time: post.createdAt!,
+                                  imageUrl: post.photoUrl,
+                                  categoryModel: widget.categoryModel,
+                                ),
                               ),
-                            ),
-                          ));
-                    }),
+                            ));
+                      }),
+                    ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -141,6 +143,7 @@ class SubSubCard extends StatelessWidget {
             Container(
               height: 128.r,
               width: 128.r,
+              // ignore: sort_child_properties_last
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(999),
                 child: CachedNetworkImage(

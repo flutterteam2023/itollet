@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 
 @RoutePage()
-class AddBalanceView extends StatelessWidget {
+class AddBalanceView extends ConsumerWidget {
   const AddBalanceView({super.key});
-
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeProvider);
+   return Scaffold(
       appBar: AppBar(
         title: const Text("Bakiye Yükle"),
       ),
@@ -37,7 +39,7 @@ class AddBalanceView extends StatelessWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Bounceable(
-                    onTap: () {},
+                    onTap: () {ref.read(homeProvider.notifier).addBalance(50.00);},
                     child: CircleAvatar(
                       radius: 64,
                       backgroundColor: Colors.purple.withOpacity(.6),
@@ -70,7 +72,7 @@ class AddBalanceView extends StatelessWidget {
                     ),
                   ),
                   Bounceable(
-                    onTap: () {},
+                    onTap: () {ref.read(homeProvider.notifier).addBalance(100.00);},
                     child: CircleAvatar(
                       radius: 64,
                       backgroundColor: Colors.purple.withOpacity(.8),
@@ -103,7 +105,7 @@ class AddBalanceView extends StatelessWidget {
                     ),
                   ),
                   Bounceable(
-                    onTap: () {},
+                    onTap: () {ref.read(homeProvider.notifier).addBalance(200.00);},
                     child: CircleAvatar(
                       radius: 64,
                       backgroundColor: Colors.purple.withOpacity(1),

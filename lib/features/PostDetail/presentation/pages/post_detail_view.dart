@@ -160,6 +160,7 @@ class PostDetailView extends HookConsumerWidget {
               itemCount: 2,
               itemBuilder: (context, index) {
                 return LinkCard(
+                  url: '',
                   categoryModel: categoryModel,
                   onTap: () {
                     ref

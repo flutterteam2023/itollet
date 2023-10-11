@@ -149,7 +149,7 @@ class CustomBottomSheet{
                                 SizedBox(
                                   height: 15.h,
                                 ),
-                                 SmaillFilledBalance(categoryModel: categoryModel,),
+                                 SmaillFilledBalance(categoryModel,),
                                 SizedBox(
                                   height: 18.h,
                                 ),

@@ -27,7 +27,9 @@ class PaymentState with _$PaymentState {
         controller: WebViewController(),
         postUrls: [],
         responseModel: const ResponseModel(status: "", locale: "", systemTime: null, conversationId:"", threeDSHtmlContent: ""),
-        user: const UserModel(uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
+        user: const UserModel(
+          totalBilling: null,
+          uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
         
       );
 }

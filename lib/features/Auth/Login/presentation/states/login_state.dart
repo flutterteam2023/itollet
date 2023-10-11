@@ -17,6 +17,7 @@ class LoginState with _$LoginState {
       isVisible: true,
       iscustomer: true,
       user: const UserModel(
+        totalBilling: null,
         uid: '',
         userName: '',
         email: '',

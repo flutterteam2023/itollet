@@ -94,9 +94,13 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     
     final db = FirebaseFirestore.instance;
    await db.collection('posts').doc(postId).get().then((value){
-      for (var e in value.data()!["postUrl"]) {
+    if (value.data()!["postUrl"]!=null) {
+       for (var e in value.data()!["postUrl"]) {
         list.add(e);
       }
+      
+    }
+     
       
     });
  
@@ -136,5 +140,44 @@ state =state.copyWith(postUrls: list);
 
   yield state.postUrls;
 }
-  
+Future<void> addBalance(double balance)async{
+  if (state.streamUser.balance!=null) {
+     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
+    
+    'balance':state.streamUser.balance! + balance
+  });
+  }else{
+     await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
+    
+    'balance':state.streamUser.balance??0 + balance
+  });
+  }
+ 
+
+}
+   Stream<UserModel> getStreamUser() async* {
+  final db = FirebaseFirestore.instance;
+
+  try {
+    final value = await db
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser?.uid)
+        .get();
+
+    if (value.exists) {
+      // value.data() artık Generic tipi içine alınarak kullanılmalıdır
+      final userData = value.data() as Map<String, dynamic>;
+
+      // UserModel sınıfını oluşturduğunuzu varsayalım ve bu veriyi kullanarak nesne oluşturun
+      final userModel = UserModel.fromJson(userData);
+
+      // State'i güncelle
+      state = state.copyWith(streamUser: userModel);
+    }
+  } catch (e) {
+    // Hata durumunda bir şeyler yapabilirsiniz
+  }
+
+  yield state.streamUser;
+}
 }

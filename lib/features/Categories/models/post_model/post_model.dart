@@ -15,6 +15,7 @@ class PostModel with _$PostModel {
       @TimestampSerializer() required DateTime? createdAt,
       required String description,
       required String fromUID,
+      required List<String>? feedUrls,
       required String photoUrl,
       required String title}) = _PostModel;
 

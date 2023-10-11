@@ -14,6 +14,8 @@ class UserModel with _$UserModel {
     required String? userName,
     required String? email,
     required double? balance,
+    required double? totalBilling,
+
     @TimestampSerializer() required DateTime? createdAt,
     required String? photoUrl,
   }) = _UserModel;

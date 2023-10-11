@@ -45,4 +45,20 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
     state = state.copyWith(categories: list);
     return list;
   }
+  Future<void> setAdsUrls(String url,String postId)async{
+    final urls = <String>[];
+    await FirebaseFirestore.instance.collection('posts').doc(postId).get().then((value) {
+      for (var element in value.data()![urls]) {
+        urls.add(element);
+        
+      }
+      urls.add(url);
+      FirebaseFirestore.instance.collection('posts').doc(postId).update({
+        'feedUrls':url
+      });
+      
+    });
+
+
+  }
 }

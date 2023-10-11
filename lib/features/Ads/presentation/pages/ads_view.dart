@@ -14,6 +14,7 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
+import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 
 @RoutePage()
@@ -164,9 +165,15 @@ class AdsView extends HookConsumerWidget {
                   // ignore: unnecessary_null_comparison
                   itemCount:homestate.postUrls.length,
                   itemBuilder: (context, index) {
+                    final url = homestate.postUrls[index];
                     return LinkCard(
-                      onTap: () {},
+                      onTap: () {
+                         ref
+                        .read(postDetailProvider.notifier)
+                        .launchUrls(url);
+                      },
                       categoryModel: categoryModel,
+                      url: url,
                     );
                   },
                 );
