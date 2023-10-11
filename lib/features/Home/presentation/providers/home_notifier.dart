@@ -1,9 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Home/presentation/states/home_state.dart';
+import 'package:itollet/iberkeugur/Snackbar/snackbar_extension.dart';
 
 final homeProvider = NotifierProvider.autoDispose<HomeNotifier, HomeState>(HomeNotifier.new);
 
@@ -89,8 +93,9 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
 
     return list;
   }
-  Future<void> postUrl(String postId,String url)async{
-    final list = <String>[];
+  Future<void> postUrl(String postId,String url,BuildContext context)async{
+    if (state.streamUser.balance!=0 || state.streamUser.balance!<0) {
+       final list = <String>[];
     
     final db = FirebaseFirestore.instance;
    await db.collection('posts').doc(postId).get().then((value){
@@ -116,6 +121,15 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     } catch (e) {
       print(e); 
     }
+      
+    }else{
+      context.popRoute();
+      context.snackbar('Lütfen Bakiye Yükleyin!',backgroundColor: Colors.pink,contentStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 15.sp
+      ));
+    }
+   
 
   }
   Stream<List<String>> getPostUrlStream(String postId) async* {

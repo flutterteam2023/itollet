@@ -111,33 +111,35 @@ class AdsView extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: SizedBox(
-                          width: 214.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText(
-                                postModel.title,
-                                style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
-                                maxLines: 2,
-                              ),
-                              SizedBox(
-                                height: 14.h,
-                              ),
-                              Text(
-                                "Bütçe ${postModel.balanceMax}₺",
-                                style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Text(
-                                "Kalan Süre: ${postModel.createdAt!.hour}:${postModel.createdAt!.minute}",
-                                style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
-                              )
-                            ],
+                      SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: SizedBox(
+                            width: 214.w,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(
+                                  postModel.title,
+                                  style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                                  maxLines: 2,
+                                ),
+                                SizedBox(
+                                  height: 14.h,
+                                ),
+                                Text(
+                                  "Bütçe ${postModel.balanceMax}₺",
+                                  style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Text(
+                                  "Kalan Süre: ${postModel.createdAt!.hour}:${postModel.createdAt!.minute}",
+                                  style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       )
@@ -160,22 +162,25 @@ class AdsView extends HookConsumerWidget {
             StreamBuilder(
               stream: ref.watch(homeProvider.notifier).getPostUrlStream(postModel.postId!),
               builder: (context,builder) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  // ignore: unnecessary_null_comparison
-                  itemCount:homestate.postUrls.length,
-                  itemBuilder: (context, index) {
-                    final url = homestate.postUrls[index];
-                    return LinkCard(
-                      onTap: () {
-                         ref
-                        .read(postDetailProvider.notifier)
-                        .launchUrls(url);
-                      },
-                      categoryModel: categoryModel,
-                      url: url,
-                    );
-                  },
+                return SizedBox(
+                  height: 380.h,
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    // ignore: unnecessary_null_comparison
+                    itemCount:homestate.postUrls.length,
+                    itemBuilder: (context, index) {
+                      final url = homestate.postUrls[index];
+                      return LinkCard(
+                        onTap: () {
+                           ref
+                          .read(postDetailProvider.notifier)
+                          .launchUrls(url);
+                        },
+                        categoryModel: categoryModel,
+                        url: url,
+                      );
+                    },
+                  ),
                 );
               }
             ),
@@ -183,7 +188,7 @@ class AdsView extends HookConsumerWidget {
               title: 'TEKLİF VER (3.75₺)',
               onTap: () {
                 CustomBottomSheet().AdsModalBottomSheet(context,categoryModel,urlController,(){
-                  ref.read(homeProvider.notifier).postUrl(postModel.postId!, urlController.text);
+                  ref.read(homeProvider.notifier).postUrl(postModel.postId!, urlController.text,context);
                 });
               },
               colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
