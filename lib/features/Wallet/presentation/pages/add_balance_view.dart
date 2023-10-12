@@ -39,7 +39,7 @@ class AddBalanceView extends ConsumerWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Bounceable(
-                    onTap: () {ref.read(homeProvider.notifier).addBalance(50.00);},
+                    onTap: () {ref.read(homeProvider.notifier).addBalance(50.00,context);},
                     child: CircleAvatar(
                       radius: 64,
                       backgroundColor: Colors.purple.withOpacity(.6),
@@ -72,7 +72,7 @@ class AddBalanceView extends ConsumerWidget {
                     ),
                   ),
                   Bounceable(
-                    onTap: () {ref.read(homeProvider.notifier).addBalance(100.00);},
+                    onTap: () {ref.read(homeProvider.notifier).addBalance(100.00,context);},
                     child: CircleAvatar(
                       radius: 64,
                       backgroundColor: Colors.purple.withOpacity(.8),
@@ -105,7 +105,7 @@ class AddBalanceView extends ConsumerWidget {
                     ),
                   ),
                   Bounceable(
-                    onTap: () {ref.read(homeProvider.notifier).addBalance(200.00);},
+                    onTap: () {ref.read(homeProvider.notifier).addBalance(200.00,context);},
                     child: CircleAvatar(
                       radius: 64,
                       backgroundColor: Colors.purple.withOpacity(1),

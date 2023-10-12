@@ -53,9 +53,9 @@ class MyAdsView extends ConsumerWidget {
             SizedBox(
               height: 26.h,
             ),
-            SizedBox(
-              height: 700.h,
-              child: SingleChildScrollView(
+            SingleChildScrollView(
+              child: SizedBox(
+                height: 600.h,
                 child: Padding(
                   padding: EdgeInsets.only(left: 12.w, right: 24.w),
                   child: Wrap(

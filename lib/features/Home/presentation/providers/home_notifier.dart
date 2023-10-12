@@ -107,6 +107,10 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     }
      
       
+    }).then((value) {
+      db.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
+        'balance':state.streamUser.balance! - 3.75
+      });
     });
  
     list.add(url);
@@ -116,6 +120,12 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
       .doc(postId)
       .update({
         'postUrl':list
+      }).then((value) {
+        context.popRoute();
+      context.snackbar('Teklif Verild!',backgroundColor: Colors.pink,contentStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 15.sp
+      ));
       }); 
       list.clear();
     } catch (e) {
@@ -154,16 +164,26 @@ state =state.copyWith(postUrls: list);
 
   yield state.postUrls;
 }
-Future<void> addBalance(double balance)async{
+Future<void> addBalance(double balance,BuildContext context)async{
   if (state.streamUser.balance!=null) {
      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
     
     'balance':state.streamUser.balance! + balance
+  }).then((value){
+    context.snackbar('Bakiye Yüklendi!',backgroundColor: Colors.pink,contentStyle: TextStyle(
+      color: Colors.white,
+      fontSize: 15.sp
+    ));
   });
   }else{
      await FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).update({
     
     'balance':state.streamUser.balance??0 + balance
+  }).then((value) {
+    context.snackbar('Bakiye Yüklendi!',backgroundColor: Colors.pink,contentStyle: TextStyle(
+      color: Colors.white,
+      fontSize: 15.sp
+    ));
   });
   }
  
