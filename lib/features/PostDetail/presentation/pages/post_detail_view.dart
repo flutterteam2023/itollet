@@ -14,6 +14,7 @@ import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 
@@ -24,6 +25,7 @@ class PostDetailView extends HookConsumerWidget {
   const PostDetailView(this.postModel, this.categoryModel, {super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
  final titleController = useTextEditingController(text: '');
     final budgetController = useTextEditingController(text: '');
@@ -155,20 +157,36 @@ class PostDetailView extends HookConsumerWidget {
                 style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
             ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return LinkCard(
-                  url: '',
-                  categoryModel: categoryModel,
-                  onTap: () {
-                    ref
-                        .read(postDetailProvider.notifier)
-                        .launchUrls('https://www.letgo.com/item/bir-kac-kere-kullanildi-herseyi-saglam-aktif-calisiyor-iid-1663062522');
-                  },
-                );
-              },
+            StreamBuilder<List<String>>(
+              stream: ref.watch(homeProvider.notifier).getPostUrlsStream(postModel.postId!),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Data gelmedi');
+                  
+                }if (snapshot.hasData) {
+                  List<String> urls = snapshot.data ?? [];
+                  return SizedBox(
+                    height: 300.h,
+                    child: ListView.builder(
+                    itemCount: urls.length,
+                    itemBuilder: (context, index) {
+                      return LinkCard(
+                        url: urls[index],
+                        categoryModel: categoryModel,
+                        onTap: () {
+                          ref
+                              .read(postDetailProvider.notifier)
+                              .launchUrls(urls[index]);
+                        },
+                      );
+                    },
+                                  ),
+                  );
+                  
+                }
+                return SizedBox.shrink();
+                
+              }
             ),
             PostDetailButton(
               title: 'Düzenle',

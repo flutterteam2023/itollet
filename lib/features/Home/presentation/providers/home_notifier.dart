@@ -189,6 +189,7 @@ Future<void> addBalance(double balance,BuildContext context)async{
  
 
 }
+
    Stream<UserModel> getStreamUser() async* {
   final db = FirebaseFirestore.instance;
 
@@ -214,4 +215,15 @@ Future<void> addBalance(double balance,BuildContext context)async{
 
   yield state.streamUser;
 }
+Stream<List<String>> getPostUrlsStream(String documentId) {
+    // Firestore bağlantısı
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    // Belirli bir dokümanı referans al ve 'postUrl' alanındaki değişiklikleri dinle
+    return firestore.collection('posts').doc(documentId).snapshots().map((snapshot) {
+      // Doküman varsa, 'postUrl' alanındaki verileri List<String> türüne dönüştür
+      List<dynamic> urlList = snapshot.data()?['postUrl'] ?? [];
+      return urlList.map((url) => url.toString()).toList();
+    });
+  }
 }

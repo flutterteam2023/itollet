@@ -13,11 +13,13 @@ class HomeState with _$HomeState {
     required List<String> postUrls,
       required UserModel user,
       required UserModel streamUser,
+      required List<String> streamUrls,
 
       }) = _HomeState;
   factory HomeState.initial() => HomeState(
         isLoading: false,
         postModels: [],
+        streamUrls: [],
         myPostList: [],
         postUrls: [],
         streamUser: const UserModel(

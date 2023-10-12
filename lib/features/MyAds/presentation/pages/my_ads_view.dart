@@ -9,10 +9,22 @@ import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 
 @RoutePage()
-class MyAdsView extends ConsumerWidget {
+class MyAdsView extends ConsumerStatefulWidget {
   const MyAdsView({super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAdsViewState();
+}
+
+class _MyAdsViewState extends ConsumerState<MyAdsView> {
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0),(){
+      ref.watch(homeProvider.notifier).getPosts();
+    });
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
     return Scaffold(
