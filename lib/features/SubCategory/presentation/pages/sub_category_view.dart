@@ -68,14 +68,17 @@ class SubCategoryView extends ConsumerWidget {
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children: List.generate(category.subCategories.length, (index) {
                       List<PostModel> postModel = [];
+                      
 
                       final subcategory = category.subCategories[index];
                       for (var e in state.postModels) {
-                        if (subcategory.id == e.categoryID) {
+                        final subcategorys = category.subCategories[index];
+
+                        if (subcategorys.id == e.categoryID) {
                           postModel.add(e);
                         }
                       }
-                      return postModel.length!=0?  SizedBox(
+                      return postModel.isNotEmpty?  SizedBox(
                         width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
                         height: 128,
                         child: Column(

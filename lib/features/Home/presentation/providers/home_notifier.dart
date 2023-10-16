@@ -103,6 +103,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
   Stream<List<PostModel>> getStreamPosts() {
   final db = FirebaseFirestore.instance;
   
+  
   // Firestore'dan gelen verileri akış halinde dinlemek için kullanılır.
   return db
       .collection('posts')
@@ -116,12 +117,22 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
         final List<PostModel> list = [];
         final List<PostModel> myList = [];
         
+        
         for (var doc in querySnapshot.docs) {
-          final post = doc.data()!;
+          DateTime suan = DateTime.now();
+    DateTime ilanBitisTarihi = doc.data().createdAt!.add(Duration(hours: 24));
+
+    Duration kalanSure = ilanBitisTarihi.difference(suan);
+    int kalanSaat = kalanSure.inHours;
+    int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
+          if (kalanSaat>=0) {
+             final post = doc.data();
           list.add(post);
           if (post.fromUID == _auth.currentUser?.uid) {
             myList.add(post);
           }
+          }
+         
         }
         
         // Akışa PostModel listesini ekler.

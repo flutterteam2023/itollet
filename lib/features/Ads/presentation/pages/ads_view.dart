@@ -38,12 +38,12 @@ class _AdsViewState extends ConsumerState<AdsView> {
     final descriptionController = useTextEditingController(text: '');
     DateTime suan = DateTime.now();
     DateTime ilanBitisTarihi =
-        widget.postModel.createdAt!.add(Duration(hours: 48));
+        widget.postModel.createdAt!.add(Duration(hours: 24));
     Duration kalanSure = ilanBitisTarihi.difference(suan);
     
     void _updateTimer(Timer timer) {
     DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 48));
+    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
     setState(() {
       kalanSure = ilanBitisTarihi.difference(suan);
     });
@@ -172,7 +172,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   height: 10.h,
                                 ),
                                 Text(
-                                  "Kalan Süre: ${kalanSaat}:${kalanDakika}",
+                                  "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
                                   style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                 )
                               ],

@@ -96,7 +96,7 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                         final post = widget.postModel[index];
                         DateTime suan = DateTime.now();
                         DateTime ilanBitisTarihi =
-                            post.createdAt!.add(const Duration(hours: 48));
+                            post.createdAt!.add(const Duration(hours: 24));
                         Duration kalanSure = ilanBitisTarihi.difference(suan);
                         int kalanSaat = kalanSure.inHours;
                         int kalanDakika =
@@ -228,7 +228,7 @@ class SubSubCard extends StatelessWidget {
               height: 5.h,
             ),
             Text(
-              'Kalan Süre: $kalanSaat:$kalanDakika',
+              "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
               style: TextStyle(
                 color: categoryModel.primaryColor,
                 fontSize: 12.sp,
