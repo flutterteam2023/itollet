@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Account/Models/account_transaction_model.dart';
 import 'package:itollet/features/Account/Services/account_transaction_service.dart';
+import 'package:itollet/features/Account/Services/user_service.dart';
 import 'package:itollet/features/Account/Utils/account_transaction_type_enum.dart';
 import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
@@ -144,6 +145,8 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
             type: AccountTransactionTypes.biddingFee,
           ),
         );
+
+        await UserService().updateTotalBiddingFee(3.75);
       } catch (e) {
         Log.instance.error(
             "AccountTransactionService create failed in home_notifier.dart");
@@ -196,13 +199,20 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
       }
       //hesap hareketlerini kayıt etme
 
-      await AccountTransactionService().create(AccountTransactionModel(
-        amount: "+$balance ₺",
-        fromUid: (FirebaseAuth.instance.currentUser?.uid).toString(),
-        createdAt: Timestamp.now().toDate(),
-        docId: "",
-        type: AccountTransactionTypes.addBalance,
-      ));
+      try {
+        await AccountTransactionService().create(AccountTransactionModel(
+          amount: "+$balance ₺",
+          fromUid: (FirebaseAuth.instance.currentUser?.uid).toString(),
+          createdAt: Timestamp.now().toDate(),
+          docId: "",
+          type: AccountTransactionTypes.addBalance,
+        ));
+
+        await UserService().updateAllTimeBalance(balance);
+      } catch (e) {
+        Log.instance.error(
+            "AccountTransactionService & UserService error: $e in home_notifier");
+      }
     } catch (e) {
       // ignore: use_build_context_synchronously
       context.snackbar('Hata Oluştu $e',
