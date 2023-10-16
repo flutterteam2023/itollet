@@ -93,6 +93,44 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
 
     return list;
   }
+  Stream<List<PostModel>> getStreamPosts() {
+  final db = FirebaseFirestore.instance;
+  
+  // Firestore'dan gelen verileri akış halinde dinlemek için kullanılır.
+  return db
+      .collection('posts')
+      .withConverter<PostModel>(
+        fromFirestore: (snapshot, _) => PostModel.fromJson(snapshot.data()!),
+        toFirestore: (model, _) => model.toJson(),
+      )
+      .snapshots()  // Verilerin akışını dinlemek için snapshots() metodu kullanılır.
+      .map((querySnapshot) {
+        // Firestore'dan gelen belgeleri PostModel listesine dönüştürür.
+        final List<PostModel> list = [];
+        final List<PostModel> myList = [];
+        
+        for (var doc in querySnapshot.docs) {
+          final post = doc.data()!;
+          list.add(post);
+          if (post.fromUID == _auth.currentUser?.uid) {
+            myList.add(post);
+          }
+        }
+        
+        // Akışa PostModel listesini ekler.
+        state = state.copyWith(postModels: list);
+        state = state.copyWith(myPostList: myList);
+        
+        return list;
+      })
+      .handleError((error) {
+        // Hata durumunda akışı yönetmek için kullanılabilir.
+        print("Hata oluştu: $error");
+        // Hata durumunda boş bir liste döndürebilir veya hata mesajını içeren bir hata nesnesi döndürebilirsiniz.
+        throw error;
+      });
+}
+
   Future<void> postUrl(String postId,String url,BuildContext context)async{
     if (state.streamUser.balance!=0 || state.streamUser.balance!<0) {
        final list = <String>[];

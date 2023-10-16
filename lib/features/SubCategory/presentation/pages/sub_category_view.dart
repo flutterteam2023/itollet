@@ -75,7 +75,7 @@ class SubCategoryView extends ConsumerWidget {
                           postModel.add(e);
                         }
                       }
-                      return SizedBox(
+                      return postModel.length!=0?  SizedBox(
                         width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
                         height: 128,
                         child: Column(
@@ -125,7 +125,7 @@ class SubCategoryView extends ConsumerWidget {
                             )
                           ],
                         ),
-                      );
+                      ):const SizedBox.shrink();
                     }),
                   ),
                 ),

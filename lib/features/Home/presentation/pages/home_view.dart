@@ -41,7 +41,7 @@ class HomeView extends ConsumerWidget {
               crossAxisAlignment: WrapCrossAlignment.start,
               children: List.generate(categories.categories.length, (index) {
                 final category = categories.categories[index];
-                return SizedBox(
+                return  SizedBox(
                   width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
                   height: 128,
                   child: Column(
@@ -72,7 +72,7 @@ class HomeView extends ConsumerWidget {
                                     value: downloadProgress.progress,
                                   ),
                                 ),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                errorWidget: (context, url, error) => const Icon(Icons.error),
                               ),
                             ),
                           ),

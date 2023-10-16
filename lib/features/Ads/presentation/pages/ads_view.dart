@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,15 +20,50 @@ import 'package:itollet/features/PostDetail/presentation/providers/post_detail_n
 import 'package:itollet/iberkeugur/Log/log.dart';
 
 @RoutePage()
-class AdsView extends HookConsumerWidget {
+class AdsView extends StatefulHookConsumerWidget {
   final CategoryModel categoryModel;
   final PostModel postModel;
-  const AdsView(this.postModel, this.categoryModel, {super.key});
+  const AdsView(this.categoryModel, this.postModel, {super.key});
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _AdsViewState();
+}
+class _AdsViewState extends ConsumerState<AdsView> {
+  @override
+  Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final urlController = useTextEditingController(text: '');
     final homestate = ref.watch(homeProvider);
+   late Timer _timer;
+    final descriptionController = useTextEditingController(text: '');
+    DateTime suan = DateTime.now();
+    DateTime ilanBitisTarihi =
+        widget.postModel.createdAt!.add(Duration(hours: 48));
+    Duration kalanSure = ilanBitisTarihi.difference(suan);
+    
+    void _updateTimer(Timer timer) {
+    DateTime suan = DateTime.now();
+    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 48));
+    setState(() {
+      kalanSure = ilanBitisTarihi.difference(suan);
+    });
+
+    if (kalanSure.isNegative) {
+      _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+    }
+  }
+     @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
+  }
+    @override
+  void dispose() {
+    _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
+    super.dispose();
+  }
+  int kalanSaat = kalanSure.inHours;
+    int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
     
 
     return Scaffold(
@@ -43,7 +80,7 @@ class AdsView extends HookConsumerWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
+                      colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -88,13 +125,13 @@ class AdsView extends HookConsumerWidget {
                         height: 128.r,
                         width: 128.r,
                         decoration: BoxDecoration(
-                          border: Border.all(color: categoryModel.primaryColor, width: 2),
+                          border: Border.all(color: widget.categoryModel.primaryColor, width: 2),
                           shape: BoxShape.circle,
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(999),
                           child: CachedNetworkImage(
-                            imageUrl: postModel.photoUrl,
+                            imageUrl: widget.postModel.photoUrl,
                             fit: BoxFit.fill,
                             progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
                               dimension: 15,
@@ -120,7 +157,7 @@ class AdsView extends HookConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AutoSizeText(
-                                  postModel.title,
+                                  widget.postModel.title,
                                   style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
                                   maxLines: 2,
                                 ),
@@ -128,15 +165,15 @@ class AdsView extends HookConsumerWidget {
                                   height: 14.h,
                                 ),
                                 Text(
-                                  "Bütçe ${postModel.balanceMax}₺",
-                                  style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  "Bütçe ${widget.postModel.balanceMax}₺",
+                                  style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                 ),
                                 SizedBox(
                                   height: 10.h,
                                 ),
                                 Text(
-                                  "Kalan Süre: ${postModel.createdAt!.hour}:${postModel.createdAt!.minute}",
-                                  style: TextStyle(color: categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  "Kalan Süre: ${kalanSaat}:${kalanDakika}",
+                                  style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                 )
                               ],
                             ),
@@ -154,13 +191,13 @@ class AdsView extends HookConsumerWidget {
             Padding(
               padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
               child: Text(
-                postModel.description,
+                widget.postModel.description,
                 style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
               ),
             ),
          // ignore: unnecessary_null_comparison
             StreamBuilder(
-              stream: ref.watch(homeProvider.notifier).getPostUrlStream(postModel.postId!),
+              stream: ref.watch(homeProvider.notifier).getPostUrlStream(widget.postModel.postId!),
               builder: (context,builder) {
                 return SizedBox(
                   height: 380.h,
@@ -176,7 +213,7 @@ class AdsView extends HookConsumerWidget {
                           .read(postDetailProvider.notifier)
                           .launchUrls(url);
                         },
-                        categoryModel: categoryModel,
+                        categoryModel: widget.categoryModel,
                         url: url,
                       );
                     },
@@ -187,11 +224,11 @@ class AdsView extends HookConsumerWidget {
             PostDetailButton(
               title: 'TEKLİF VER (3.75₺)',
               onTap: () {
-                CustomBottomSheet().AdsModalBottomSheet(context,categoryModel,urlController,(){
-                  ref.read(homeProvider.notifier).postUrl(postModel.postId!, urlController.text,context);
+                CustomBottomSheet().AdsModalBottomSheet(context,widget.categoryModel,urlController,(){
+                  ref.read(homeProvider.notifier).postUrl(widget.postModel.postId!, urlController.text,context);
                 });
               },
-              colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
+              colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
             ),
             SizedBox(
               height: 11.h,
@@ -202,3 +239,5 @@ class AdsView extends HookConsumerWidget {
     );
   }
 }
+
+

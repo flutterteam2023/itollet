@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Auth/Login/presentation/pages/login_view.dart';
+import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
@@ -19,7 +20,6 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 3),(){
-      ref.watch(homeProvider.notifier).getPosts();
 
     });
     super.initState();
@@ -52,7 +52,19 @@ class _SplashViewState extends ConsumerState<SplashView> {
                     } else if (futuresnapshot.hasError) {
                       return const Center(child: Text('Something went wron connection'));
                     } else if (futuresnapshot.hasData&&snapshot.data?.emailVerified==true) {
+                      return StreamBuilder<List<PostModel>>(
+                        stream: ref.watch(homeProvider.notifier).getStreamPosts(), 
+                        builder:(context, postSnapshot) {
+                          if (snapshot.hasError) {
+                            print('Dataa gelmediii');
+                            
+                          }if (snapshot.hasData) {
                       return const HomeView();
+                            
+                          }
+                          return HomeView();
+                          
+                        },);
                     } else {
                       return const LoginView();
                     }
