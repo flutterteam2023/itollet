@@ -8,6 +8,7 @@ import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/common_widgets/element_ellipse.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/constants/profile_icons.dart';
+import 'package:itollet/features/Auth/Login/presentation/providers/login_notifier.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
@@ -80,7 +81,7 @@ class ProfileView extends ConsumerWidget {
                       },
                     ),
                   ),
-                  profileCard(context, scaffoldKey),
+                  profileCard(context, scaffoldKey,ref),
                 ],
               ),
             ),
@@ -91,7 +92,7 @@ class ProfileView extends ConsumerWidget {
   }
 
   Padding profileCard(
-      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey,WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(
@@ -136,6 +137,14 @@ class ProfileView extends ConsumerWidget {
             colors: const [Color(0xff834AFA), Color(0xffD14C88)],
             onTap: () {
               context.pushRoute(const HelpRoute());
+            },
+          ),
+          ElementEllipse(
+            title: 'HESABIMI SİL',
+            iconUrl: ProfileIcons.logout,
+            colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
+            onTap: () async {
+              ref.read(loginProvider.notifier).deleteUser(context);
             },
           ),
           ElementEllipse(
