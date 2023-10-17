@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Account/Models/account_transaction_model.dart';
 import 'package:itollet/features/Account/Services/account_transaction_service.dart';
@@ -154,7 +155,12 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
   Future<void> postUrl(String postId, String url, BuildContext context) async {
     if (state.streamUser.balance != 0 || state.streamUser.balance! < 0) {
       final list = <String>[];
+      String enteredUrl = url;
+    RegExp urlRegExp = RegExp(
+        r'^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$'); // Basit bir URL düzenli ifadesi
 
+    if (urlRegExp.hasMatch(enteredUrl) && state.streamUser.balance!>=3.75) {
+      // URL formatı doğruysa işlem yapabilirsiniz
       final db = FirebaseFirestore.instance;
       await db.collection('posts').doc(postId).get().then((value) {
         if (value.data()!["postUrl"] != null) {
@@ -201,11 +207,22 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
         Log.instance.error(
             "AccountTransactionService create failed in home_notifier.dart");
       }
-    } else {
-      context.popRoute();
+    } else if(state.streamUser.balance!<3.75) {
+      // URL formatı yanlışsa uyarı göster
+     context.popRoute();
       context.snackbar('Lütfen Bakiye Yükleyin!',
           backgroundColor: Colors.pink,
           contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+    }else if(urlRegExp.hasMatch(enteredUrl)==false) {
+      // URL formatı yanlışsa uyarı göster
+     context.popRoute();
+      context.snackbar('Lütfen Geçerli Bir Url Ekleyin!',
+          backgroundColor: Colors.pink,
+          contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+    }
+    
+
+      
     }
   }
 

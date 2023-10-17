@@ -227,6 +227,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
                 CustomBottomSheet().AdsModalBottomSheet(context,widget.categoryModel,urlController,(){
                   ref.read(homeProvider.notifier).postUrl(widget.postModel.postId!, urlController.text,context);
                 });
+                urlController.text='';
               },
               colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
             ),
