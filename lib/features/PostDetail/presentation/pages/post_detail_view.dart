@@ -134,9 +134,10 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                       Container(
                         height: 128.r,
                         width: 128.r,
+                      
                         // ignore: sort_child_properties_last
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(0),
+                          borderRadius: BorderRadius.circular(999),
                           child: CachedNetworkImage(
                             imageUrl: widget.postModel.photoUrl,
                             fit: BoxFit.fill,
