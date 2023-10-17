@@ -75,16 +75,38 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                     crossAxisAlignment: WrapCrossAlignment.start,
                     children: List.generate(state.myPostList.length, (index) {
                       final myPost = state.myPostList[index];
-                      return SizedBox(
+                      DateTime suan = DateTime.now();
+                        DateTime ilanBitisTarihi =
+                            myPost.createdAt!.add(const Duration(hours: 24));
+                        Duration kalanSure = ilanBitisTarihi.difference(suan);
+                        int kalanSaat = kalanSure.inHours;
+                        int kalanDakika =
+                            (kalanSure.inMinutes - kalanSaat * 60);
+                      return kalanSaat>=0? SizedBox(
                           width: (MediaQuery.of(context).size.width - 36) / 2,
                           child: Padding(
                             padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
                             child: SubSubCard(
+                              isTimeFinish: false,
                               description: myPost.title,
                               price: myPost.balanceMax,
-                              time: myPost.createdAt!.hour.toString(),
+                              kalanSaat: kalanSaat,
+                              kalanDakika: kalanDakika,
                               url: myPost.photoUrl,
                               onTap: () {},
+                            ),
+                          )):SizedBox(
+                          width: (MediaQuery.of(context).size.width - 36) / 2,
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
+                            child: SubSubCard(
+                              isTimeFinish: true,
+                              description: myPost.title,
+                              price: myPost.balanceMax,
+                              url: myPost.photoUrl,
+                              onTap: () {},
+                              kalanSaat:null,
+                              kalanDakika:null,
                             ),
                           ));
                     }),
@@ -106,13 +128,15 @@ class SubSubCard extends StatelessWidget {
     required this.url,
     required this.description,
     required this.price,
-    required this.time,
+    required this.kalanSaat,required this.kalanDakika, required this.isTimeFinish,
   });
   final void Function() onTap;
   final String url;
   final String description;
   final String? price;
-  final String time;
+  final int? kalanSaat;
+  final int? kalanDakika;
+  final bool isTimeFinish;
   @override
   Widget build(BuildContext context) {
     return Bounceable(
@@ -150,12 +174,20 @@ class SubSubCard extends StatelessWidget {
                 height: 5.h,
               ),
               Text(
-                'Kalan Süre : $time',
+               kalanSaat!=null&&kalanDakika!=null? 'Kalan Süre : ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}':"",
                 style: TextStyle(
                   color: secondary,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w500,
                 ),
+              ),
+              SizedBox(height: 2.h,),
+              Text(isTimeFinish==false?'Aktif':'İlan Süresi Dolan',
+              style: TextStyle(
+                color: secondary,
+                fontSize:15.sp,
+                fontWeight: FontWeight.bold 
+              ),
               )
             ],
           ),
