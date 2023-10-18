@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,10 +9,12 @@ import 'package:itollet/common_widgets/custom_filled_button.dart';
 import 'package:itollet/common_widgets/element_ellipse.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/constants/profile_icons.dart';
+import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Auth/Login/presentation/providers/login_notifier.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 @RoutePage()
 class ProfileView extends ConsumerWidget {
@@ -33,20 +36,59 @@ class ProfileView extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 64.h,
-                    child: Container(
-                      height: 64.h,
-                      width: 64.w,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: NetworkImage(homeState.user.photoUrl ??
-                              'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
-                          fit: BoxFit.cover,
+                  StreamBuilder<UserModel>(
+
+                    stream: ref.watch(homeProvider.notifier).getStreamUser(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        print('Data gelmedi');
+                        
+                      }if (snapshot.hasData) {
+
+                        if (snapshot.data?.photoUrl!=null) {
+                          return CircleAvatar(
+                        radius: 64.h,
+                        child: Container(
+                          height: 200.h,
+                          width: 200.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: NetworkImage(snapshot.data!.photoUrl!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                          
+                        }else{
+                          return CircleAvatar(
+                        radius: 64.h,
+                        child: Container(
+                          height: 200.h,
+                          width: 200.w,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            
+                          ),
+                          child: RandomAvatar(FirebaseAuth.instance.currentUser!.uid, trBackground: true, height: 50, width: 50)
+                        ),
+                      );
+                        }
+                      }return CircleAvatar(
+                        radius: 64.h,
+                        child: Container(
+                          height: 200.h,
+                          width: 200.w,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            
+                          ),
+                          child: const Center(child: CircularProgressIndicator(color: secondary,),),
+                        ),
+                      );
+                      
+                    }
                   ),
                   SizedBox(
                     height: 18.sp,

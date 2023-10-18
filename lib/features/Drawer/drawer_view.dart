@@ -3,8 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:itollet/constants/constant_colors.dart';
+import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class CustomDrawer extends ConsumerWidget {
   const CustomDrawer({
@@ -15,7 +18,7 @@ class CustomDrawer extends ConsumerWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final homeState = ref.watch(homeProvider);
     return Drawer(
       backgroundColor: Colors.white,
@@ -30,11 +33,36 @@ class CustomDrawer extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: MediaQuery.of(context).viewPadding.top),
-                 CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 48,
-                  backgroundImage: NetworkImage(homeState.user.photoUrl??'https://www.shareicon.net/data/512x512/2015/10/04/111640_personal_512x512.png'),
-                ),
+                StreamBuilder<UserModel>(
+                    stream: ref.watch(homeProvider.notifier).getStreamUser(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        print('Data gelmedi');
+                      }
+                      if (snapshot.hasData) {
+
+                        if (snapshot.data?.photoUrl!=null) {
+                          return CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 48,
+                          backgroundImage:
+                              NetworkImage(snapshot.data!.photoUrl!),
+                        );
+                          
+                        }else{
+                          return  CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 48,
+                        child:RandomAvatar(FirebaseAuth.instance.currentUser!.uid, trBackground: true, height: 50, width: 50),
+                      );
+                        }
+                      }
+                      return  CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 48,
+                        child:RandomAvatar(FirebaseAuth.instance.currentUser!.uid, trBackground: true, height: 50, width: 50),
+                      );
+                    }),
                 const SizedBox(height: 9),
                 Text(
                   homeState.user.userName!,

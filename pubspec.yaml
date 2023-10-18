@@ -60,6 +60,8 @@ dependencies:
   json_annotation: ^4.8.1
   logger: ^2.0.2
   multi_value_listenable_builder: ^0.0.2
+  permission_handler: ^11.0.1
+  random_avatar: ^0.0.8
   url_launcher: ^6.1.14
   uuid: ^3.0.7
   validatorless: ^1.2.3

@@ -17,13 +17,7 @@ class SplashView extends ConsumerStatefulWidget {
 }
 
 class _SplashViewState extends ConsumerState<SplashView> {
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 3),(){
-
-    });
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {
