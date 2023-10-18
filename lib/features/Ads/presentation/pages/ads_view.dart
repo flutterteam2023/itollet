@@ -69,172 +69,174 @@ class _AdsViewState extends ConsumerState<AdsView> {
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
-      body: Padding(
-        padding: EdgeInsets.only(top: 24.h),
-        child: Column(
-          children: [
-            PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: PreferredSize(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(top: 24.h),
+          child: Column(
+            children: [
+              PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
+                child: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: AppBar(
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          onPressed: () {
+                            context.back();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          )),
+                      forceMaterialTransparency: true,
+                      surfaceTintColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      shadowColor: Colors.white,
+                      iconTheme: const IconThemeData(color: Colors.white),
+                      centerTitle: true,
+                      title: Text(
+                        'İLAN SAHİBİ ADI',
+                        style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                      ),
+                      backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 16.w, right: 11.w, top: 16.h),
                 child: Container(
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                    ),
+                    color: greyCard,
+                    borderRadius: BorderRadius.circular(18.r),
                   ),
-                  child: AppBar(
-                    automaticallyImplyLeading: false,
-                    leading: IconButton(
-                        onPressed: () {
-                          context.back();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        )),
-                    forceMaterialTransparency: true,
-                    surfaceTintColor: Colors.white,
-                    foregroundColor: Colors.white,
-                    shadowColor: Colors.white,
-                    iconTheme: const IconThemeData(color: Colors.white),
-                    centerTitle: true,
-                    title: Text(
-                      'İLAN SAHİBİ ADI',
-                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
-                    ),
-                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 16.w, right: 11.w, top: 16.h),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: greyCard,
-                  borderRadius: BorderRadius.circular(18.r),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 128.r,
-                        width: 128.r,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: widget.categoryModel.primaryColor, width: 2),
-                          shape: BoxShape.circle,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
+                    child: Row(
+                      children: [
+                        Container(
+                          height: 128.r,
+                          width: 128.r,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: widget.categoryModel.primaryColor, width: 2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(999),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.postModel.photoUrl,
+                              fit: BoxFit.fill,
+                              progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                                dimension: 15,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                  value: downloadProgress.progress,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) {
+                                Log.instance.error(error);
+                                return const Icon(Icons.error_outline);
+                              },
+                            ),
+                          ),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(999),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.postModel.photoUrl,
-                            fit: BoxFit.fill,
-                            progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
-                              dimension: 15,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                                value: downloadProgress.progress,
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 16.w),
+                            child: SizedBox(
+                              width: 214.w,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AutoSizeText(
+                                    widget.postModel.title,
+                                    style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                                    maxLines: 2,
+                                  ),
+                                  SizedBox(
+                                    height: 14.h,
+                                  ),
+                                  Text(
+                                    "Bütçe ${widget.postModel.balanceMax}₺",
+                                    style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Text(
+                                    "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
+                                    style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  )
+                                ],
                               ),
                             ),
-                            errorWidget: (context, url, error) {
-                              Log.instance.error(error);
-                              return const Icon(Icons.error_outline);
-                            },
                           ),
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.w),
-                          child: SizedBox(
-                            width: 214.w,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AutoSizeText(
-                                  widget.postModel.title,
-                                  style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
-                                  maxLines: 2,
-                                ),
-                                SizedBox(
-                                  height: 14.h,
-                                ),
-                                Text(
-                                  "Bütçe ${widget.postModel.balanceMax}₺",
-                                  style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Text(
-                                  "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
-                                  style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 9.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
-              child: Text(
-                widget.postModel.description,
-                style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
+              SizedBox(
+                height: 9.h,
               ),
-            ),
-         // ignore: unnecessary_null_comparison
-            StreamBuilder(
-              stream: ref.watch(homeProvider.notifier).getPostUrlStream(widget.postModel.postId!),
-              builder: (context,builder) {
-                return SizedBox(
-                  height: 380.h,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    // ignore: unnecessary_null_comparison
-                    itemCount:homestate.postUrls.length,
-                    itemBuilder: (context, index) {
-                      final url = homestate.postUrls[index];
-                      return LinkCard(
-                        onTap: () {
-                           ref
-                          .read(postDetailProvider.notifier)
-                          .launchUrls(url);
-                        },
-                        categoryModel: widget.categoryModel,
-                        url: url,
-                      );
-                    },
-                  ),
-                );
-              }
-            ),
-            PostDetailButton(
-              title: 'TEKLİF VER (3.75₺)',
-              onTap: () {
-                CustomBottomSheet().AdsModalBottomSheet(context,widget.categoryModel,urlController,(){
-                  ref.read(homeProvider.notifier).postUrl(widget.postModel.postId!, urlController.text,context);
-                });
-                urlController.text='';
-              },
-              colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
-            ),
-            SizedBox(
-              height: 11.h,
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
+                child: Text(
+                  widget.postModel.description,
+                  style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                ),
+              ),
+           // ignore: unnecessary_null_comparison
+              StreamBuilder(
+                stream: ref.watch(homeProvider.notifier).getPostUrlStream(widget.postModel.postId!),
+                builder: (context,builder) {
+                  return SizedBox(
+                    height: 380.h,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      // ignore: unnecessary_null_comparison
+                      itemCount:homestate.postUrls.length,
+                      itemBuilder: (context, index) {
+                        final url = homestate.postUrls[index];
+                        return LinkCard(
+                          onTap: () {
+                             ref
+                            .read(postDetailProvider.notifier)
+                            .launchUrls(url,widget.postModel.postId!);
+                          },
+                          categoryModel: widget.categoryModel,
+                          url: url,
+                        );
+                      },
+                    ),
+                  );
+                }
+              ),
+              PostDetailButton(
+                title: 'TEKLİF VER (3.75₺)',
+                onTap: () {
+                  CustomBottomSheet().AdsModalBottomSheet(context,widget.categoryModel,urlController,(){
+                    ref.read(homeProvider.notifier).postUrl(widget.postModel.postId!, urlController.text,context);
+                  });
+                  urlController.text='';
+                },
+                colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
+              ),
+              SizedBox(
+                height: 11.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

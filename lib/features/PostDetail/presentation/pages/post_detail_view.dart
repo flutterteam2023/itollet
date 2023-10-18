@@ -243,7 +243,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                             onTap: () {
                               ref
                                   .read(postDetailProvider.notifier)
-                                  .launchUrls(urls[index]);
+                                  .launchUrls(urls[index],widget.postModel.postId!);
                             },
                           );
                         },

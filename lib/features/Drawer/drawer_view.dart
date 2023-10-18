@@ -57,7 +57,7 @@ class CustomDrawer extends ConsumerWidget {
                       );
                         }
                       }
-                      return  CircleAvatar(
+                      return  const CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 48,
                         child:CircularProgressIndicator(color: secondary,),
@@ -73,7 +73,7 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {},
+            onTap: () {context.pushRoute(const MyAdsRoute());},
             title: Text(
               "İLANLARIM",
               style: _buildTextStyle(),
@@ -84,7 +84,7 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {},
+            onTap: () {context.pushRoute(const WalletRoute());},
             title: Text(
               "CÜZDANIM",
               style: _buildTextStyle(),
@@ -95,7 +95,7 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {},
+            onTap: () {context.pushRoute(const PrivacyRoute());},
             title: Text(
               "GİZLİLİK",
               style: _buildTextStyle(),
@@ -106,7 +106,7 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {},
+            onTap: () {context.pushRoute(const HelpRoute());},
             title: Text(
               "YARDIM",
               style: _buildTextStyle(),
