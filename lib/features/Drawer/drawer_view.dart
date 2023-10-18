@@ -60,7 +60,7 @@ class CustomDrawer extends ConsumerWidget {
                       return  CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 48,
-                        child:RandomAvatar(FirebaseAuth.instance.currentUser!.uid, trBackground: true, height: 50, width: 50),
+                        child:CircularProgressIndicator(color: secondary,),
                       );
                     }),
                 const SizedBox(height: 9),

@@ -43,7 +43,9 @@ class ProfileView extends ConsumerWidget {
                       if (snapshot.hasError) {
                         print('Data gelmedi');
                         
-                      }if (snapshot.hasData) {
+                      }
+                      
+                      if (snapshot.hasData) {
 
                         if (snapshot.data?.photoUrl!=null) {
                           return CircleAvatar(
