@@ -7,6 +7,7 @@ import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class MyAdsView extends ConsumerStatefulWidget {
@@ -93,7 +94,9 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                               kalanSaat: kalanSaat,
                               kalanDakika: kalanDakika,
                               url: myPost.photoUrl,
-                              onTap: () {},
+                              onTap: () {
+                                context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel:null ));
+                              },
                             ),
                           )):SizedBox(
                           width: (MediaQuery.of(context).size.width - 36) / 2,
@@ -104,7 +107,8 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                               description: myPost.title,
                               price: myPost.balanceMax,
                               url: myPost.photoUrl,
-                              onTap: () {},
+                              onTap: () {                                context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel:null ));
+},
                               kalanSaat:null,
                               kalanDakika:null,
                             ),

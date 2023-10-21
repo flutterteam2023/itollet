@@ -8,7 +8,7 @@ class LinkCard extends StatelessWidget {
   const LinkCard({
     super.key, required this.categoryModel, required this.onTap, required this.url,
   });
-  final CategoryModel categoryModel;
+  final CategoryModel? categoryModel;
   final void Function() onTap;
   final String url;
 
@@ -36,7 +36,7 @@ class LinkCard extends StatelessWidget {
                       width: 12.r,
                       decoration:  BoxDecoration(
                           shape: BoxShape.circle,
-                          color: categoryModel.primaryColor),
+                          color:categoryModel!=null? categoryModel!.primaryColor:secondary),
                     ),
                     SizedBox(
                       width: 7.w,
@@ -46,7 +46,7 @@ class LinkCard extends StatelessWidget {
                       child: Text(
                        url,
                         style: TextStyle(
-                            color:  categoryModel.primaryColor,
+                            color: categoryModel!=null? categoryModel!.primaryColor:secondary,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400),
                       ),
@@ -55,7 +55,7 @@ class LinkCard extends StatelessWidget {
                 ),
                  Icon(
                   Icons.arrow_forward_ios,
-                  color: categoryModel.primaryColor,
+                  color:categoryModel!=null? categoryModel!.primaryColor:secondary,
                 )
               ],
             ),
