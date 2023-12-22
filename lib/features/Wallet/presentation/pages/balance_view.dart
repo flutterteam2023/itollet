@@ -30,8 +30,8 @@ class BalanceView extends ConsumerWidget {
       body: StreamBuilder<UserModel>(
           stream: ref.watch(homeProvider.notifier).getStreamUser(),
           builder: (context, snapshot) {
-            Log.instance.info(snapshot.connectionState);
-            if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.connectionState == ConnectionState.active ||
+                snapshot.hasData) {
               return Padding(
                 padding: const EdgeInsets.all(18),
                 child: Column(

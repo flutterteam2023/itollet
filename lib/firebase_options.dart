@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,9 +46,19 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCNiNP5Z5rjuFYjkbEPfzWyaq3tvVubHkM',
+    appId: '1:400735227249:web:cf8fbca5df1204e3a63ad0',
+    messagingSenderId: '400735227249',
+    projectId: 'itollet',
+    authDomain: 'itollet.firebaseapp.com',
+    storageBucket: 'itollet.appspot.com',
+    measurementId: 'G-XXPTQRHT9N',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD6ey9JrvLLn-DnnnmgwqtbppzDPiOiBqQ',
-    appId: '1:400735227249:android:3c2793c6e95ad134a63ad0',
+    appId: '1:400735227249:android:9d9a616070d5338aa63ad0',
     messagingSenderId: '400735227249',
     projectId: 'itollet',
     storageBucket: 'itollet.appspot.com',

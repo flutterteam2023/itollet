@@ -37,61 +37,63 @@ class ProfileView extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   StreamBuilder<UserModel>(
+                      stream: ref.watch(homeProvider.notifier).getStreamUser(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          print('Data gelmedi');
+                        }
 
-                    stream: ref.watch(homeProvider.notifier).getStreamUser(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        print('Data gelmedi');
-                        
-                      }
-                      
-                      if (snapshot.hasData) {
-
-                        if (snapshot.data?.photoUrl!=null) {
-                          return CircleAvatar(
-                        radius: 64.h,
-                        child: Container(
-                          height: 200.h,
-                          width: 200.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(snapshot.data!.photoUrl!),
-                              fit: BoxFit.cover,
+                        if (snapshot.hasData) {
+                          if (snapshot.data?.photoUrl != null) {
+                            return CircleAvatar(
+                              radius: 64.h,
+                              child: Container(
+                                height: 200.h,
+                                width: 200.w,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image:
+                                        NetworkImage(snapshot.data!.photoUrl!),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: 64.h,
+                              child: Container(
+                                  height: 200.h,
+                                  width: 200.w,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: RandomAvatar(
+                                      FirebaseAuth.instance.currentUser?.uid ??
+                                          "random",
+                                      trBackground: true,
+                                      height: 50,
+                                      width: 50)),
+                            );
+                          }
+                        }
+                        return CircleAvatar(
+                          radius: 64.h,
+                          child: Container(
+                            height: 200.h,
+                            width: 200.w,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: secondary,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                          
-                        }else{
-                          return CircleAvatar(
-                        radius: 64.h,
-                        child: Container(
-                          height: 200.h,
-                          width: 200.w,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            
-                          ),
-                          child: RandomAvatar(FirebaseAuth.instance.currentUser!.uid, trBackground: true, height: 50, width: 50)
-                        ),
-                      );
-                        }
-                      }return CircleAvatar(
-                        radius: 64.h,
-                        child: Container(
-                          height: 200.h,
-                          width: 200.w,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            
-                          ),
-                          child: const Center(child: CircularProgressIndicator(color: secondary,),),
-                        ),
-                      );
-                      
-                    }
-                  ),
+                        );
+                      }),
                   SizedBox(
                     height: 18.sp,
                   ),
@@ -125,7 +127,7 @@ class ProfileView extends ConsumerWidget {
                       },
                     ),
                   ),
-                  profileCard(context, scaffoldKey,ref),
+                  profileCard(context, scaffoldKey, ref),
                 ],
               ),
             ),
@@ -135,8 +137,8 @@ class ProfileView extends ConsumerWidget {
     );
   }
 
-  Padding profileCard(
-      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey,WidgetRef ref) {
+  Padding profileCard(BuildContext context,
+      GlobalKey<ScaffoldState> scaffoldKey, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(
@@ -175,20 +177,53 @@ class ProfileView extends ConsumerWidget {
               context.pushRoute(PrivacyRoute());
             },
           ),
-          ElementEllipse(
-            title: 'YARDIM',
-            iconUrl: ProfileIcons.help,
-            colors: const [Color(0xff834AFA), Color(0xffD14C88)],
-            onTap: () {
-              context.pushRoute(const HelpRoute());
-            },
-          ),
+          if (false)
+            ElementEllipse(
+              title: 'YARDIM',
+              iconUrl: ProfileIcons.help,
+              colors: const [Color(0xff834AFA), Color(0xffD14C88)],
+              onTap: () {
+                context.pushRoute(const HelpRoute());
+              },
+            ),
           ElementEllipse(
             title: 'HESABIMI SİL',
             iconUrl: ProfileIcons.logout,
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
             onTap: () async {
-              ref.read(loginProvider.notifier).deleteUser(context);
+              final textEditingController = TextEditingController();
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: const Text("Emin Misiniz?"),
+                  content: TextFormField(
+                    controller: textEditingController,
+                    decoration: InputDecoration(
+                      helperText:
+                          "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
+                      helperMaxLines: 99,
+                      hintText: FirebaseAuth.instance.currentUser?.email ??
+                          "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text("İptal"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        if (textEditingController?.text ==
+                            FirebaseAuth.instance.currentUser?.uid) {
+                          ref.read(loginProvider.notifier).deleteUser(context);
+                          //Silme fonsksiyonu
+                        }
+                      },
+                      child: const Text("Hesabımı Sil"),
+                    ),
+                  ],
+                ),
+              );
             },
           ),
           ElementEllipse(

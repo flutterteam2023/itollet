@@ -16,6 +16,7 @@ import 'package:itollet/features/Payment/Views/payment_view.dart';
 import 'package:itollet/features/Payment/Views/webview_view.dart';
 import 'package:itollet/features/PostAdd/postadd_view.dart';
 import 'package:itollet/features/PostDetail/presentation/pages/post_detail_view.dart';
+import 'package:itollet/features/Privacy/presentation/pages/privacy_policy_view.dart';
 import 'package:itollet/features/Privacy/presentation/pages/privacy_view.dart';
 import 'package:itollet/features/Profile/presentation/pages/profile_view.dart';
 import 'package:itollet/features/ProfileEdit/presentation/password_change_view.dart';
@@ -74,6 +75,11 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: SubSubCategoryRoute.page, initial: false),
         AutoRoute(page: AdsRoute.page, initial: false),
         AutoRoute(page: PrivacyRoute.page, initial: false),
+        AutoRoute(
+          page: PrivacyPolicyRoute.page,
+          initial: false,
+          fullscreenDialog: true,
+        ),
         AutoRoute(
           page: HelpRoute.page,
           initial: false,

@@ -33,7 +33,7 @@ class HelpView extends ConsumerWidget {
                     automaticallyImplyLeading: false,
                     leading: IconButton(
                         onPressed: () {
-                          context.back();
+                          context.popRoute();
                         },
                         icon: const Icon(Icons.arrow_back_ios)),
                     forceMaterialTransparency: true,
@@ -44,9 +44,13 @@ class HelpView extends ConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       'YARDIM',
-                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor:
+                        Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -67,7 +71,8 @@ class HelpView extends ConsumerWidget {
     );
   }
 
-  Padding walletCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
+  Padding walletCard(
+      BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(

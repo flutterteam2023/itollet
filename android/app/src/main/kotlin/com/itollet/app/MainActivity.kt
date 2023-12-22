@@ -1,4 +1,4 @@
-package com.example.itollet
+package com.itollet.app
 
 import io.flutter.embedding.android.FlutterActivity
 
