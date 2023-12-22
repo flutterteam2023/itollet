@@ -23,7 +23,7 @@ import 'package:itollet/iberkeugur/Log/log.dart';
 @RoutePage()
 class PostDetailView extends StatefulHookConsumerWidget {
   final PostModel postModel;
-  final CategoryModel categoryModel;
+  final CategoryModel? categoryModel;
   const PostDetailView(this.postModel, this.categoryModel, {super.key});
 
   @override
@@ -83,8 +83,8 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        widget.categoryModel.primaryColor,
-                        widget.categoryModel.secondaryColor
+                     widget.categoryModel!=null?   widget.categoryModel!.primaryColor:secondary,
+                      widget.categoryModel!=null?  widget.categoryModel!.secondaryColor:secondary
                       ],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
@@ -159,7 +159,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                         ),
                         decoration: BoxDecoration(
                           border: Border.all(
-                              color: widget.categoryModel.primaryColor,
+                              color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
                               width: 2),
                           shape: BoxShape.circle,
                         ),
@@ -185,7 +185,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                               Text(
                                 "Bütçe ${widget.postModel.description}₺",
                                 style: TextStyle(
-                                    color: widget.categoryModel.primaryColor,
+                                    color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -195,7 +195,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                               Text(
                                 "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}: ${kalanDakika.toString().padLeft(2, '0')}",
                                 style: TextStyle(
-                                    color: widget.categoryModel.primaryColor,
+                                    color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
                                     fontSize: 16.sp,
                                     fontWeight: FontWeight.w600),
                               )
@@ -239,7 +239,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                         itemBuilder: (context, index) {
                           return LinkCard(
                             url: urls[index],
-                            categoryModel: widget.categoryModel,
+                            categoryModel:widget.categoryModel!=null? widget.categoryModel!:null,
                             onTap: () {
                               ref
                                   .read(postDetailProvider.notifier)
@@ -259,8 +259,8 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                     budgetController, descriptionController);
               },
               colors: [
-                widget.categoryModel.primaryColor,
-                widget.categoryModel.secondaryColor
+               widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
+               widget.categoryModel!=null? widget.categoryModel!.secondaryColor:secondary
               ],
             ),
             SizedBox(

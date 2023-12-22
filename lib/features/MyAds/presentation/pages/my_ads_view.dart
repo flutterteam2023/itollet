@@ -7,6 +7,7 @@ import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class MyAdsView extends ConsumerStatefulWidget {
@@ -56,13 +57,9 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                     centerTitle: true,
                     title: Text(
                       'İLANLARIM',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor:
-                        Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -81,18 +78,15 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                     children: List.generate(state.myPostList.length, (index) {
                       final myPost = state.myPostList[index];
                       DateTime suan = DateTime.now();
-                      DateTime ilanBitisTarihi =
-                          myPost.createdAt!.add(const Duration(hours: 24));
+                      DateTime ilanBitisTarihi = myPost.createdAt!.add(const Duration(hours: 24));
                       Duration kalanSure = ilanBitisTarihi.difference(suan);
                       int kalanSaat = kalanSure.inHours;
                       int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
                       return kalanSaat >= 0
                           ? SizedBox(
-                              width:
-                                  (MediaQuery.of(context).size.width - 36) / 2,
+                              width: (MediaQuery.of(context).size.width - 36) / 2,
                               child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 12.w, bottom: 22.h),
+                                padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
                                 child: SubSubCard(
                                   isTimeFinish: false,
                                   description: myPost.title,
@@ -100,21 +94,23 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                                   kalanSaat: kalanSaat,
                                   kalanDakika: kalanDakika,
                                   url: myPost.photoUrl,
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel: null));
+                                  },
                                 ),
                               ))
                           : SizedBox(
-                              width:
-                                  (MediaQuery.of(context).size.width - 36) / 2,
+                              width: (MediaQuery.of(context).size.width - 36) / 2,
                               child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 12.w, bottom: 22.h),
+                                padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
                                 child: SubSubCard(
                                   isTimeFinish: true,
                                   description: myPost.title,
                                   price: myPost.balanceMax,
                                   url: myPost.photoUrl,
-                                  onTap: () {},
+                                  onTap: () {
+                                    context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel: null));
+                                  },
                                   kalanSaat: null,
                                   kalanDakika: null,
                                 ),
@@ -154,11 +150,9 @@ class SubSubCard extends StatelessWidget {
     return Bounceable(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18.r), color: greyCard),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.r), color: greyCard),
         child: Padding(
-          padding:
-              EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
+          padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
           child: Column(
             children: [
               Container(
@@ -166,8 +160,7 @@ class SubSubCard extends StatelessWidget {
                 width: 128.r,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: NetworkImage(url), fit: BoxFit.fill),
+                    image: DecorationImage(image: NetworkImage(url), fit: BoxFit.fill),
                     border: Border.all(width: 3, color: secondary)),
               ),
               SizedBox(
@@ -176,8 +169,7 @@ class SubSubCard extends StatelessWidget {
               Text(
                 description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+                style: TextStyle(color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 height: 5.h,
@@ -185,10 +177,7 @@ class SubSubCard extends StatelessWidget {
               Text(
                 '$price₺',
                 style: TextStyle(
-                    color: secondary,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Poppins Italic'),
+                    color: secondary, fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: 'Poppins Italic'),
               ),
               SizedBox(
                 height: 5.h,
@@ -208,10 +197,7 @@ class SubSubCard extends StatelessWidget {
               ),
               Text(
                 isTimeFinish == false ? 'Aktif' : 'Süresi Dolan',
-                style: TextStyle(
-                    color: secondary,
-                    fontSize: 15.sp,
-                    fontWeight: FontWeight.bold),
+                style: TextStyle(color: secondary, fontSize: 15.sp, fontWeight: FontWeight.bold),
               )
             ],
           ),
