@@ -40,27 +40,32 @@ class CustomDrawer extends ConsumerWidget {
                         print('Data gelmedi');
                       }
                       if (snapshot.hasData) {
-
-                        if (snapshot.data?.photoUrl!=null) {
+                        if (snapshot.data?.photoUrl != null) {
                           return CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 48,
-                          backgroundImage:
-                              NetworkImage(snapshot.data!.photoUrl!),
-                        );
-                          
-                        }else{
-                          return  CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: 48,
-                        child:RandomAvatar(FirebaseAuth.instance.currentUser!.uid, trBackground: true, height: 50, width: 50),
-                      );
+                            backgroundColor: Colors.white,
+                            radius: 48,
+                            backgroundImage:
+                                NetworkImage(snapshot.data!.photoUrl!),
+                          );
+                        } else {
+                          return CircleAvatar(
+                            backgroundColor: Colors.white,
+                            radius: 48,
+                            child: RandomAvatar(
+                                FirebaseAuth.instance.currentUser?.uid ??
+                                    "random",
+                                trBackground: true,
+                                height: 50,
+                                width: 50),
+                          );
                         }
                       }
-                      return  const CircleAvatar(
+                      return const CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: 48,
-                        child:CircularProgressIndicator(color: secondary,),
+                        child: CircularProgressIndicator(
+                          color: secondary,
+                        ),
                       );
                     }),
                 const SizedBox(height: 9),
@@ -73,7 +78,9 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {context.pushRoute(const MyAdsRoute());},
+            onTap: () {
+              context.pushRoute(const MyAdsRoute());
+            },
             title: Text(
               "İLANLARIM",
               style: _buildTextStyle(),
@@ -84,7 +91,9 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {context.pushRoute(const WalletRoute());},
+            onTap: () {
+              context.pushRoute(const WalletRoute());
+            },
             title: Text(
               "CÜZDANIM",
               style: _buildTextStyle(),
@@ -95,7 +104,9 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {context.pushRoute(const PrivacyRoute());},
+            onTap: () {
+              context.pushRoute(const PrivacyRoute());
+            },
             title: Text(
               "GİZLİLİK",
               style: _buildTextStyle(),
@@ -106,7 +117,9 @@ class CustomDrawer extends ConsumerWidget {
           ),
           const Divider(),
           ListTile(
-            onTap: () {context.pushRoute(const HelpRoute());},
+            onTap: () {
+              context.pushRoute(const HelpRoute());
+            },
             title: Text(
               "YARDIM",
               style: _buildTextStyle(),

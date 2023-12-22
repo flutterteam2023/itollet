@@ -10,6 +10,7 @@ import 'package:itollet/common_widgets/element_ellipse.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/constants/profile_icons.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class PrivacyView extends HookConsumerWidget {
@@ -35,7 +36,7 @@ class PrivacyView extends HookConsumerWidget {
                     automaticallyImplyLeading: false,
                     leading: IconButton(
                         onPressed: () {
-                          context.back();
+                          context.popRoute();
                         },
                         icon: const Icon(Icons.arrow_back_ios)),
                     forceMaterialTransparency: true,
@@ -46,9 +47,13 @@ class PrivacyView extends HookConsumerWidget {
                     centerTitle: true,
                     title: Text(
                       'GİZLİLİK',
-                      style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.sp,
+                          fontWeight: FontWeight.w400),
                     ),
-                    backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
+                    backgroundColor:
+                        Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
@@ -73,7 +78,8 @@ class PrivacyView extends HookConsumerWidget {
     );
   }
 
-  Padding walletCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey, TextEditingController? textEditingController) {
+  Padding walletCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey,
+      TextEditingController? textEditingController) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(
@@ -92,9 +98,11 @@ class PrivacyView extends HookConsumerWidget {
                   content: TextFormField(
                     controller: textEditingController,
                     decoration: InputDecoration(
-                      helperText: "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
+                      helperText:
+                          "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
                       helperMaxLines: 99,
-                      hintText: FirebaseAuth.instance.currentUser?.email ?? "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                      hintText: FirebaseAuth.instance.currentUser?.email ??
+                          "Hata Oluştu Daha Sonra Tekrar Deneyin",
                     ),
                   ),
                   actions: [
@@ -104,7 +112,8 @@ class PrivacyView extends HookConsumerWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        if (textEditingController?.text == FirebaseAuth.instance.currentUser?.uid) {
+                        if (textEditingController?.text ==
+                            FirebaseAuth.instance.currentUser?.uid) {
                           //Silme fonsksiyonu
                         }
                       },
@@ -119,14 +128,17 @@ class PrivacyView extends HookConsumerWidget {
             title: 'GİZLİLİK POLİTİKASI',
             iconUrl: PrivacyIcons.privacy,
             colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const PrivacyPolicyRoute());
+            },
           ),
-          ElementEllipse(
-            title: 'KULLANICI SÖZLEŞMESİ',
-            iconUrl: PrivacyIcons.user,
-            colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
-            onTap: () {},
-          ),
+          if (false)
+            ElementEllipse(
+              title: 'KULLANICI SÖZLEŞMESİ',
+              iconUrl: PrivacyIcons.user,
+              colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
+              onTap: () {},
+            ),
         ],
       ),
     );

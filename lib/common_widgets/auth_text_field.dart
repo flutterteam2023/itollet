@@ -21,7 +21,8 @@ class AuthTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
+          style: TextStyle(
+              color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
         ),
         SizedBox(
           height: 8.69.h,
@@ -32,9 +33,13 @@ class AuthTextField extends StatelessWidget {
             cursorColor: secondary,
             controller: controller,
             obscureText: obscureText,
-            style: TextStyle(color: secondary, fontSize: 14.sp, fontWeight: FontWeight.w500, letterSpacing: 0),
+            style: TextStyle(
+                color: secondary,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0),
             decoration: InputDecoration(
-                label: Text(label),
+                hintText: Text(label).data,
                 suffixIcon: suffixIcon,
                 filled: true,
                 fillColor: Colors.white,

@@ -23,7 +23,7 @@ class BalanceActivitiesView extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.active ||
                 snapshot.connectionState == ConnectionState.none ||
                 snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator.adaptive());
             } else {
               print(snapshot.data?.docs.length);
               return SingleChildScrollView(
@@ -69,7 +69,7 @@ class BalanceActivitiesView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Divider(),
+                        const Divider(),
                       ],
                     ),
                   ),

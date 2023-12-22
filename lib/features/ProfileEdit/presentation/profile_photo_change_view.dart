@@ -251,11 +251,6 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                             height: 1.40,
                           ),
                         ),
-                        Spaces.M.width,
-                        Spaces.M.height,
-                        Padding(
-                          padding: EdgeInsets.all(Spaces.M.size),
-                        ),
                       ],
                     )),
               ),
