@@ -16,8 +16,7 @@ class UserModel with _$UserModel {
     required String? userName,
     required String? email,
     required double? balance,
-    @Deprecated('This field is no longer used. Please use allTimeBalance field')
-    required double? totalBilling,
+    @Deprecated('This field is no longer used. Please use allTimeBalance field') required double? totalBilling,
     @JsonKey(name: "all_time_balance") double? allTimeBalance,
     @JsonKey(name: "total_bidding_fee") double? totalBiddingFee,
     @JsonKey(name: "total_extension_fee") double? totalExtensionFee,
@@ -25,6 +24,7 @@ class UserModel with _$UserModel {
     required String? photoUrl,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, Object?> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, Object?> json) => _$UserModelFromJson(json).copyWith(
+        photoUrl: (json['photoUrl'] as String?) == "" ? null : json['photoUrl'] as String?,
+      );
 }

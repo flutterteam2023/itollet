@@ -15,8 +15,7 @@ import 'package:itollet/features/Home/presentation/states/home_state.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/iberkeugur/Snackbar/snackbar_extension.dart';
 
-final homeProvider =
-    NotifierProvider.autoDispose<HomeNotifier, HomeState>(HomeNotifier.new);
+final homeProvider = NotifierProvider.autoDispose<HomeNotifier, HomeState>(HomeNotifier.new);
 
 class HomeNotifier extends AutoDisposeNotifier<HomeState> {
   final _auth = FirebaseAuth.instance;
@@ -34,10 +33,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
       await _auth.currentUser?.updateDisplayName(newUserName);
       await getUser();
       UserModel user = state.user;
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(_auth.currentUser?.uid)
-          .update(
+      await FirebaseFirestore.instance.collection("users").doc(_auth.currentUser?.uid).update(
             user.copyWith(userName: newUserName).toJson(),
           );
       isSuccess = true;
@@ -56,8 +52,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
           .collection('users')
           .doc(_auth.currentUser?.uid)
           .withConverter<UserModel>(
-            fromFirestore: (snapshot, _) =>
-                UserModel.fromJson(snapshot.data()!),
+            fromFirestore: (snapshot, _) => UserModel.fromJson(snapshot.data()!),
             toFirestore: (model, _) => model.toJson(),
           )
           .get()
@@ -68,7 +63,9 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     } catch (e) {
       print("users başarısız");
     }
-    state = state.copyWith(user: user!);
+    if (user != null) {
+      state = state.copyWith(user: user!);
+    }
   }
 
   Future<List<PostModel>> getPosts() async {
@@ -80,8 +77,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
       await db
           .collection('posts')
           .withConverter<PostModel>(
-            fromFirestore: (snapshot, _) =>
-                PostModel.fromJson(snapshot.data()!),
+            fromFirestore: (snapshot, _) => PostModel.fromJson(snapshot.data()!),
             toFirestore: (model, _) => model.toJson(),
           )
           .get()
@@ -101,128 +97,112 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
 
     return list;
   }
-  Stream<List<PostModel>> getStreamPosts() {
-  final db = FirebaseFirestore.instance;
-  
-  
-  // Firestore'dan gelen verileri akış halinde dinlemek için kullanılır.
-  return db
-      .collection('posts')
-      .withConverter<PostModel>(
-        fromFirestore: (snapshot, _) => PostModel.fromJson(snapshot.data()!),
-        toFirestore: (model, _) => model.toJson(),
-      )
-      .snapshots()  // Verilerin akışını dinlemek için snapshots() metodu kullanılır.
-      .map((querySnapshot) {
-        // Firestore'dan gelen belgeleri PostModel listesine dönüştürür.
-        final List<PostModel> list = [];
-        final List<PostModel> myList = [];
-        
-        
-        for (var doc in querySnapshot.docs) {
-          DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi = doc.data().createdAt!.add(Duration(hours: 24));
 
-    Duration kalanSure = ilanBitisTarihi.difference(suan);
-    int kalanSaat = kalanSure.inHours;
-    int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
-          if (kalanSaat>=0) {
-             final post = doc.data();
+  Stream<List<PostModel>> getStreamPosts() {
+    final db = FirebaseFirestore.instance;
+
+    // Firestore'dan gelen verileri akış halinde dinlemek için kullanılır.
+    return db
+        .collection('posts')
+        .withConverter<PostModel>(
+          fromFirestore: (snapshot, _) => PostModel.fromJson(snapshot.data()!),
+          toFirestore: (model, _) => model.toJson(),
+        )
+        .snapshots() // Verilerin akışını dinlemek için snapshots() metodu kullanılır.
+        .map((querySnapshot) {
+      // Firestore'dan gelen belgeleri PostModel listesine dönüştürür.
+      final List<PostModel> list = [];
+      final List<PostModel> myList = [];
+
+      for (var doc in querySnapshot.docs) {
+        DateTime suan = DateTime.now();
+        DateTime ilanBitisTarihi = doc.data().createdAt!.add(Duration(hours: 24));
+
+        Duration kalanSure = ilanBitisTarihi.difference(suan);
+        int kalanSaat = kalanSure.inHours;
+        int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
+        if (kalanSaat >= 0) {
+          final post = doc.data();
           list.add(post);
           if (post.fromUID == _auth.currentUser?.uid) {
             myList.add(post);
           }
-          }
-         
         }
-        
-        // Akışa PostModel listesini ekler.
-        state = state.copyWith(postModels: list);
-        state = state.copyWith(myPostList: myList);
-        
-        return list;
-      })
-      .handleError((error) {
-        // Hata durumunda akışı yönetmek için kullanılabilir.
-        print("Hata oluştu: $error");
-        // Hata durumunda boş bir liste döndürebilir veya hata mesajını içeren bir hata nesnesi döndürebilirsiniz.
-        throw error;
-      });
-}
+      }
 
+      // Akışa PostModel listesini ekler.
+      state = state.copyWith(postModels: list);
+      state = state.copyWith(myPostList: myList);
 
+      return list;
+    }).handleError((error) {
+      // Hata durumunda akışı yönetmek için kullanılabilir.
+      print("Hata oluştu: $error");
+      // Hata durumunda boş bir liste döndürebilir veya hata mesajını içeren bir hata nesnesi döndürebilirsiniz.
+      throw error;
+    });
+  }
 
   Future<void> postUrl(String postId, String url, BuildContext context) async {
     if (state.streamUser.balance != 0 || state.streamUser.balance! < 0) {
       final list = <String>[];
       String enteredUrl = url;
-    RegExp urlRegExp = RegExp(
-        r'^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$'); // Basit bir URL düzenli ifadesi
+      RegExp urlRegExp = RegExp(r'^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$'); // Basit bir URL düzenli ifadesi
 
-    if (urlRegExp.hasMatch(enteredUrl) && state.streamUser.balance!>=3.75) {
-      // URL formatı doğruysa işlem yapabilirsiniz
-      final db = FirebaseFirestore.instance;
-      await db.collection('posts').doc(postId).get().then((value) {
-        if (value.data()!["postUrl"] != null) {
-          for (var e in value.data()!["postUrl"]) {
-            list.add(e);
+      if (urlRegExp.hasMatch(enteredUrl) && state.streamUser.balance! >= 3.75) {
+        // URL formatı doğruysa işlem yapabilirsiniz
+        final db = FirebaseFirestore.instance;
+        await db.collection('posts').doc(postId).get().then((value) {
+          if (value.data()!["postUrl"] != null) {
+            for (var e in value.data()!["postUrl"]) {
+              list.add(e);
+            }
           }
-        }
-      }).then((value) {
-        db
-            .collection('users')
-            .doc(FirebaseAuth.instance.currentUser?.uid)
-            .update({'balance': state.streamUser.balance! - 3.75});
-      });
-
-      list.add(url);
-      try {
-        await db
-            .collection('posts')
-            .doc(postId)
-            .update({'postUrl': list}).then((value) {
-          context.popRoute();
-          context.snackbar('Teklif Verild!',
-              backgroundColor: Colors.pink,
-              contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+        }).then((value) {
+          db
+              .collection('users')
+              .doc(FirebaseAuth.instance.currentUser?.uid)
+              .update({'balance': state.streamUser.balance! - 3.75});
         });
-        list.clear();
-      } catch (e) {
-        print(e);
+
+        list.add(url);
+        try {
+          await db.collection('posts').doc(postId).update({'postUrl': list}).then((value) {
+            context.popRoute();
+            context.snackbar('Teklif Verild!',
+                backgroundColor: Colors.pink, contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+          });
+          list.clear();
+        } catch (e) {
+          print(e);
+        }
+
+        try {
+          await AccountTransactionService().create(
+            AccountTransactionModel(
+              amount: "- 3.75₺",
+              fromUid: FirebaseAuth.instance.currentUser?.uid ?? "null",
+              createdAt: Timestamp.now().toDate(),
+              docId: "docId",
+              type: AccountTransactionTypes.biddingFee,
+            ),
+          );
+
+          await UserService().updateTotalBiddingFee(3.75);
+        } catch (e) {
+          Log.instance.error("AccountTransactionService create failed in home_notifier.dart");
+        }
+      } else if (state.streamUser.balance! < 3.75) {
+        // URL formatı yanlışsa uyarı göster
+        context.popRoute();
+        context.snackbar('Lütfen Bakiye Yükleyin!',
+            backgroundColor: Colors.pink, contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+      } else if (urlRegExp.hasMatch(enteredUrl) == false) {
+        // URL formatı yanlışsa uyarı göster
+        context.popRoute();
+        context.snackbar('Lütfen Geçerli Bir Url Ekleyin!',
+            backgroundColor: Colors.pink, contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
       }
-
-      try {
-        await AccountTransactionService().create(
-          AccountTransactionModel(
-            amount: "- 3.75₺",
-            fromUid: FirebaseAuth.instance.currentUser?.uid ?? "null",
-            createdAt: Timestamp.now().toDate(),
-            docId: "docId",
-            type: AccountTransactionTypes.biddingFee,
-          ),
-        );
-
-        await UserService().updateTotalBiddingFee(3.75);
-      } catch (e) {
-        Log.instance.error(
-            "AccountTransactionService create failed in home_notifier.dart");
-      }
-    } else if(state.streamUser.balance!<3.75) {
-      // URL formatı yanlışsa uyarı göster
-     context.popRoute();
-      context.snackbar('Lütfen Bakiye Yükleyin!',
-          backgroundColor: Colors.pink,
-          contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
-    }else if(urlRegExp.hasMatch(enteredUrl)==false) {
-      // URL formatı yanlışsa uyarı göster
-     context.popRoute();
-      context.snackbar('Lütfen Geçerli Bir Url Ekleyin!',
-          backgroundColor: Colors.pink,
-          contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
-    }
-    
-
-      
     }
   }
 
@@ -247,21 +227,17 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser?.uid)
-            .update({'balance': state.streamUser.balance! + balance}).then(
-                (value) {
+            .update({'balance': state.streamUser.balance! + balance}).then((value) {
           context.snackbar('Bakiye Yüklendi!',
-              backgroundColor: Colors.pink,
-              contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+              backgroundColor: Colors.pink, contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
         });
       } else {
         await FirebaseFirestore.instance
             .collection('users')
             .doc(FirebaseAuth.instance.currentUser?.uid)
-            .update({'balance': state.streamUser.balance ?? 0 + balance}).then(
-                (value) {
+            .update({'balance': state.streamUser.balance ?? 0 + balance}).then((value) {
           context.snackbar('Bakiye Yüklendi!',
-              backgroundColor: Colors.pink,
-              contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+              backgroundColor: Colors.pink, contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
         });
       }
       //hesap hareketlerini kayıt etme
@@ -277,14 +253,12 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
 
         await UserService().updateAllTimeBalance(balance);
       } catch (e) {
-        Log.instance.error(
-            "AccountTransactionService & UserService error: $e in home_notifier");
+        Log.instance.error("AccountTransactionService & UserService error: $e in home_notifier");
       }
     } catch (e) {
       // ignore: use_build_context_synchronously
       context.snackbar('Hata Oluştu $e',
-          backgroundColor: Colors.pink,
-          contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
+          backgroundColor: Colors.pink, contentStyle: TextStyle(color: Colors.white, fontSize: 15.sp));
     }
   }
 
@@ -292,10 +266,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     final db = FirebaseFirestore.instance;
 
     try {
-      final value = await db
-          .collection('users')
-          .doc(FirebaseAuth.instance.currentUser?.uid)
-          .get();
+      final value = await db.collection('users').doc(FirebaseAuth.instance.currentUser?.uid).get();
 
       if (value.exists) {
         // value.data() artık Generic tipi içine alınarak kullanılmalıdır
@@ -319,15 +290,10 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     // Belirli bir dokümanı referans al ve 'postUrl' alanındaki değişiklikleri dinle
-    return firestore
-        .collection('posts')
-        .doc(documentId)
-        .snapshots()
-        .map((snapshot) {
+    return firestore.collection('posts').doc(documentId).snapshots().map((snapshot) {
       // Doküman varsa, 'postUrl' alanındaki verileri List<String> türüne dönüştür
       List<dynamic> urlList = snapshot.data()?['postUrl'] ?? [];
       return urlList.map((url) => url.toString()).toList();
     });
   }
 }
-  

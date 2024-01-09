@@ -64,9 +64,7 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 26.h,
-            ),
+            SizedBox(height: 26.h),
             SingleChildScrollView(
               child: SizedBox(
                 height: 600.h,

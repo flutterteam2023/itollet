@@ -1,15 +1,9 @@
-import 'dart:convert';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_credit_card/credit_card_form.dart';
-import 'package:flutter_credit_card/credit_card_model.dart';
-import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Payment/Models/payment_card_model.dart';
 import 'package:itollet/features/Payment/providers/payment_notifier.dart';
-import 'package:itollet/routing/app_router.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 @RoutePage()
 class PaymentView extends ConsumerStatefulWidget {
@@ -28,12 +22,6 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
 
   @override
   Widget build(BuildContext context) {
-    final border = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.grey.withOpacity(0.7),
-        width: 2.0,
-      ),
-    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("Ödeme Bilgileri"),
@@ -63,30 +51,6 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
             isExpiryDateVisible: true,
             cardHolderName: cardHolderName,
             expiryDate: expiryDate,
-            themeColor: Colors.blue,
-            cardNumberDecoration: InputDecoration(
-              labelText: 'Number',
-              hintText: 'XXXX XXXX XXXX XXXX',
-              focusedBorder: border,
-              enabledBorder: border,
-            ),
-            expiryDateDecoration: InputDecoration(
-              focusedBorder: border,
-              enabledBorder: border,
-              labelText: 'Expired Date',
-              hintText: 'XX/XX',
-            ),
-            cvvCodeDecoration: InputDecoration(
-              focusedBorder: border,
-              enabledBorder: border,
-              labelText: 'CVV',
-              hintText: 'XXX',
-            ),
-            cardHolderDecoration: InputDecoration(
-              focusedBorder: border,
-              enabledBorder: border,
-              labelText: 'Card Holder',
-            ),
             onCreditCardModelChange: onCreditCardModelChange,
           ),
           GestureDetector(
@@ -126,8 +90,8 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
         cvc: cvvCode,
         registerCard: "0",
       );
-      ref.read(paymentProvider.notifier).payment(paymentCardModel,context);
-      
+      ref.read(paymentProvider.notifier).payment(paymentCardModel, context);
+
       print(paymentCardModel);
     } else {
       print('invalid!');
@@ -143,6 +107,4 @@ class _PaymentViewState extends ConsumerState<PaymentView> {
       isCvvFocused = creditCardModel.isCvvFocused;
     });
   }
-
- 
 }

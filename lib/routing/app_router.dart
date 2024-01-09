@@ -29,6 +29,7 @@ import 'package:itollet/features/SubCategory/presentation/pages/sub_category_vie
 import 'package:itollet/features/SubSubCategory/presentation/pages/sub_sub_category_view.dart';
 import 'package:itollet/features/Wallet/presentation/pages/balance_activities_view.dart';
 import 'package:itollet/features/Wallet/presentation/pages/balance_view.dart';
+import 'package:itollet/features/Wallet/presentation/pages/iframe_screen_view.dart';
 import 'package:itollet/features/Wallet/presentation/pages/wallet_view.dart';
 
 import '../features/Wallet/presentation/pages/add_balance_view.dart';
@@ -65,6 +66,12 @@ class AppRouter extends _$AppRouter {
         ),
         AutoRoute(
           page: BalanceActivitiesRoute.page,
+          initial: false,
+          fullscreenDialog: true,
+        ),
+
+        AutoRoute(
+          page: IFrameScreenRoute.page,
           initial: false,
           fullscreenDialog: true,
         ),
