@@ -1,19 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:auto_route/auto_route.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
+import 'package:gap/gap.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:itollet/features/Account/Services/user_service.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
-import 'package:itollet/features/Payment/Views/webview_view.dart';
-import 'package:http/http.dart' as http;
-import 'package:itollet/features/Wallet/presentation/get_user_ip_address.dart';
 import 'package:itollet/features/Wallet/presentation/pages/get_iframe.dart';
-import 'package:itollet/features/Wallet/presentation/pages/iframe_converter.dart';
-import 'package:itollet/features/Wallet/presentation/pages/iframe_screen_view.dart';
-import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class AddBalanceView extends ConsumerWidget {
@@ -51,7 +44,48 @@ class AddBalanceView extends ConsumerWidget {
                 children: [
                   Bounceable(
                     onTap: () async {
-                      await getIframe(context, 50);
+                      String? phoneNumber;
+                      String? address;
+
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Telefon Numarası",
+                                  ),
+                                ),
+                                const Gap(18),
+                                TextField(
+                                  onChanged: (value) {
+                                    address = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Adres",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("tamam"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (phoneNumber != null || address != null) {
+                        await getIframe(context, 50, phoneNumber!, address!);
+                      }
                     },
                     child: CircleAvatar(
                       radius: 64,
@@ -81,7 +115,48 @@ class AddBalanceView extends ConsumerWidget {
                   ),
                   Bounceable(
                     onTap: () async {
-                      await getIframe(context, 100);
+                      String? phoneNumber;
+                      String? address;
+
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Telefon Numarası",
+                                  ),
+                                ),
+                                const Gap(18),
+                                TextField(
+                                  onChanged: (value) {
+                                    address = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Adres",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("tamam"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (phoneNumber != null || address != null) {
+                        await getIframe(context, 100, phoneNumber!, address!);
+                      }
                     },
                     child: CircleAvatar(
                       radius: 64,
@@ -111,7 +186,48 @@ class AddBalanceView extends ConsumerWidget {
                   ),
                   Bounceable(
                     onTap: () async {
-                      await getIframe(context, 200);
+                      String? phoneNumber;
+                      String? address;
+
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Telefon Numarası",
+                                  ),
+                                ),
+                                const Gap(18),
+                                TextField(
+                                  onChanged: (value) {
+                                    address = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Adres",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("tamam"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (phoneNumber != null || address != null) {
+                        await getIframe(context, 200, phoneNumber!, address!);
+                      }
                     },
                     child: CircleAvatar(
                       radius: 64,
