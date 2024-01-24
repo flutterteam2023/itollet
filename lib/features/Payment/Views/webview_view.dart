@@ -72,7 +72,52 @@ class _WebViewState extends ConsumerState<WebView> {
       body: FutureBuilder(
           future: setcontroller(controller),
           builder: (context, snapshot) {
-            return WebViewWidget(controller: controller!);
+            return WebViewWidget(
+                      controller: controller!
+                        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+                        ..setBackgroundColor(const Color(0x00000000))
+                        ..setNavigationDelegate(
+                          NavigationDelegate(
+                            onNavigationRequest:
+                                (NavigationRequest request) async {
+                              if (request.url.startsWith(
+                                  'https://www.paytr.com/odeme/guvenli/516a6775da1668d6cd9b34338573cb35d2594ca2ac7ab2323bf34f2afbed8750-416441087')) {
+                                return NavigationDecision.navigate;
+                              } else if (request.url.contains("iptal")) {
+                                context.back();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Ödeme iptal edildi"),
+                                  ),
+                                );
+                                await Future.delayed(
+                                    Duration(seconds: 2), () => context.back());
+                              } else if (request.url.contains("onay")) {
+                              } else if (request.url.contains("İtollet")) {
+                                try {
+                                 
+                                } catch (e) {
+                                 ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString()),
+                                    ),
+                                  );
+                                  await Future.delayed(
+                                    Duration(seconds: 2),
+                                    () => context.back(),
+                                  );
+                                  
+                                }
+                              }
+                              return NavigationDecision.navigate;
+                            },
+                          ),
+                        )
+                        ..loadHtmlString("""
+                  <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
+                  ${widget.html},
+                  """),
+                    );
           }),
     );
   }

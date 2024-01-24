@@ -26,13 +26,13 @@ Future<void> getIframe(BuildContext context, int productPrice, String phoneNumbe
                         'lang': 'tr'
                       }; */
     request.bodyFields = {
-      'user_name': UserService().user?.displayName ?? "impossible",
-      'user_address': address,
-      'user_phone': phoneNumber,
-      'user_ip': ipAddress ?? "impossible",
-      'email': UserService().user?.email ?? "impossible",
-      'payment_amount': "${productPrice * 100}",
-      'basket': """["Örnek Ürün 1", "18.00", 1]""",
+      'user_name': 'ataaa',
+      'user_address': 'asddas',
+      'user_phone': '5350749367',
+      'user_ip': '205.40.150.173',
+      'email': 'ata@hotmail.com',
+      'payment_amount': '1000',
+      'basket': '[\n    ["Örnek ürün 1", "10.00", 1]\n]',
       'lang': 'tr'
     };
     request.headers.addAll(headers);
