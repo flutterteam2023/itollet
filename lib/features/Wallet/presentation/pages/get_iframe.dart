@@ -6,6 +6,7 @@ import 'package:itollet/features/Wallet/presentation/get_user_ip_address.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:itollet/features/Wallet/presentation/pages/iframe_converter.dart';
+import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 Future<void> getIframe(BuildContext context, int productPrice, String phoneNumber, String address) async {
@@ -25,14 +26,17 @@ Future<void> getIframe(BuildContext context, int productPrice, String phoneNumbe
                         'basket': '[\'Örnek Ürün 1\', \'100.00\', 1]',
                         'lang': 'tr'
                       }; */
+
+    Log.instance.error(UserService().user);
     request.bodyFields = {
-      'user_name': 'ataaa',
-      'user_address': 'asddas',
-      'user_phone': '5350749367',
-      'user_ip': '205.40.150.173',
-      'email': 'ata@hotmail.com',
-      'payment_amount': '1000',
-      'basket': '[\n    ["Örnek ürün 1", "10.00", 1]\n]',
+      'user_name': "iberkeugur",
+      'user_address': address,
+      'user_phone': phoneNumber,
+      'user_ip': ipAddress.toString(),
+      'email': UserService().user?.email ?? "berkeugur67@gmail",
+      'payment_amount': (productPrice * 100).toString(),
+      'basket':
+          '[\n    ["Bakiye ${(productPrice * 100).toString()} Paketi", "${(productPrice * 100).toString()}", 1]\n]',
       'lang': 'tr'
     };
     request.headers.addAll(headers);
@@ -54,6 +58,8 @@ Future<void> getIframe(BuildContext context, int productPrice, String phoneNumbe
       print(response.reasonPhrase);
       print(response.stream);
       print(await response.stream.bytesToString());
+      await EasyLoading.dismiss();
+      await EasyLoading.showToast(await response.stream.bytesToString());
     }
   } catch (e) {
     await EasyLoading.dismiss();
