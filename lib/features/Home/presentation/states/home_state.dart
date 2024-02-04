@@ -14,7 +14,6 @@ class HomeState with _$HomeState {
       required UserModel user,
       required UserModel streamUser,
       required List<String> streamUrls,
-
       }) = _HomeState;
   factory HomeState.initial() => HomeState(
         isLoading: false,

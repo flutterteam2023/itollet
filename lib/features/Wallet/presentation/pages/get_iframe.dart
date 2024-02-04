@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:itollet/features/Account/Services/user_service.dart';
+import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Wallet/presentation/get_user_ip_address.dart';
 
 import 'package:http/http.dart' as http;
@@ -28,8 +31,11 @@ Future<void> getIframe(BuildContext context, int productPrice, String phoneNumbe
                       }; */
 
     Log.instance.error(UserService().user);
+    final userResponse = await FirebaseFirestore.instance.collection("users").doc(UserService().user?.uid).get();
+    final user = userResponse.data();
+    UserModel userModel = UserModel.fromJson(user as Map<String, dynamic>);
     request.bodyFields = {
-      'user_name': "iberkeugur",
+      'user_name': userModel.userName ?? "null",
       'user_address': address,
       'user_phone': phoneNumber,
       'user_ip': ipAddress.toString(),
