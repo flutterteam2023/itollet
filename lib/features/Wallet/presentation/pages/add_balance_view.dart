@@ -255,6 +255,148 @@ class AddBalanceView extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  Bounceable(
+                    onTap: () async {
+                      String? phoneNumber;
+                      String? address;
+
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Telefon Numarası",
+                                  ),
+                                ),
+                                const Gap(18),
+                                TextField(
+                                  onChanged: (value) {
+                                    address = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Adres",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("tamam"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (phoneNumber != null || address != null) {
+                        await getIframe(context, 20, phoneNumber!, address!);
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 64,
+                      backgroundColor: Colors.purple.withOpacity(1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "20₺",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                            Text(
+                              "Yükle",
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Bounceable(
+                    onTap: () async {
+                      String? phoneNumber;
+                      String? address;
+
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextField(
+                                  onChanged: (value) {
+                                    phoneNumber = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Telefon Numarası",
+                                  ),
+                                ),
+                                const Gap(18),
+                                TextField(
+                                  onChanged: (value) {
+                                    address = value;
+                                  },
+                                  decoration: const InputDecoration(
+                                    hintText: "Adres",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: const Text("tamam"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (phoneNumber != null || address != null) {
+                        await getIframe(context, 10, phoneNumber!, address!);
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 64,
+                      backgroundColor: Colors.purple.withOpacity(1),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "10₺",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
+                            ),
+                            Text(
+                              "Yükle",
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],

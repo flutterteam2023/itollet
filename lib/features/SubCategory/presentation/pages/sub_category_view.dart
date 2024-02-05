@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,19 +10,27 @@ import 'package:itollet/common_widgets/custom_appbar.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
+import 'package:itollet/features/Categories/models/subcategory/subcategory_model.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
-class SubCategoryView extends ConsumerWidget {
+class SubCategoryView extends ConsumerStatefulWidget {
   final CategoryModel category;
   const SubCategoryView(this.category, {super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _SubCategoryViewState();
+}
+class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
+  @override
+  Widget build(BuildContext context) {
+
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
+    List<PostModel> postModel = [];
+    
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -36,7 +46,7 @@ class SubCategoryView extends ConsumerWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [category.primaryColor, category.secondaryColor],
+                      colors: [widget.category.primaryColor, widget.category.secondaryColor],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -51,7 +61,7 @@ class SubCategoryView extends ConsumerWidget {
                         icon: const Icon(Icons.arrow_back_ios)),
                     centerTitle: true,
                     title: Text(
-                      category.name,
+                      widget.category.name,
                       style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
                     backgroundColor: Colors.transparent, // Arkaplan rengini transparent yapın
@@ -66,19 +76,37 @@ class SubCategoryView extends ConsumerWidget {
                   child: Wrap(
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
-                    children: List.generate(category.subCategories.length, (index) {
-                      List<PostModel> postModel = [];
-                      
+                    children: List.generate(widget.category.subCategories.length, (index) {
+                      int sayi = index;
 
-                      final subcategory = category.subCategories[index];
-                      for (var e in state.postModels) {
-                        final subcategorys = category.subCategories[index];
+                      final subcategory = widget.category.subCategories[index];
+                      // for (var e in state.postModels) {
+                      //   final subcategorys = category.subCategories[sayi];
 
-                        if (subcategorys.id == e.categoryID) {
-                          postModel.add(e);
-                        }
-                      }
-                      return postModel.isNotEmpty?  SizedBox(
+                      //   if (subcategorys.id == e.categoryID) {
+                      //     postModel.add(e);
+                      //   }
+                      // }
+
+                      // for (var i = 0; i <state.postModels.length ; i++) {
+                      //   final subcategorys = widget.category.subCategories[sayi];
+                      //   if (subcategorys.id == state.postModels[i].categoryID) {
+                      //     postModel.add(state.postModels[i]);
+                      //   }
+                      //   if (i == state.postModels.length - 1 && sayi!=widget.category.subCategories.length-1) {
+                      //     sayi++;
+                      //     i = 0;
+
+                          
+                      //   }else if(i == state.postModels.length - 1 && sayi==widget.category.subCategories.length-1){
+                      //     break;
+                      //   }
+                        
+                      // }
+
+
+
+                      return  SizedBox(
                         width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
                         height: 128,
                         child: Column(
@@ -88,13 +116,19 @@ class SubCategoryView extends ConsumerWidget {
                             Expanded(
                               child: Bounceable(
                                 onTap: () {
+                                  List<PostModel> postModels = [];
+                                  for (var i = 0; i < state.postModels.length; i++) {
+                                    if (state.postModels[i].categoryID == subcategory.id) {
+                                      postModels.add(state.postModels[i]);
+                                    }
+                                  }
                                   context
-                                      .pushRoute(SubSubCategoryRoute(subcategoryModel: subcategory, postModel: postModel, categoryModel: category));
+                                      .pushRoute(SubSubCategoryRoute(subcategoryModel: subcategory, postModel: postModels, categoryModel: widget.category));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
+                                    gradient: LinearGradient(colors: [widget.category.primaryColor, widget.category.secondaryColor]),
                                   ),
                                   child: Center(
                                     child: CachedNetworkImage(
@@ -128,7 +162,7 @@ class SubCategoryView extends ConsumerWidget {
                             )
                           ],
                         ),
-                      ):const SizedBox.shrink();
+                      );
                     }),
                   ),
                 ),

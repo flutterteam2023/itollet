@@ -183,7 +183,17 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                                 height: 14.h,
                               ),
                               Text(
-                                "Bütçe ${widget.postModel.description}₺",
+                                "Max Bütçe: ${widget.postModel.balanceMax}₺",
+                                style: TextStyle(
+                                    color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                "Min Bütçe: ${widget.postModel.balanceMin}₺",
                                 style: TextStyle(
                                     color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
                                     fontSize: 16.sp,

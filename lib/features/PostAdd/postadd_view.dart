@@ -33,6 +33,7 @@ class PostAddView extends HookConsumerWidget {
     final list = <String>[];
     final imageFile = useValueNotifier<File?>(null);
     final categoryID = useValueNotifier<String?>(null);
+    final subCategoriesId = useState("");
 
     return Scaffold(
       appBar: AppBar(
@@ -246,7 +247,6 @@ class PostAddView extends HookConsumerWidget {
                                             onTap: () {
                                               Navigator.of(context).pop();
                                               list.add(cat.categories[index].name);
-                                              categoryID.value = mainCategory.id;
                                               setStateButton(() {});
                                               showModalBottomSheet(
                                                 context: context,
@@ -301,7 +301,7 @@ class PostAddView extends HookConsumerWidget {
                                                                     list.removeLast();
                                                                   }
                                                                   list.add(mainCategory.subCategories[subindex].name);
-                                                                  categoryID.value = mainCategory.subCategories[index].id;
+                                                                  categoryID.value = mainCategory.subCategories[subindex].id;
                                                                   setStateButton(() {});
                                                                   Navigator.of(context).pop();
                                                                 },
@@ -454,6 +454,7 @@ class PostAddView extends HookConsumerWidget {
                         await docRef
                             .set(
                           PostModel(
+                            postId: docRef.id,
                             endDate:DateTime.now() ,
                             fromUID: FirebaseAuth.instance.currentUser!.uid,
                             title: tit.text,

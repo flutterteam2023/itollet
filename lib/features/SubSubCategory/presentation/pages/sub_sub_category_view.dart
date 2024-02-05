@@ -127,7 +127,8 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                                     },
                                     child: SubSubCard(
                                       title: post.title,
-                                      price: post.description,
+                                      maxprice: post.balanceMax.toString(),
+                                      minPrice: post.balanceMin.toString(),
                                       kalanDakika: kalanDakika,
                                       kalanSaat: kalanSaat,
                                       imageUrl: post.photoUrl,
@@ -153,14 +154,17 @@ class SubSubCard extends StatelessWidget {
   const SubSubCard({
     super.key,
     required this.title,
-    required this.price,
+    required this.maxprice,
+    required this.minPrice,
+
     required this.imageUrl,
     required this.categoryModel,
     required this.kalanDakika,
     required this.kalanSaat,
   });
   final String title;
-  final String price;
+  final String maxprice;
+  final String minPrice;
   final int kalanDakika;
   final int kalanSaat;
   final String imageUrl;
@@ -217,10 +221,21 @@ class SubSubCard extends StatelessWidget {
               height: 5.h,
             ),
             Text(
-              "$price ₺",
+              "maximum fiyat:$maxprice ₺",
               style: TextStyle(
                   color: categoryModel.primaryColor,
-                  fontSize: 16.sp,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Poppins Italic'),
+            ),
+            SizedBox(
+              height: 5.h,
+            ),
+            Text(
+              "minimum fiyat:$minPrice ₺",
+              style: TextStyle(
+                  color: categoryModel.primaryColor,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Poppins Italic'),
             ),

@@ -13,6 +13,8 @@ class PostModel with _$PostModel {
     required String? balanceMin,
     required String? balanceMax,
     required String description,
+    required String postId,
+
     @TimestampSerializer() required DateTime? createdAt,
     @TimestampSerializer() required DateTime? endDate,
 

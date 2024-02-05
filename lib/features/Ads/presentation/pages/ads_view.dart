@@ -166,7 +166,14 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                     height: 14.h,
                                   ),
                                   Text(
-                                    "Bütçe ${widget.postModel.balanceMax}₺",
+                                    "Max Bütçe: ${widget.postModel.balanceMax}₺",
+                                    style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Text(
+                                    "Min Bütçe: ${widget.postModel.balanceMin}₺",
                                     style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
