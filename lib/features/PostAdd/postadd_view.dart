@@ -486,7 +486,7 @@ class PostAddView extends HookConsumerWidget {
                       }
 
                       }else{
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hiçbir Alan Boş Bırakılamaz!',
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hiçbir Alan Boş Bırakılamaz.Resim Eklenmesi Zorunludur!',
                         style: TextStyle(
                           fontSize: 17.sp
                         ),
