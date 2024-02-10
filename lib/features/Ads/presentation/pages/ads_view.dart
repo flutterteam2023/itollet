@@ -132,7 +132,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(999),
                             child: CachedNetworkImage(
-                              imageUrl: widget.postModel.photoUrl,
+                              imageUrl: widget.postModel.photoUrl!,
                               fit: BoxFit.fill,
                               progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
                                 dimension: 15,
@@ -199,7 +199,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
               Padding(
                 padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
                 child: Text(
-                  widget.postModel.description,
+                  widget.postModel.description!,
                   style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                 ),
               ),

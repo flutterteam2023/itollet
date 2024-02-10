@@ -13,10 +13,10 @@ class PostModel with _$PostModel {
       required String? postId,
       required List<String>? postUrl,
       @TimestampSerializer() required DateTime? createdAt,
-      required String description,
-      required String fromUID,
+      required String? description,
+      required String? fromUID,
       required List<String>? feedUrls,
-      required String photoUrl,
+      required String? photoUrl,
       required String title}) = _PostModel;
 
   factory PostModel.fromJson(Map<String, dynamic> json) => _$PostModelFromJson(json);

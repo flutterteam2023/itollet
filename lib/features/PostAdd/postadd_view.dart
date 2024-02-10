@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -34,6 +35,7 @@ class PostAddView extends HookConsumerWidget {
     final imageFile = useValueNotifier<File?>(null);
     final categoryID = useValueNotifier<String?>(null);
     final subCategoriesId = useState("");
+    final isloading = useState(false);
 
     return Scaffold(
       appBar: AppBar(
@@ -397,7 +399,7 @@ class PostAddView extends HookConsumerWidget {
                 TextFormField(
                   autocorrect: true,
                   controller: des,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.multiline,
                   minLines: 4,
                   maxLines: 10,
                   decoration: InputDecoration(
@@ -433,8 +435,9 @@ class PostAddView extends HookConsumerWidget {
                 InkWell(
                   onTap: () async {
                     if (formKey.currentState!.validate()) {
-                      if (tit.text.isNotEmpty && categoryID.value != null && imageFile.value != null && des.text.isNotEmpty) {}
-                      try {
+                      if (tit.text.isNotEmpty && categoryID.value != null && imageFile.value != null && des.text.isNotEmpty) {
+                         try {
+                        isloading.value = true;
                         final docRef = FirebaseFirestore.instance.collection("posts").doc();
                         final imageData = await XFile(imageFile.value!.path).readAsBytes();
                         final featuredPhoto = imageData;
@@ -472,12 +475,24 @@ class PostAddView extends HookConsumerWidget {
                           min.clear();
                           max.clear();
                           des.clear();
+                          list.clear();
                           imageFile.value = null;
                           categoryID.value = null;
+                          isloading.value = false;
+                          context.popRoute();
                         });
                       } catch (e) {
                         Log.instance.error(e.toString());
                       }
+
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hiçbir Alan Boş Bırakılamaz!',
+                        style: TextStyle(
+                          fontSize: 17.sp
+                        ),
+                        ),backgroundColor:secondary ,));
+                      }
+                     
                     }
                   },
                   child: Container(
@@ -496,7 +511,7 @@ class PostAddView extends HookConsumerWidget {
                         ),
                         borderRadius: BorderRadius.circular(9999),
                       ),
-                      child: Row(
+                      child:isloading.value==false? Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -517,7 +532,8 @@ class PostAddView extends HookConsumerWidget {
                             padding: EdgeInsets.all(Spaces.M.size),
                           ),
                         ],
-                      )),
+                      ):const CircularProgressIndicator(color: Colors.white,)
+                      ),
                 ),
               ],
             ),

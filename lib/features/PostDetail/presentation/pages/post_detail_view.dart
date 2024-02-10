@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -19,6 +20,7 @@ import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
+import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
 class PostDetailView extends StatefulHookConsumerWidget {
@@ -36,273 +38,301 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
     final state = ref.watch(homeProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final titleController = useTextEditingController(text: '');
-    final budgetController = useTextEditingController(text: '');
+    final maxBalance = useTextEditingController(text: '');
+    final minBalance = useTextEditingController(text: '');
     late Timer _timer;
     final descriptionController = useTextEditingController(text: '');
     DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi =
-        widget.postModel.createdAt!.add(Duration(hours: 24));
+    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(Duration(hours: 24));
     Duration kalanSure = ilanBitisTarihi.difference(suan);
-    
-    void _updateTimer(Timer timer) {
-    DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
-    setState(() {
-      kalanSure = ilanBitisTarihi.difference(suan);
-    });
+    final isloading = useState(false);
 
-    if (kalanSure.isNegative) {
-      _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+    void _updateTimer(Timer timer) {
+      DateTime suan = DateTime.now();
+      DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
+      setState(() {
+        kalanSure = ilanBitisTarihi.difference(suan);
+      });
+
+      if (kalanSure.isNegative) {
+        _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+      }
     }
-  }
-     @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
-  }
+
     @override
-  void dispose() {
-    _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
-    super.dispose();
-  }
-  int kalanSaat = kalanSure.inHours;
+    void initState() {
+      super.initState();
+      _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
+    }
+
+    @override
+    void dispose() {
+      _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
+      super.dispose();
+    }
+
+    int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
-  
+
     return Scaffold(
-      drawer: CustomDrawer(scaffoldKey: scaffoldKey),
-      appBar: const CustomAppBar(),
-      body: Padding(
-        padding: EdgeInsets.only(top: 24.h),
-        child: Column(
-          children: [
-            PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: PreferredSize(
+        drawer: CustomDrawer(scaffoldKey: scaffoldKey),
+        appBar: const CustomAppBar(),
+        body: Padding(
+          padding: EdgeInsets.only(top: 24.h),
+          child: Column(
+            children: [
+              PreferredSize(
                 preferredSize: const Size.fromHeight(kToolbarHeight),
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                     widget.categoryModel!=null?   widget.categoryModel!.primaryColor:secondary,
-                      widget.categoryModel!=null?  widget.categoryModel!.secondaryColor:secondary
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                child: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          widget.categoryModel != null ? widget.categoryModel!.primaryColor : secondary,
+                          widget.categoryModel != null ? widget.categoryModel!.secondaryColor : secondary
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                     ),
-                  ),
-                  child: AppBar(
-                    automaticallyImplyLeading: false,
-                    leading: IconButton(
-                        onPressed: () {
-                          context.back();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                        )),
-                    forceMaterialTransparency: true,
-                    surfaceTintColor: Colors.white,
-                    foregroundColor: Colors.white,
-                    shadowColor: Colors.white,
-                    iconTheme: const IconThemeData(color: Colors.white),
-                    centerTitle: true,
-                    title: Text(
-                      'İLANIM',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24.sp,
-                          fontWeight: FontWeight.w400),
+                    child: AppBar(
+                      automaticallyImplyLeading: false,
+                      leading: IconButton(
+                          onPressed: () {
+                            context.back();
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: Colors.white,
+                          )),
+                      forceMaterialTransparency: true,
+                      surfaceTintColor: Colors.white,
+                      foregroundColor: Colors.white,
+                      shadowColor: Colors.white,
+                      iconTheme: const IconThemeData(color: Colors.white),
+                      centerTitle: true,
+                      title: Text(
+                        'İLANIM',
+                        style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
+                      ),
+                      backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                     ),
-                    backgroundColor:
-                        Colors.white, // Arkaplan rengini transparent yapın
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 16.w, right: 11.w, top: 16.h),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: greyCard,
-                  borderRadius: BorderRadius.circular(18.r),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 128.r,
-                        width: 128.r,
-                      
-                        // ignore: sort_child_properties_last
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(999),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.postModel.photoUrl,
-                            fit: BoxFit.fill,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) =>
-                                    SizedBox.square(
-                              dimension: 15,
-                              child: CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                                value: downloadProgress.progress,
+            isloading.value==false?  FutureBuilder(
+                  future: FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).get(),
+                  builder: (context, postSnapshot) {
+                    if (postSnapshot.hasError) {
+                      return const Text('Data gelmedi');
+                    }
+
+                    if (!postSnapshot.hasData) {
+                      return const CircularProgressIndicator(color: Colors.purple,);
+                    }
+                    if (postSnapshot.data == null) {
+                      return const CircularProgressIndicator();
+                    }
+                    final postData = postSnapshot.data;
+
+                   if (postData!=null) {
+                    PostModel? postModel = PostModel.fromJson(postData.data() as Map<String, dynamic>);
+
+                     return Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w, right: 11.w, top: 16.h),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: greyCard,
+                              borderRadius: BorderRadius.circular(18.r),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 128.r,
+                                    width: 128.r,
+
+                                    // ignore: sort_child_properties_last
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(999),
+                                      child: CachedNetworkImage(
+                                        imageUrl: postModel.photoUrl ?? '',
+                                        fit: BoxFit.fill,
+                                        progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                                          dimension: 15,
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 2,
+                                            value: downloadProgress.progress,
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) {
+                                          Log.instance.error(error);
+                                          return const Icon(Icons.error_outline);
+                                        },
+                                      ),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: widget.categoryModel != null
+                                              ? widget.categoryModel!.primaryColor
+                                              : secondary,
+                                          width: 2),
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 16.w),
+                                    child: SizedBox(
+                                      width: 214.w,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          AutoSizeText(
+                                            postModel.title,
+                                            style:
+                                                TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                                            maxLines: 2,
+                                          ),
+                                          SizedBox(
+                                            height: 14.h,
+                                          ),
+                                          Text(
+                                            "Max Bütçe: ${postModel.balanceMax}₺",
+                                            style: TextStyle(
+                                                color: widget.categoryModel != null
+                                                    ? widget.categoryModel!.primaryColor
+                                                    : secondary,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Text(
+                                            "Min Bütçe: ${postModel.balanceMin}₺",
+                                            style: TextStyle(
+                                                color: widget.categoryModel != null
+                                                    ? widget.categoryModel!.primaryColor
+                                                    : secondary,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          ),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Text(
+                                            "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}: ${kalanDakika.toString().padLeft(2, '0')}",
+                                            style: TextStyle(
+                                                color: widget.categoryModel != null
+                                                    ? widget.categoryModel!.primaryColor
+                                                    : secondary,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                            errorWidget: (context, url, error) {
-                              Log.instance.error(error);
-                              return const Icon(Icons.error_outline);
-                            },
                           ),
                         ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
-                              width: 2),
-                          shape: BoxShape.circle,
+                        SizedBox(
+                          height: 9.h,
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 16.w),
-                        child: SizedBox(
-                          width: 214.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText(
-                                widget.postModel.title,
-                                style: TextStyle(
-                                    color: black,
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w500),
-                                maxLines: 2,
-                              ),
-                              SizedBox(
-                                height: 14.h,
-                              ),
-                              Text(
-                                "Max Bütçe: ${widget.postModel.balanceMax}₺",
-                                style: TextStyle(
-                                    color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Text(
-                                "Min Bütçe: ${widget.postModel.balanceMin}₺",
-                                style: TextStyle(
-                                    color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 10.h,
-                              ),
-                              Text(
-                                "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}: ${kalanDakika.toString().padLeft(2, '0')}",
-                                style: TextStyle(
-                                    color:widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600),
-                              )
-                            ],
+                        Padding(
+                          padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
+                          child: Text(
+                            postModel.description!,
+                            style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 9.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
-              child: Text(
-                widget.postModel.description,
-                style: TextStyle(
-                    height: 1.7,
-                    color: black,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500),
-              ),
-            ),
-            StreamBuilder<List<String>>(
-                stream: ref
-                    .watch(homeProvider.notifier)
-                    .getPostUrlsStream(widget.postModel.postId!),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text('Data gelmedi');
-                  }
-                  if (snapshot.hasData) {
-                    List<String> urls = snapshot.data ?? [];
-                    return SizedBox(
-                      height: 300.h,
-                      child: ListView.builder(
-                        itemCount: urls.length,
-                        itemBuilder: (context, index) {
-                          return LinkCard(
-                            url: urls[index],
-                            categoryModel:widget.categoryModel!=null? widget.categoryModel!:null,
-                            onTap: () {
-                              ref
-                                  .read(postDetailProvider.notifier)
-                                  .launchUrls(urls[index],widget.postModel.postId!);
-                            },
-                          );
-                        },
-                      ),
+                      ],
                     );
-                  }
-                  return const SizedBox.shrink();
-                }),
-            PostDetailButton(
-              title: 'Düzenle',
-              onTap: () {
-                CustomBottomSheet().ModalBottomSheet(context, titleController,
-                    budgetController, descriptionController);
-              },
-              colors: [
-               widget.categoryModel!=null? widget.categoryModel!.primaryColor:secondary,
-               widget.categoryModel!=null? widget.categoryModel!.secondaryColor:secondary
-              ],
-            ),
-            SizedBox(
-              height: 11.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 7.w),
-              child: Bounceable(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(18.r),
-                      color: Colors.white,
-                      border: Border.all(width: 3.w, color: black)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 13.h),
-                    child: Center(
-                      child: Text(
-                        'KALDIR',
-                        style: TextStyle(
-                            color: black,
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w400),
+                     
+                   }else{
+                     return const CircularProgressIndicator();
+                   }
+                  }):SizedBox.shrink(),
+              StreamBuilder<List<String>>(
+                  stream: ref.watch(homeProvider.notifier).getPostUrlsStream(widget.postModel.postId!),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const Text('Data gelmedi');
+                    }
+                    if (snapshot.hasData) {
+                      List<String> urls = snapshot.data ?? [];
+                      return SizedBox(
+                        height: 300.h,
+                        child: ListView.builder(
+                          itemCount: urls.length,
+                          itemBuilder: (context, index) {
+                            return LinkCard(
+                              url: urls[index],
+                              categoryModel: widget.categoryModel != null ? widget.categoryModel! : null,
+                              onTap: () {
+                                ref.read(postDetailProvider.notifier).launchUrls(urls[index], widget.postModel.postId!);
+                              },
+                            );
+                          },
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
+              PostDetailButton(
+                title: 'Düzenle',
+                onTap: () {
+                  CustomBottomSheet().ModalBottomSheet(
+                      context, titleController, maxBalance, minBalance, descriptionController, widget.postModel);
+                },
+                colors: [
+                  widget.categoryModel != null ? widget.categoryModel!.primaryColor : secondary,
+                  widget.categoryModel != null ? widget.categoryModel!.secondaryColor : secondary
+                ],
+              ),
+              SizedBox(
+                height: 11.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 20.w, right: 7.w),
+                child: Bounceable(
+                  onTap: () async {
+                    isloading.value = true;
+                    FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).delete().then((value) {
+                      isloading.value = false;
+                      context.pushRoute(const HomeRoute());
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18.r),
+                        color: Colors.white,
+                        border: Border.all(width: 3.w, color: black)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 13.h),
+                      child: Center(
+                        child: isloading.value == false
+                            ? Text(
+                                'KALDIR',
+                                style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w400),
+                              )
+                            : CircularProgressIndicator(
+                                color: Colors.purple,
+                              ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+              )
+            ],
+          ),
+        ));
   }
 }

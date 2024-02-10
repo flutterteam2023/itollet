@@ -65,57 +65,60 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
               ),
             ),
             SizedBox(height: 26.h),
-            SingleChildScrollView(
-              child: SizedBox(
-                height: 600.h,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 12.w, right: 24.w),
-                  child: Wrap(
-                    alignment: WrapAlignment.start,
-                    crossAxisAlignment: WrapCrossAlignment.start,
-                    children: List.generate(state.myPostList.length, (index) {
-                      final myPost = state.myPostList[index];
-                      DateTime suan = DateTime.now();
-                      DateTime ilanBitisTarihi = myPost.createdAt!.add(const Duration(hours: 24));
-                      Duration kalanSure = ilanBitisTarihi.difference(suan);
-                      int kalanSaat = kalanSure.inHours;
-                      int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
-                      return kalanSaat >= 0
-                          ? SizedBox(
-                              width: (MediaQuery.of(context).size.width - 36) / 2,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
-                                child: SubSubCard(
-                                  isTimeFinish: false,
-                                  description: myPost.title,
-                                  price: myPost.balanceMax,
-                                  kalanSaat: kalanSaat,
-                                  kalanDakika: kalanDakika,
-                                  url: myPost.photoUrl,
-                                  onTap: () {
-                                    context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel: null));
-                                  },
-                                ),
-                              ))
-                          : SizedBox(
-                              width: (MediaQuery.of(context).size.width - 36) / 2,
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
-                                child: SubSubCard(
-                                  isTimeFinish: true,
-                                  description: myPost.title,
-                                  price: myPost.balanceMax,
-                                  url: myPost.photoUrl,
-                                  onTap: () {
-                                    context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel: null));
-                                  },
-                                  kalanSaat: null,
-                                  kalanDakika: null,
-                                ),
-                              ));
-                    }),
+            Expanded(
+              child: ListView(
+                children: [
+                  SizedBox(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 12.w, right: 24.w),
+                      child: Wrap(
+                        alignment: WrapAlignment.start,
+                        crossAxisAlignment: WrapCrossAlignment.start,
+                        children: List.generate(state.myPostList.length, (index) {
+                          final myPost = state.myPostList[index];
+                          DateTime suan = DateTime.now();
+                          DateTime ilanBitisTarihi = myPost.createdAt!.add(const Duration(hours: 24));
+                          Duration kalanSure = ilanBitisTarihi.difference(suan);
+                          int kalanSaat = kalanSure.inHours;
+                          int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
+                          return kalanSaat >= 0
+                              ? SizedBox(
+                                  width: (MediaQuery.of(context).size.width - 36) / 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
+                                    child: SubSubCard(
+                                      isTimeFinish: false,
+                                      description: myPost.title,
+                                      price: myPost.balanceMax,
+                                      kalanSaat: kalanSaat,
+                                      kalanDakika: kalanDakika,
+                                      url: myPost.photoUrl!,
+                                      onTap: () {
+                                        context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel: null));
+                                      },
+                                    ),
+                                  ))
+                              : SizedBox(
+                                  width: (MediaQuery.of(context).size.width - 36) / 2,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
+                                    child: SubSubCard(
+                                      isTimeFinish: true,
+                                      description: myPost.title,
+                                      price: myPost.balanceMax,
+                                      url: myPost.photoUrl!,
+                                      onTap: () {
+                                        context.pushRoute(PostDetailRoute(postModel: myPost, categoryModel: null));
+                                      },
+                                      kalanSaat: null,
+                                      kalanDakika: null,
+                                    ),
+                                  ));
+                        }),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             )
           ],

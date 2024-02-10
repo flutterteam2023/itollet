@@ -131,7 +131,7 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                                       minPrice: post.balanceMin.toString(),
                                       kalanDakika: kalanDakika,
                                       kalanSaat: kalanSaat,
-                                      imageUrl: post.photoUrl,
+                                      imageUrl: post.photoUrl!,
                                       categoryModel: widget.categoryModel,
                                     ),
                                   ),
