@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:gap/gap.dart';
@@ -14,9 +15,13 @@ class AddBalanceView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bakiye Yükle"),
+        title:  AutoSizeText("Bakiye Yükle",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -26,7 +31,8 @@ class AddBalanceView extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 "YÜKLENECEK MİKTARI SEÇİNİZ",
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -51,7 +57,9 @@ class AddBalanceView extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            title:  AutoSizeText("Ödeme Aşaması İçin Gerekli Bilgiler",
+                            textScaleFactor: textScaleFactor,
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -75,10 +83,13 @@ class AddBalanceView extends ConsumerWidget {
                               ],
                             ),
                             actions: [
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("tamam"),
-                              ),
+                                child:  AutoSizeText("Tamam",
+                                textScaleFactor: textScaleFactor,
+                                ),
+                              
+                              )
                             ],
                           );
                         },
@@ -96,7 +107,8 @@ class AddBalanceView extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "50₺",
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
@@ -104,7 +116,8 @@ class AddBalanceView extends ConsumerWidget {
                                   .titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "Yükle",
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                             )
@@ -122,7 +135,9 @@ class AddBalanceView extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            title:  AutoSizeText("Ödeme Aşaması İçin Gerekli Bilgiler",
+                            textScaleFactor: textScaleFactor,
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -146,10 +161,13 @@ class AddBalanceView extends ConsumerWidget {
                               ],
                             ),
                             actions: [
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("tamam"),
-                              ),
+                                child:  AutoSizeText("Tamam",
+                                textScaleFactor: textScaleFactor,
+                                ),
+                              
+                              )
                             ],
                           );
                         },
@@ -167,7 +185,8 @@ class AddBalanceView extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "100₺",
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
@@ -175,7 +194,8 @@ class AddBalanceView extends ConsumerWidget {
                                   .titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "Yükle",
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                             )
@@ -193,7 +213,9 @@ class AddBalanceView extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            title:  AutoSizeText("Ödeme Aşaması İçin Gerekli Bilgiler",
+                            textScaleFactor: textScaleFactor,
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -217,10 +239,13 @@ class AddBalanceView extends ConsumerWidget {
                               ],
                             ),
                             actions: [
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("tamam"),
-                              ),
+                                child:  AutoSizeText("Tamam",
+                                textScaleFactor: textScaleFactor,
+                                ),
+                              
+                              )
                             ],
                           );
                         },
@@ -238,7 +263,8 @@ class AddBalanceView extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "200₺",
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
@@ -246,7 +272,8 @@ class AddBalanceView extends ConsumerWidget {
                                   .titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "Yükle",
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                             )
@@ -264,7 +291,9 @@ class AddBalanceView extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            title:  AutoSizeText("Ödeme Aşaması İçin Gerekli Bilgiler",
+                            textScaleFactor: textScaleFactor,
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -288,10 +317,14 @@ class AddBalanceView extends ConsumerWidget {
                               ],
                             ),
                             actions: [
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("tamam"),
-                              ),
+                                child:  AutoSizeText("Tamam",
+                                
+                                textScaleFactor: textScaleFactor,
+                                ),
+                              
+                              )
                             ],
                           );
                         },
@@ -309,7 +342,8 @@ class AddBalanceView extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "20₺",
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
@@ -317,7 +351,8 @@ class AddBalanceView extends ConsumerWidget {
                                   .titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "Yükle",
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                             )
@@ -335,7 +370,9 @@ class AddBalanceView extends ConsumerWidget {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Ödeme Aşaması İçin gerekli Bilgiler"),
+                            title:  AutoSizeText("Ödeme Aşaması İçin Gerekli Bilgiler",
+                            textScaleFactor: textScaleFactor,
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -359,10 +396,13 @@ class AddBalanceView extends ConsumerWidget {
                               ],
                             ),
                             actions: [
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () => Navigator.of(context).pop(),
-                                child: const Text("tamam"),
-                              ),
+                                child:  AutoSizeText("Tamam",
+                                textScaleFactor: textScaleFactor,
+                                ),
+                              
+                              )
                             ],
                           );
                         },
@@ -380,7 +420,8 @@ class AddBalanceView extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "10₺",
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
@@ -388,7 +429,8 @@ class AddBalanceView extends ConsumerWidget {
                                   .titleLarge
                                   ?.copyWith(fontWeight: FontWeight.bold, color: Colors.white),
                             ),
-                            Text(
+                            AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "Yükle",
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white),
                             )

@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -30,6 +31,8 @@ class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
     List<PostModel> postModel = [];
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     
 
     return Scaffold(
@@ -60,7 +63,8 @@ class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
                         },
                         icon: const Icon(Icons.arrow_back_ios)),
                     centerTitle: true,
-                    title: Text(
+                    title: AutoSizeText(
+                      textScaleFactor: textScaleFactor,
                       widget.category.name,
                       style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
@@ -154,7 +158,8 @@ class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
                               ),
                             ),
                             Expanded(
-                              child: Text(
+                              child: AutoSizeText(
+                                textScaleFactor: textScaleFactor,
                                 subcategory.name,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),

@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/common_widgets/custom_appbar.dart';
-import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/providers/category_notifier.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
@@ -19,6 +19,8 @@ class HomeView extends ConsumerWidget {
     final categories = ref.watch(categoryProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -79,11 +81,18 @@ class HomeView extends ConsumerWidget {
                         ),
                       ),
                       Expanded(
-                        child: Text(
+                        child: AutoSizeText(
+                          
                           category.name,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
-                        ),
+                          textScaleFactor: textScaleFactor,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          
+                        
+                        )
                       )
                     ],
                   ),

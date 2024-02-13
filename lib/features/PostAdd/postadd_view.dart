@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -34,12 +35,15 @@ class PostAddView extends HookConsumerWidget {
     final list = <String>[];
     final imageFile = useValueNotifier<File?>(null);
     final categoryID = useValueNotifier<String?>(null);
-    final subCategoriesId = useState("");
     final isloading = useState(false);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("İLAN EKLE"),
+        title:  AutoSizeText("İLAN EKLE",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: Form(
         key: formKey,
@@ -105,19 +109,20 @@ class PostAddView extends HookConsumerWidget {
                                             });
                                           }
                                         },
-                                        child: const CircleAvatar(
+                                        child:  CircleAvatar(
                                           radius: 64,
                                           child: Padding(
-                                            padding: EdgeInsets.all(18),
+                                            padding: const EdgeInsets.all(18),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                Icon(Icons.photo_camera),
-                                                Text(
+                                                const Icon(Icons.photo_camera),
+                                                AutoSizeText(
+                                                  textScaleFactor: textScaleFactor,
                                                   "Kameradan Ekle",
                                                   textAlign: TextAlign.center,
-                                                ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -145,19 +150,20 @@ class PostAddView extends HookConsumerWidget {
                                             });
                                           }
                                         },
-                                        child: const CircleAvatar(
+                                        child:  CircleAvatar(
                                           radius: 64,
                                           child: Padding(
-                                            padding: EdgeInsets.all(18),
+                                            padding: const EdgeInsets.all(18),
                                             child: Column(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                Icon(Icons.photo_album),
-                                                Text(
+                                                const Icon(Icons.photo_album),
+                                                AutoSizeText(
+                                                  textScaleFactor: textScaleFactor, 
                                                   "Galeriden Ekle",
                                                   textAlign: TextAlign.center,
-                                                ),
+                                                )
                                               ],
                                             ),
                                           ),
@@ -192,7 +198,11 @@ class PostAddView extends HookConsumerWidget {
                                       ],
                                     ),
                             ),
-                            const Text("Fotoğraf Ekle"),
+                             AutoSizeText(
+                              textScaleFactor: textScaleFactor,
+                              "Fotoğraf Ekle",
+                              textAlign: TextAlign.center,
+                            ),
                           ],
                         );
                       }),
@@ -288,7 +298,8 @@ class PostAddView extends HookConsumerWidget {
                                                               },
                                                               shrinkWrap: true,
                                                               physics: const NeverScrollableScrollPhysics(),
-                                                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+                                                              padding: EdgeInsets.only(
+                                                                  bottom: MediaQuery.of(context).viewPadding.bottom),
                                                               itemCount: mainCategory.subCategories.length,
                                                               itemBuilder: (context, subindex) => ListTile(
                                                                 leading: CircleAvatar(
@@ -303,11 +314,14 @@ class PostAddView extends HookConsumerWidget {
                                                                     list.removeLast();
                                                                   }
                                                                   list.add(mainCategory.subCategories[subindex].name);
-                                                                  categoryID.value = mainCategory.subCategories[subindex].id;
+                                                                  categoryID.value =
+                                                                      mainCategory.subCategories[subindex].id;
                                                                   setStateButton(() {});
                                                                   Navigator.of(context).pop();
                                                                 },
-                                                                title: Text(mainCategory.subCategories[subindex].name),
+                                                                title: AutoSizeText(mainCategory.subCategories[subindex].name,
+                                                                textScaleFactor: textScaleFactor,
+                                                                ),
                                                                 trailing: const Icon(
                                                                   Icons.arrow_forward,
                                                                 ),
@@ -327,7 +341,11 @@ class PostAddView extends HookConsumerWidget {
                                               height: 24,
                                               width: 24,
                                             )),
-                                            title: Text(mainCategory.name),
+                                            title: AutoSizeText(
+                                              textScaleFactor: textScaleFactor,
+                                              mainCategory.name,
+                                              maxLines: 1,
+                                            ),
                                             trailing: const Icon(
                                               Icons.arrow_forward,
                                             ),
@@ -347,12 +365,15 @@ class PostAddView extends HookConsumerWidget {
                       ),
                       child: Row(
                         children: [
-                          Text(
-                            "${list.isEmpty ? "Kategori seç" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
+                          AutoSizeText(
+                            textScaleFactor: textScaleFactor,
+                            "${list.isEmpty ? "Kategori Seç" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
                             style: const TextStyle(
                               color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -435,64 +456,70 @@ class PostAddView extends HookConsumerWidget {
                 InkWell(
                   onTap: () async {
                     if (formKey.currentState!.validate()) {
-                      if (tit.text.isNotEmpty && categoryID.value != null && imageFile.value != null && des.text.isNotEmpty) {
-                         try {
-                        isloading.value = true;
-                        final docRef = FirebaseFirestore.instance.collection("posts").doc();
-                        final imageData = await XFile(imageFile.value!.path).readAsBytes();
-                        final featuredPhoto = imageData;
-                        var ref = FirebaseStorage.instance.ref().child(
-                              'posts/${docRef.id}',
-                            );
-                        final id = const Uuid().v1();
-                        ref = ref.child(id);
+                      if (tit.text.isNotEmpty &&
+                          categoryID.value != null &&
+                          imageFile.value != null &&
+                          des.text.isNotEmpty) {
+                        try {
+                          isloading.value = true;
+                          final docRef = FirebaseFirestore.instance.collection("posts").doc();
+                          final imageData = await XFile(imageFile.value!.path).readAsBytes();
+                          final featuredPhoto = imageData;
+                          var ref = FirebaseStorage.instance.ref().child(
+                                'posts/${docRef.id}',
+                              );
+                          final id = const Uuid().v1();
+                          ref = ref.child(id);
 
-                        final uploadTask = ref.putData(
-                          featuredPhoto,
-                          SettableMetadata(contentType: 'image/png'),
-                        );
-                        final snapshot = await uploadTask;
-                        final downloadUrl = await snapshot.ref.getDownloadURL();
+                          final uploadTask = ref.putData(
+                            featuredPhoto,
+                            SettableMetadata(contentType: 'image/png'),
+                          );
+                          final snapshot = await uploadTask;
+                          final downloadUrl = await snapshot.ref.getDownloadURL();
 
-                        await docRef
-                            .set(
-                          PostModel(
-                            postId: docRef.id,
-                            endDate:DateTime.now() ,
-                            fromUID: FirebaseAuth.instance.currentUser!.uid,
-                            title: tit.text,
-                            photoUrl: downloadUrl,
-                            categoryID: categoryID.value!,
-                            balanceMin: min.text.isEmpty ? null : min.text,
-                            balanceMax: max.text.isEmpty ? null : max.text,
-                            description: des.text,
-                            createdAt: Timestamp.now().toDate(),
-                          ).toJson(),
-                        )
-                            .then((value) {
-                          Log.instance.success("Post add success");
-                          tit.clear();
-                          min.clear();
-                          max.clear();
-                          des.clear();
-                          list.clear();
-                          imageFile.value = null;
-                          categoryID.value = null;
-                          isloading.value = false;
-                          context.popRoute();
-                        });
-                      } catch (e) {
-                        Log.instance.error(e.toString());
+                          await docRef
+                              .set(
+                            PostModel(
+                              postId: docRef.id,
+                              endDate: DateTime.now(),
+                              fromUID: FirebaseAuth.instance.currentUser!.uid,
+                              title: tit.text,
+                              photoUrl: downloadUrl,
+                              categoryID: categoryID.value!,
+                              balanceMin: min.text.isEmpty ? null : min.text,
+                              balanceMax: max.text.isEmpty ? null : max.text,
+                              description: des.text,
+                              createdAt: Timestamp.now().toDate(),
+                            ).toJson(),
+                          )
+                              .then((value) {
+                            Log.instance.success("Post add success");
+                            tit.clear();
+                            min.clear();
+                            max.clear();
+                            des.clear();
+                            list.clear();
+                            imageFile.value = null;
+                            categoryID.value = null;
+                            isloading.value = false;
+                            context.popRoute();
+                          });
+                        } catch (e) {
+                          Log.instance.error(e.toString());
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: AutoSizeText(
+                            textScaleFactor:textScaleFactor,
+                            'Hiçbir Alan Boş Bırakılamaz.Resim Eklenmesi Zorunludur!',
+                            style: TextStyle(fontSize: 17.sp,)
+
+                            
+                          ),
+                          backgroundColor: secondary,
+                        ));
                       }
-
-                      }else{
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Hiçbir Alan Boş Bırakılamaz.Resim Eklenmesi Zorunludur!',
-                        style: TextStyle(
-                          fontSize: 17.sp
-                        ),
-                        ),backgroundColor:secondary ,));
-                      }
-                     
                     }
                   },
                   child: Container(
@@ -511,29 +538,36 @@ class PostAddView extends HookConsumerWidget {
                         ),
                         borderRadius: BorderRadius.circular(9999),
                       ),
-                      child:isloading.value==false? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'KAYDET',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
+                      child: isloading.value == false
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                 AutoSizeText(
+                                  textScaleFactor:textScaleFactor,
+                                  'KAYDET',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'Poppins',
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.40,
+                                  ),
+
+
+                                 
+                                ),
+                                Spaces.M.width,
+                                Spaces.M.height,
+                                Padding(
+                                  padding: EdgeInsets.all(Spaces.M.size),
+                                ),
+                              ],
+                            )
+                          : const CircularProgressIndicator(
                               color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              height: 1.40,
-                            ),
-                          ),
-                          Spaces.M.width,
-                          Spaces.M.height,
-                          Padding(
-                            padding: EdgeInsets.all(Spaces.M.size),
-                          ),
-                        ],
-                      ):const CircularProgressIndicator(color: Colors.white,)
-                      ),
+                            )),
                 ),
               ],
             ),

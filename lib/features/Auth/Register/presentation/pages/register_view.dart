@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -22,12 +23,15 @@ class RegisterView extends HookConsumerWidget {
     final customerUserNameController = useTextEditingController(text: '');
 
     final state = ref.watch(registerProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         iconTheme: const IconThemeData(color: secondary),
-        title: Text(
+        title: AutoSizeText(
+          textScaleFactor:textScaleFactor,
           AppString.appName,
           style: TextStyle(color: secondary, fontSize: 32.sp, fontFamily: 'LeagueGothic-Regular'),
         ),
@@ -38,14 +42,16 @@ class RegisterView extends HookConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 AppString.register,
                 style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 height: 18.w,
               ),
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 AppString.registerText,
                 style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
               ),
@@ -77,7 +83,8 @@ class RegisterView extends HookConsumerWidget {
               SizedBox(height: 18.w),
               Padding(
                 padding: EdgeInsets.only(right: 50.w, left: 50.w),
-                child: Text(
+                child: AutoSizeText(
+                  textScaleFactor:textScaleFactor,
                   AppString.conditions,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),

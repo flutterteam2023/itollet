@@ -73,6 +73,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
 
     int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
+final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Scaffold(
         drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -112,7 +113,8 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                       shadowColor: Colors.white,
                       iconTheme: const IconThemeData(color: Colors.white),
                       centerTitle: true,
-                      title: Text(
+                      title: AutoSizeText(
+                        textScaleFactor:textScaleFactor,
                         'İLANIM',
                         style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                       ),
@@ -121,155 +123,171 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                   ),
                 ),
               ),
-            isloading.value==false?  FutureBuilder(
-                  future: FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).get(),
-                  builder: (context, postSnapshot) {
-                    if (postSnapshot.hasError) {
-                      return const Text('Data gelmedi');
-                    }
+              isloading.value == false
+                  ? FutureBuilder(
+                      future: FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).get(),
+                      builder: (context, postSnapshot) {
+                        if (postSnapshot.hasError) {
+                          return  AutoSizeText('Data gelmedi',
+                          textScaleFactor: textScaleFactor,
+                          );
+                        }
 
-                    if (!postSnapshot.hasData) {
-                      return const CircularProgressIndicator(color: Colors.purple,);
-                    }
-                    if (postSnapshot.data == null) {
-                      return const CircularProgressIndicator();
-                    }
-                    final postData = postSnapshot.data;
+                        if (!postSnapshot.hasData) {
+                          return const CircularProgressIndicator(
+                            color: Colors.purple,
+                          );
+                        }
+                        if (postSnapshot.data == null) {
+                          return const CircularProgressIndicator();
+                        }
+                        final postData = postSnapshot.data;
 
-                   if (postData!=null) {
-                    PostModel? postModel = PostModel.fromJson(postData.data() as Map<String, dynamic>);
+                        if (postData != null) {
+                          PostModel? postModel = PostModel.fromJson(postData.data() as Map<String, dynamic>);
 
-                     return Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.w, right: 11.w, top: 16.h),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: greyCard,
-                              borderRadius: BorderRadius.circular(18.r),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 128.r,
-                                    width: 128.r,
+                          return Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(left: 16.w, right: 11.w, top: 16.h),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: greyCard,
+                                    borderRadius: BorderRadius.circular(18.r),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 13.w, top: 17.h, bottom: 17.h, right: 13.w),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 128.r,
+                                          width: 128.r,
 
-                                    // ignore: sort_child_properties_last
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(999),
-                                      child: CachedNetworkImage(
-                                        imageUrl: postModel.photoUrl ?? '',
-                                        fit: BoxFit.fill,
-                                        progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
-                                          dimension: 15,
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                            strokeWidth: 2,
-                                            value: downloadProgress.progress,
+                                          // ignore: sort_child_properties_last
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(999),
+                                            child: CachedNetworkImage(
+                                              imageUrl: postModel.photoUrl ?? '',
+                                              fit: BoxFit.fill,
+                                              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                  SizedBox.square(
+                                                dimension: 15,
+                                                child: CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                  strokeWidth: 2,
+                                                  value: downloadProgress.progress,
+                                                ),
+                                              ),
+                                              errorWidget: (context, url, error) {
+                                                Log.instance.error(error);
+                                                return const Icon(Icons.error_outline);
+                                              },
+                                            ),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: widget.categoryModel != null
+                                                    ? widget.categoryModel!.primaryColor
+                                                    : secondary,
+                                                width: 2),
+                                            shape: BoxShape.circle,
                                           ),
                                         ),
-                                        errorWidget: (context, url, error) {
-                                          Log.instance.error(error);
-                                          return const Icon(Icons.error_outline);
-                                        },
-                                      ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: widget.categoryModel != null
-                                              ? widget.categoryModel!.primaryColor
-                                              : secondary,
-                                          width: 2),
-                                      shape: BoxShape.circle,
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 16.w),
+                                          child: SizedBox(
+                                            width: 214.w,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                AutoSizeText(
+                                                  textScaleFactor:textScaleFactor,
+                                                  postModel.title,
+                                                  style: TextStyle(
+                                                      color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
+                                                  maxLines: 2,
+                                                ),
+                                                SizedBox(
+                                                  height: 14.h,
+                                                ),
+                                                AutoSizeText(
+                                                  textScaleFactor:textScaleFactor,
+                                                  "Max Bütçe: ${postModel.balanceMax}₺",
+                                                  style: TextStyle(
+                                                      color: widget.categoryModel != null
+                                                          ? widget.categoryModel!.primaryColor
+                                                          : secondary,
+                                                      fontSize: 16.sp,
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                AutoSizeText(
+                                                  textScaleFactor:textScaleFactor,
+                                                  "Min Bütçe: ${postModel.balanceMin}₺",
+                                                  style: TextStyle(
+                                                      color: widget.categoryModel != null
+                                                          ? widget.categoryModel!.primaryColor
+                                                          : secondary,
+                                                      fontSize: 16.sp,
+                                                      fontWeight: FontWeight.w600),
+                                                ),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                kalanSaat >= 0
+                                                    ? AutoSizeText(
+                                                        textScaleFactor:textScaleFactor,
+                                                        "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}: ${kalanDakika.toString().padLeft(2, '0')}",
+                                                        style: TextStyle(
+                                                            color: widget.categoryModel != null
+                                                                ? widget.categoryModel!.primaryColor
+                                                                : secondary,
+                                                            fontSize: 16.sp,
+                                                            fontWeight: FontWeight.w600),
+                                                      )
+                                                    : const SizedBox.shrink()
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 16.w),
-                                    child: SizedBox(
-                                      width: 214.w,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          AutoSizeText(
-                                            postModel.title,
-                                            style:
-                                                TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
-                                            maxLines: 2,
-                                          ),
-                                          SizedBox(
-                                            height: 14.h,
-                                          ),
-                                          Text(
-                                            "Max Bütçe: ${postModel.balanceMax}₺",
-                                            style: TextStyle(
-                                                color: widget.categoryModel != null
-                                                    ? widget.categoryModel!.primaryColor
-                                                    : secondary,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          Text(
-                                            "Min Bütçe: ${postModel.balanceMin}₺",
-                                            style: TextStyle(
-                                                color: widget.categoryModel != null
-                                                    ? widget.categoryModel!.primaryColor
-                                                    : secondary,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          Text(
-                                            "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}: ${kalanDakika.toString().padLeft(2, '0')}",
-                                            style: TextStyle(
-                                                color: widget.categoryModel != null
-                                                    ? widget.categoryModel!.primaryColor
-                                                    : secondary,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w600),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 9.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
-                          child: Text(
-                            postModel.description!,
-                            style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ],
-                    );
-                     
-                   }else{
-                     return const CircularProgressIndicator();
-                   }
-                  }):SizedBox.shrink(),
+                              SizedBox(
+                                height: 9.h,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
+                                child: AutoSizeText(
+                                  textScaleFactor:textScaleFactor,
+                                  postModel.description!,
+                                  style: TextStyle(
+                                      height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      })
+                  : SizedBox.shrink(),
               StreamBuilder<List<String>>(
                   stream: ref.watch(homeProvider.notifier).getPostUrlsStream(widget.postModel.postId!),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return const Text('Data gelmedi');
+                      return  AutoSizeText('Data gelmedi',
+                      textScaleFactor: textScaleFactor,
+                      );
                     }
                     if (snapshot.hasData) {
                       List<String> urls = snapshot.data ?? [];
                       return SizedBox(
-                        height: 300.h,
+                        height: 250.h,
                         child: ListView.builder(
                           itemCount: urls.length,
                           itemBuilder: (context, index) {
@@ -319,11 +337,12 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                       padding: EdgeInsets.symmetric(vertical: 13.h),
                       child: Center(
                         child: isloading.value == false
-                            ? Text(
+                            ? AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                                 'KALDIR',
                                 style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w400),
                               )
-                            : CircularProgressIndicator(
+                            : const CircularProgressIndicator(
                                 color: Colors.purple,
                               ),
                       ),

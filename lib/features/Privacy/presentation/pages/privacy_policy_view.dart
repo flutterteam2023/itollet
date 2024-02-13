@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -8,16 +8,22 @@ class PrivacyPolicyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gizlilik Politikası"),
+        title:  AutoSizeText("Gizlilik Politikası",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
-      body: const SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(18),
+          padding: const EdgeInsets.all(18),
           child: Column(
             children: [
-              Text("""WEB SİTESİ GİZLİLİK POLİTİKASI
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
+                """WEB SİTESİ GİZLİLİK POLİTİKASI
         
         SMALT ELEKTRONİK HİZMETLER VE TİC AŞ ("Şirket"), internet sitesini ziyaret eden kişilerin paylaşmış olduğu bilgilerin gizliliğini sağlamayı ilke olarak kabul etmiştir. Bu nedenle işbu "Gizlilik Politikası" kişilerin hangi bilgilerinin, hangi yollarla işlendiğini, bu bilgilerin hukuka uygun olarak ve vermiş olduğunuz izin kapsamında hangi üçüncü kişiler ile paylaşıldığını ve Şirket tarafından ne şekilde korunduğunu açıklayarak sizi bilgilendirmek amacı ile oluşturulmuştur. Ayrıca işbu Gizlilik Politikası çerçevesinde bu bilgilerin doğruluğunun sizler tarafından nasıl denetlenebileceği ve istendiğinde Şirketin internet sitesine başvurarak bu bilgilerin silinmesini nasıl sağlayabileceğiniz belirtilmiştir. Şirket Tarafından kişilere her türlü kanaldan sunulan tüm hizmetler kısaca "Hizmet" olarak anılacaktır.
         

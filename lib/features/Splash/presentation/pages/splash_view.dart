@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,6 +22,8 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
@@ -32,7 +35,9 @@ class _SplashViewState extends ConsumerState<SplashView> {
                 ),
               );
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Something went wron connection'));
+              return  Center(child: AutoSizeText('Something went wron connection',
+              textScaleFactor: textScaleFactor,
+              ));
             } else if (snapshot.hasData) {
               return FutureBuilder(
                   future: ref.watch(categoryProvider.notifier).getCategories(),
@@ -44,7 +49,9 @@ class _SplashViewState extends ConsumerState<SplashView> {
                         ),
                       );
                     } else if (futuresnapshot.hasError) {
-                      return const Center(child: Text('Something went wron connection'));
+                      return  Center(child: AutoSizeText('Something went wron connection',
+                      textScaleFactor: textScaleFactor,
+                      ));
                     } else if (futuresnapshot.hasData&&snapshot.data?.emailVerified==true) {
                       return StreamBuilder<List<PostModel>>(
                         stream: ref.watch(homeProvider.notifier).getStreamPosts(), 

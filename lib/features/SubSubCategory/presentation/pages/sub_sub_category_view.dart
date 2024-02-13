@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -68,7 +71,8 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                       shadowColor: Colors.white,
                       iconTheme: const IconThemeData(color: Colors.white),
                       centerTitle: true,
-                      title: Text(
+                      title: AutoSizeText(
+                        textScaleFactor: textScaleFactor,
                         widget.subcategoryModel.name,
                         style: TextStyle(
                             color: Colors.white,
@@ -171,6 +175,8 @@ class SubSubCard extends StatelessWidget {
   final CategoryModel categoryModel;
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.r), color: greyCard),
@@ -211,7 +217,9 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor: textScaleFactor,
+              
               title,
               style: TextStyle(
                   color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
@@ -220,7 +228,8 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "maximum fiyat:$maxprice ₺",
               style: TextStyle(
                   color: categoryModel.primaryColor,
@@ -231,7 +240,8 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "minimum fiyat:$minPrice ₺",
               style: TextStyle(
                   color: categoryModel.primaryColor,
@@ -242,7 +252,8 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
               style: TextStyle(
                 color: categoryModel.primaryColor,

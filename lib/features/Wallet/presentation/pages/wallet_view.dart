@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,6 +16,8 @@ class WalletView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -42,7 +45,8 @@ class WalletView extends ConsumerWidget {
                     shadowColor: Colors.white,
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
-                    title: Text(
+                    title: AutoSizeText(
+                      textScaleFactor: textScaleFactor,
                       'CÜZDANIM',
                       style: TextStyle(
                           color: Colors.white,

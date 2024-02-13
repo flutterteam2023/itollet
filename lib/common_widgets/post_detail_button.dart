@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,8 @@ class PostDetailButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 9.w),
       child: Bounceable(
@@ -30,7 +33,8 @@ class PostDetailButton extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 13.h),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
+                textScaleFactor: textScaleFactor,
                 title,
                 style: TextStyle(
                     color: Colors.white,

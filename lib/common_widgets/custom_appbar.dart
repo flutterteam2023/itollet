@@ -17,10 +17,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.white,
       centerTitle: true,
-      title: Image.asset(
-        AppImage.logo,
-        width: 136.w,
-        height: 49.h,
+      title: Bounceable(
+        onTap: () {
+          context.pushRoute(const HomeRoute());
+        
+        },
+        child: Image.asset(
+          AppImage.logo,
+          width: 136.w,
+          height: 49.h,
+        ),
       ),
       leading: Builder(
         builder: (context) {

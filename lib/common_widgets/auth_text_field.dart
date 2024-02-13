@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:itollet/constants/constant_colors.dart';
@@ -16,11 +17,14 @@ class AuthTextField extends StatelessWidget {
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        AutoSizeText(
           label,
+          textScaleFactor: textScaleFactor,
           style: TextStyle(
               color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
         ),
@@ -39,7 +43,7 @@ class AuthTextField extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0),
             decoration: InputDecoration(
-                hintText: Text(label).data,
+                hintText: AutoSizeText(label,textScaleFactor: textScaleFactor  ,).data,
                 suffixIcon: suffixIcon,
                 filled: true,
                 fillColor: Colors.white,

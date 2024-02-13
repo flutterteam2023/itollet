@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -22,9 +22,13 @@ class PasswordChangeView extends HookConsumerWidget {
     final oldPasswordController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordVerifyController = useTextEditingController();
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Şifremi Değiştir"),
+        title:  AutoSizeText("Şifremi Değiştir",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -37,8 +41,10 @@ class PasswordChangeView extends HookConsumerWidget {
                 onChanged: (value) {
                   setColumnState(() {});
                 },
-                decoration: const InputDecoration(
-                  label: Text("Eski şifre"),
+                decoration:  InputDecoration(
+                  label:AutoSizeText("Eski şifre",
+                  textScaleFactor: textScaleFactor,
+                  ),
                 ),
               ),
               const SizedBox(height: 18),
@@ -47,8 +53,10 @@ class PasswordChangeView extends HookConsumerWidget {
                 onChanged: (value) {
                   setColumnState(() {});
                 },
-                decoration: const InputDecoration(
-                  label: Text("Yeni şifre"),
+                decoration:  InputDecoration(
+                  label: AutoSizeText("Yeni şifre",
+                  textScaleFactor: textScaleFactor,
+                  ),
                 ),
               ),
               const SizedBox(height: 18),
@@ -57,8 +65,11 @@ class PasswordChangeView extends HookConsumerWidget {
                 onChanged: (value) {
                   setColumnState(() {});
                 },
-                decoration: const InputDecoration(
-                  label: Text("Yeni şifre tekrar"),
+                decoration:  InputDecoration(
+                  label: AutoSizeText("Yeni şifre tekrar",
+                  
+                  textScaleFactor: textScaleFactor,
+                  ),
                 ),
               ),
               const SizedBox(height: 18),
@@ -104,10 +115,15 @@ class PasswordChangeView extends HookConsumerWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(vertical: 13.h),
                     child: Center(
-                      child: Text(
+                      child: AutoSizeText(
+                        textScaleFactor: textScaleFactor,
                         'DEĞİŞTİR',
                         style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
-                      ),
+
+
+                       
+                       
+                      )
                     ),
                   ),
                 ),

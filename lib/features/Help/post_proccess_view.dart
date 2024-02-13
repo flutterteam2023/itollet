@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -8,21 +9,30 @@ class PostProccessView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("İLAN SÜREÇLERİ"),
+        title:  AutoSizeText("İLAN SÜREÇLERİ",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: Column(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 400),
-            child: Column(
+            duration: const Duration(milliseconds: 400),
+            child:  Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
-                  title: Text("Kaç tane ilan paylaşabilirim?"),
+                  title: AutoSizeText("Kaç tane ilan paylaşabilirim?",
+                  
+                  textScaleFactor: textScaleFactor,
+                  ),
                 ),
-                if (true) Text("yanıt")
+                if (true) AutoSizeText("yanıt",
+                textScaleFactor: textScaleFactor,
+                )
               ],
             ),
           ),

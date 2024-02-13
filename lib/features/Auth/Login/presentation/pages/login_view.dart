@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -26,6 +27,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final emailController = useTextEditingController(text: '');
     final passswordController = useTextEditingController(text: '');
     final state = ref.watch(loginProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return WillPopScope(
       onWillPop: () async => false,
@@ -36,14 +39,16 @@ class _LoginViewState extends ConsumerState<LoginView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
+                  textScaleFactor:textScaleFactor,
                   AppString.welcome,
                   style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600, letterSpacing: -1),
                 ),
                 SizedBox(
                   height: 18.h,
                 ),
-                Text(
+                AutoSizeText(
+                  textScaleFactor:textScaleFactor,
                   AppString.loginText,
                   style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
                 ),
@@ -54,6 +59,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   height: 18.23.h,
                 ),
                 AuthTextField(
+                  
                   controller: emailController,
                   obscureText: false,
                   label: AppString.email,
@@ -81,7 +87,8 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   onTap: () {
                     context.pushRoute(const ForgotPasswordRoute());
                   },
-                  child: Text(
+                  child: AutoSizeText(
+                    textScaleFactor:textScaleFactor,
                     AppString.forgotPassword,
                     style: TextStyle(color: secondary, fontSize: 14.sp, fontWeight: FontWeight.w600),
                   ),

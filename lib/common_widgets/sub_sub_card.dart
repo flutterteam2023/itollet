@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:itollet/constants/constant_colors.dart';
@@ -14,6 +15,8 @@ class SubSubCard extends StatelessWidget {
   final CategoryModel categoryModel;
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18.r), color: greyCard),
@@ -34,7 +37,8 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor:textScaleFactor,
               title,
               style: TextStyle(
                   color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
@@ -43,7 +47,8 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor:textScaleFactor,
               "$price ₺",
               style: TextStyle(
                   color: categoryModel.primaryColor,
@@ -54,7 +59,8 @@ class SubSubCard extends StatelessWidget {
             SizedBox(
               height: 5.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor:textScaleFactor,
               'Kalan Süre: ${time.hour}:${time.minute}',
               style: TextStyle(
                 color: categoryModel.primaryColor,

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +30,8 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
@@ -55,7 +58,8 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                     shadowColor: Colors.white,
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
-                    title: Text(
+                    title: AutoSizeText(
+                      textScaleFactor:textScaleFactor,
                       'İLANLARIM',
                       style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
@@ -148,6 +152,8 @@ class SubSubCard extends StatelessWidget {
   final bool isTimeFinish;
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Bounceable(
       onTap: onTap,
       child: Container(
@@ -167,7 +173,8 @@ class SubSubCard extends StatelessWidget {
               SizedBox(
                 height: 10.h,
               ),
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 description,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
@@ -175,7 +182,8 @@ class SubSubCard extends StatelessWidget {
               SizedBox(
                 height: 5.h,
               ),
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 '$price₺',
                 style: TextStyle(
                     color: secondary, fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: 'Poppins Italic'),
@@ -183,7 +191,8 @@ class SubSubCard extends StatelessWidget {
               SizedBox(
                 height: 5.h,
               ),
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 kalanSaat != null && kalanDakika != null
                     ? 'Kalan Süre : ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}'
                     : "",
@@ -196,7 +205,8 @@ class SubSubCard extends StatelessWidget {
               SizedBox(
                 height: 2.h,
               ),
-              Text(
+              AutoSizeText(
+                textScaleFactor:textScaleFactor,
                 isTimeFinish == false ? 'Aktif' : 'Süresi Dolan',
                 style: TextStyle(color: secondary, fontSize: 15.sp, fontWeight: FontWeight.bold),
               )

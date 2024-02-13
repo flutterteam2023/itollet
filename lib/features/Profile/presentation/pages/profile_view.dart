@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,6 +23,9 @@ class ProfileView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final homeState = ref.watch(homeProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
+
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -97,7 +100,8 @@ class ProfileView extends ConsumerWidget {
                   SizedBox(
                     height: 18.sp,
                   ),
-                  Text(
+                 AutoSizeText(
+                  textScaleFactor:textScaleFactor,
                     homeState.user.userName!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -105,8 +109,11 @@ class ProfileView extends ConsumerWidget {
                       fontWeight: FontWeight.w500,
                       color: black,
                     ),
-                  ),
-                  Text(
+
+                  
+                 ),
+                  AutoSizeText(
+                    textScaleFactor:textScaleFactor,
                     homeState.user.email!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -114,6 +121,8 @@ class ProfileView extends ConsumerWidget {
                       fontWeight: FontWeight.w400,
                       color: black02,
                     ),
+
+
                   ),
                   const SizedBox(height: 9),
                   SizedBox(
@@ -174,10 +183,11 @@ class ProfileView extends ConsumerWidget {
             iconUrl: ProfileIcons.privacy,
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
             onTap: () {
-              context.pushRoute(PrivacyRoute());
+              context.pushRoute(const PrivacyRoute());
             },
           ),
           if (false)
+            // ignore: dead_code
             ElementEllipse(
               title: 'YARDIM',
               iconUrl: ProfileIcons.help,
@@ -195,7 +205,9 @@ class ProfileView extends ConsumerWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text("Emin Misiniz?"),
+                  title:  AutoSizeText("Emin Misiniz?",
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                  ),
                   content: TextFormField(
                     controller: textEditingController,
                     decoration: InputDecoration(
@@ -209,17 +221,21 @@ class ProfileView extends ConsumerWidget {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("İptal"),
+                      child:  AutoSizeText("İptal",
+                      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
-                        if (textEditingController?.text ==
+                        if (textEditingController.text ==
                             FirebaseAuth.instance.currentUser?.uid) {
                           ref.read(loginProvider.notifier).deleteUser(context);
                           //Silme fonsksiyonu
                         }
                       },
-                      child: const Text("Hesabımı Sil"),
+                      child:  AutoSizeText("Hesabımı Sil",
+                      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                      ),
                     ),
                   ],
                 ),

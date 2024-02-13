@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,8 @@ class ConvertAccountContainer extends StatelessWidget {
 final bool iscustomer;
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.r), color: primary),
@@ -34,7 +37,8 @@ final bool iscustomer;
                     bottom: 16.69.h,
                     left: 71.09.w,
                     right: 70.09.w),
-                child: Text(
+                child: AutoSizeText(
+                  textScaleFactor: textScaleFactor,
                   AppString.customer,
                   style: TextStyle(
                       color: secondary,
@@ -44,7 +48,8 @@ final bool iscustomer;
               ),
             ):Bounceable(
               onTap: customerOnTap,
-              child: Text(
+              child: AutoSizeText(
+                textScaleFactor: textScaleFactor,
                 AppString.customer,
                 style: TextStyle(
                   color: secondary,
@@ -63,7 +68,8 @@ final bool iscustomer;
                     bottom: 16.69.h,
                     left: 71.09.w,
                     right: 70.09.w),
-                child: Text(
+                child: AutoSizeText(
+                  textScaleFactor: textScaleFactor,
                   AppString.salesPerson,
                   style: TextStyle(
                       color: secondary,
@@ -74,7 +80,8 @@ final bool iscustomer;
             ):
             Bounceable(
               onTap: salesOnTap,
-              child: Text(
+              child: AutoSizeText(
+                textScaleFactor: textScaleFactor,
                 AppString.salesPerson,
                 style: TextStyle(
                   color: secondary,

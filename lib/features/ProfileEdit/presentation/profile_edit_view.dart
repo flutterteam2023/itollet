@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,9 +12,13 @@ class ProfileEditView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final homeState = ref.watch(homeProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profili Düzenle"),
+        title:  AutoSizeText("Profili Düzenle",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: Column(
         children: [
@@ -22,12 +26,16 @@ class ProfileEditView extends HookConsumerWidget {
             onTap: () {
               context.pushRoute(const ProfilePhotoChangeRoute());
             },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18),
+            child:  Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
               child: ListTile(
-                title: Text("Profil Fotoğrafı"),
-                subtitle: Text("Görünürlüğünü arttırmak için profil fotoğrafı eklemelisin"),
-                trailing: Icon(Icons.arrow_forward_ios),
+                title: AutoSizeText("Profil Fotoğrafı", maxLines: 1,
+                textScaleFactor: textScaleFactor,
+                ),
+                subtitle: AutoSizeText("Görünürlüğünü arttırmak için profil fotoğrafı eklemelisin",
+                textScaleFactor: textScaleFactor,
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
           ),
@@ -39,8 +47,12 @@ class ProfileEditView extends HookConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: ListTile(
-                title: Text(homeState.user.userName ?? "Kullanıcı adı oluştur"),
-                subtitle: const Text("Kullanıcı adını değiştirebilirsin."),
+                title: AutoSizeText(homeState.user.userName ?? "Kullanıcı adı oluştur",
+                textScaleFactor: textScaleFactor,
+                ),
+                subtitle:  AutoSizeText("Kullanıcı adını değiştirebilirsin.",
+                textScaleFactor: textScaleFactor,
+                ),
                 trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
@@ -50,12 +62,16 @@ class ProfileEditView extends HookConsumerWidget {
             onTap: () {
               context.pushRoute(const PasswordChangeRoute());
             },
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18),
+            child:  Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
               child: ListTile(
-                title: Text("Şifremi Değiştir"),
-                subtitle: Text("Hesabının güvenliğini sağla"),
-                trailing: Icon(Icons.arrow_forward_ios),
+                title: AutoSizeText("Şifremi Değiştir",
+                textScaleFactor: textScaleFactor,
+                ),
+                subtitle: AutoSizeText("Hesabının güvenliğini sağla",
+                textScaleFactor: textScaleFactor,
+                ),
+                trailing: const Icon(Icons.arrow_forward_ios),
               ),
             ),
           ),

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:itollet/constants/constant_colors.dart';
@@ -9,6 +10,8 @@ class OfferBalance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Container(
       decoration: BoxDecoration(
           borderRadius:
@@ -20,7 +23,8 @@ class OfferBalance extends StatelessWidget {
             right: 17.w,
             top: 5.h,
             bottom: 5.h),
-        child: Text(
+        child: AutoSizeText(
+          textScaleFactor:textScaleFactor,
           'TEKLİF ÜCRETİ: 3.75₺',
           style: TextStyle(
               color: Colors.white,

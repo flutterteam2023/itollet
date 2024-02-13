@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Payment/providers/payment_notifier.dart';
@@ -67,6 +68,8 @@ class _WebViewState extends ConsumerState<WebView> {
       (controller.platform as AndroidWebViewController)
           .setMediaPlaybackRequiresUserGesture(false);
     }
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(),
       body: FutureBuilder(
@@ -87,7 +90,9 @@ class _WebViewState extends ConsumerState<WebView> {
                                 context.back();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("Ödeme iptal edildi"),
+                                    content: AutoSizeText("Ödeme iptal edildi",
+                                    textScaleFactor: textScaleFactor,
+                                    ),
                                   ),
                                 );
                                 await Future.delayed(
@@ -99,7 +104,10 @@ class _WebViewState extends ConsumerState<WebView> {
                                 } catch (e) {
                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text(e.toString()),
+                                      content: AutoSizeText(e.toString(),
+                                      
+                                      textScaleFactor: textScaleFactor,
+                                      ),
                                     ),
                                   );
                                   await Future.delayed(

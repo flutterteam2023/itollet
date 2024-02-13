@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,6 +15,8 @@ class LinkCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Padding(
       padding:
           EdgeInsets.only(left: 16.w, right: 11.w, bottom: 7.h),
@@ -43,7 +46,8 @@ class LinkCard extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 250.w,
-                      child: Text(
+                      child: AutoSizeText(
+                        textScaleFactor:textScaleFactor,
                        url,
                         style: TextStyle(
                             color: categoryModel!=null? categoryModel!.primaryColor:secondary,

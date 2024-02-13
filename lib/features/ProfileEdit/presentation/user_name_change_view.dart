@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,7 +10,6 @@ import 'package:itollet/features/Home/presentation/providers/home_notifier.dart'
 import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/iberkeugur/Snackbar/snackbar_extension.dart';
 import 'package:itollet/iberkeugur/Space/spaces.dart';
-import 'package:logger/logger.dart';
 
 @RoutePage()
 class UserNameChangeView extends HookConsumerWidget {
@@ -19,9 +19,13 @@ class UserNameChangeView extends HookConsumerWidget {
     final homeState = ref.watch(homeProvider);
     final userNameController = useTextEditingController(text: homeState.user.userName);
     final isLoading = useValueNotifier<bool>(false);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Kullanıcı Adımı Değiştir"),
+        title:  AutoSizeText("Kullanıcı Adımı Değiştir",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18),
@@ -33,8 +37,10 @@ class UserNameChangeView extends HookConsumerWidget {
                 onChanged: (value) {
                   setChangeState(() {});
                 },
-                decoration: const InputDecoration(
-                  label: Text("Kullanıcı adı"),
+                decoration:  InputDecoration(
+                  label: AutoSizeText("Kullanıcı adı",
+                  textScaleFactor: textScaleFactor,
+                  ),
                 ),
               ),
               Spaces.L.height,
@@ -90,14 +96,16 @@ class UserNameChangeView extends HookConsumerWidget {
                             } else {
                               return SizedBox(
                                 height: 25.h,
-                                child: Text(
+                                child: AutoSizeText(
+                                  textScaleFactor: textScaleFactor,
                                   'DEĞİŞTİR',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 20.sp,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                ),
+
+                                )
                               );
                             }
                           }),

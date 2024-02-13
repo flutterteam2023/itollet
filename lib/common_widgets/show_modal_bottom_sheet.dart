@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +17,11 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 
 class CustomBottomSheet {
+  
   void ModalBottomSheet(BuildContext context, TextEditingController titleController,
       TextEditingController maxbalance,TextEditingController minbalance, TextEditingController descriptionController,PostModel postmodel) {
+        final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
         File? image;
         ValueNotifier<ImageProvider?> myImageProvider = ValueNotifier(null);
         titleController.text = postmodel.title;
@@ -40,7 +44,8 @@ class CustomBottomSheet {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text(
+                  AutoSizeText(
+                    textScaleFactor: textScaleFactor,
                     'DÜZENLE',
                     style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
                   ),
@@ -151,7 +156,8 @@ class CustomBottomSheet {
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 13.h),
                             child: Center(
-                              child:isloading.value==false? Text(
+                              child:isloading.value==false? AutoSizeText(
+                                textScaleFactor: textScaleFactor,
                                 'KAYDET',
                                 style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
                               ):const CircularProgressIndicator(color: Colors.white,),
@@ -170,6 +176,8 @@ class CustomBottomSheet {
 
   void AdsModalBottomSheet(
       BuildContext context, CategoryModel categoryModel, TextEditingController controller, void Function()? onTap) {
+        final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     showModalBottomSheet(
         enableDrag: true,
         showDragHandle: true,
@@ -187,7 +195,8 @@ class CustomBottomSheet {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Center(
-                      child: Text(
+                      child: AutoSizeText(
+                        textScaleFactor: textScaleFactor,
                         'TEKLİF VER',
                         style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
                       ),
@@ -213,7 +222,8 @@ class CustomBottomSheet {
                     SizedBox(
                       height: 12.h,
                     ),
-                    Text(
+                    AutoSizeText(
+                      textScaleFactor: textScaleFactor,
                       'Sadece bağlantı paylaşabilirsiniz.',
                       style: TextStyle(color: Color(0xff49454F), fontSize: 12.sp, fontWeight: FontWeight.w400),
                     ),
@@ -230,7 +240,8 @@ class CustomBottomSheet {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 13.h),
                           child: Center(
-                            child: Text(
+                            child: AutoSizeText(
+                              textScaleFactor: textScaleFactor,
                               'TEKLİF VER (3.75₺)',
                               style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
                             ),

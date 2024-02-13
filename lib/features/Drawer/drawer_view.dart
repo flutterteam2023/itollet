@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -19,6 +20,8 @@ class CustomDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     final homeState = ref.watch(homeProvider);
     return Drawer(
       backgroundColor: Colors.white,
@@ -69,10 +72,16 @@ class CustomDrawer extends ConsumerWidget {
                       );
                     }),
                 const SizedBox(height: 9),
-                Text(
-                  homeState.user.userName!,
-                  style: _buildTextStyle().copyWith(fontSize: 20),
-                ),
+                AutoSizeText(
+                  textScaleFactor: textScaleFactor,
+                 homeState.user.userName! ,
+                  style: TextStyle(
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Rubik',
+                  ),
+                
+                )
               ],
             ),
           ),
@@ -81,9 +90,11 @@ class CustomDrawer extends ConsumerWidget {
             onTap: () {
               context.pushRoute(const MyAdsRoute());
             },
-            title: Text(
+            title: AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "İLANLARIM",
               style: _buildTextStyle(),
+            
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
@@ -94,9 +105,12 @@ class CustomDrawer extends ConsumerWidget {
             onTap: () {
               context.pushRoute(const WalletRoute());
             },
-            title: Text(
+            title: AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "CÜZDANIM",
               style: _buildTextStyle(),
+            
+            
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
@@ -107,9 +121,12 @@ class CustomDrawer extends ConsumerWidget {
             onTap: () {
               context.pushRoute(const PrivacyRoute());
             },
-            title: Text(
+            title:AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "GİZLİLİK",
               style: _buildTextStyle(),
+            
+            
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
@@ -120,9 +137,12 @@ class CustomDrawer extends ConsumerWidget {
             onTap: () {
               context.pushRoute(const HelpRoute());
             },
-            title: Text(
+            title: AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "YARDIM",
               style: _buildTextStyle(),
+            
+            
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
@@ -138,9 +158,13 @@ class CustomDrawer extends ConsumerWidget {
                 });
               });
             },
-            title: Text(
+            title: AutoSizeText(
+              textScaleFactor: textScaleFactor,
               "OTURUMU SONLANDIR",
               style: _buildTextStyle(),
+            
+            
+            
             ),
             trailing: const Icon(
               Icons.logout,

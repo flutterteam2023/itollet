@@ -64,7 +64,8 @@ class _AdsViewState extends ConsumerState<AdsView> {
   }
   int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
-    
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -102,7 +103,8 @@ class _AdsViewState extends ConsumerState<AdsView> {
                       shadowColor: Colors.white,
                       iconTheme: const IconThemeData(color: Colors.white),
                       centerTitle: true,
-                      title: Text(
+                      title: AutoSizeText(
+                        textScaleFactor: textScaleFactor,
                         'İLAN SAHİBİ ADI',
                         style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                       ),
@@ -158,6 +160,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   AutoSizeText(
+                                    textScaleFactor: textScaleFactor,
                                     widget.postModel.title,
                                     style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
                                     maxLines: 2,
@@ -165,21 +168,24 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   SizedBox(
                                     height: 14.h,
                                   ),
-                                  Text(
+                                  AutoSizeText(
+                                    textScaleFactor: textScaleFactor,
                                     "Max Bütçe: ${widget.postModel.balanceMax}₺",
                                     style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 10.h,
                                   ),
-                                  Text(
+                                  AutoSizeText(
+                                    textScaleFactor: textScaleFactor,
                                     "Min Bütçe: ${widget.postModel.balanceMin}₺",
                                     style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 10.h,
                                   ),
-                                  Text(
+                                  AutoSizeText(
+                                    textScaleFactor: textScaleFactor,
                                     "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
                                     style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
                                   )
@@ -198,7 +204,8 @@ class _AdsViewState extends ConsumerState<AdsView> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
-                child: Text(
+                child: AutoSizeText(
+                  textScaleFactor: textScaleFactor,
                   widget.postModel.description!,
                   style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                 ),

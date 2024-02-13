@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:itollet/constants/constant_colors.dart';
@@ -13,6 +14,8 @@ class MyAdsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Padding(
       padding: EdgeInsets.only(left: 12.w, right: 11.w,bottom: 11.h),
       child: Container(
@@ -47,7 +50,8 @@ class MyAdsCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
+                          textScaleFactor:textScaleFactor,
                           description,
                           style: TextStyle(
                               fontSize: 16.sp,
@@ -57,7 +61,8 @@ class MyAdsCard extends StatelessWidget {
                         SizedBox(
                           height: 5.h,
                         ),
-                        Text(
+                        AutoSizeText(
+                          textScaleFactor:textScaleFactor,
                           time,
                           style: TextStyle(
                               fontSize: 12.sp,
@@ -66,7 +71,8 @@ class MyAdsCard extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: Text(
+                          child: AutoSizeText(
+                            textScaleFactor:textScaleFactor,
                             price,
                             style: TextStyle(
                                 fontSize: 16.sp,

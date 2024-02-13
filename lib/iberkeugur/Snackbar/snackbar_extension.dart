@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 extension AppSnackbar on BuildContext {
@@ -12,9 +13,11 @@ extension AppSnackbar on BuildContext {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         backgroundColor: backgroundColor ?? Theme.of(this).colorScheme.primaryContainer,
-        content: Text(
+        content: AutoSizeText(
+          
           content,
           style: contentStyle ?? TextStyle(color: Theme.of(this).colorScheme.onPrimaryContainer),
+          textScaleFactor: MediaQuery.of(this).textScaleFactor,
         ),
         action: SnackBarAction(
           label: labelText ?? 'kapat',

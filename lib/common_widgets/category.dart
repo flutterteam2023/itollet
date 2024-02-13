@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,8 @@ class Category extends StatelessWidget {
   final void Function() onTap;
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Column(
       children: [
         Bounceable(
@@ -43,7 +46,8 @@ class Category extends StatelessWidget {
             ],
           ),
         ),
-        Text(
+        AutoSizeText(
+          textScaleFactor: textScaleFactor,
           title,
           style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w500, color: black),
         )

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +17,8 @@ class PrivacyView extends HookConsumerWidget {
   const PrivacyView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final verifyEmailController = useTextEditingController();
     return Scaffold(
@@ -45,7 +47,8 @@ class PrivacyView extends HookConsumerWidget {
                     shadowColor: Colors.white,
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
-                    title: Text(
+                    title: AutoSizeText(
+                      textScaleFactor: textScaleFactor,
                       'GİZLİLİK',
                       style: TextStyle(
                           color: Colors.white,
@@ -94,7 +97,9 @@ class PrivacyView extends HookConsumerWidget {
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text("Emin Misiniz?"),
+                  title:  AutoSizeText("Emin Misiniz?",
+                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                  ),
                   content: TextFormField(
                     controller: textEditingController,
                     decoration: InputDecoration(
@@ -108,7 +113,9 @@ class PrivacyView extends HookConsumerWidget {
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text("İptal"),
+                      child:  AutoSizeText("İptal",
+                      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -117,7 +124,9 @@ class PrivacyView extends HookConsumerWidget {
                           //Silme fonsksiyonu
                         }
                       },
-                      child: const Text("Hesabımı Sil"),
+                      child:  AutoSizeText("Hesabımı Sil",
+                      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+                      ),
                     ),
                   ],
                 ),

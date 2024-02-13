@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +27,7 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
   final auth = FirebaseAuth.instance;
   bool isEmailVerified = false;
   Timer? timer;
+  
   @override
   void initState() {
     super.initState();
@@ -37,7 +39,7 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
     await FirebaseAuth.instance.currentUser?.reload().then((value) {
       if (isEmailVerified) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text(
+          content: AutoSizeText(
             "E mail doğrulama başarılı",
             style: TextStyle(color: Colors.white),
           ),
@@ -64,6 +66,8 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -77,7 +81,8 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
             SizedBox(
               height: 18.h,
             ),
-            Text(
+            AutoSizeText(
+              textScaleFactor: textScaleFactor,
               AppString.accountVerification,
               style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600),
             ),
@@ -86,7 +91,8 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child:  Text(
+              child:  AutoSizeText(
+                textScaleFactor: textScaleFactor,
                       'Doğrulama bağlantısını ${auth.currentUser?.email} adresine gönderdik. Bağlantıya tıklayarak hesabını onayla ve itollet’i hemen kullanmaya başla',
 
                 textAlign: TextAlign.center,
@@ -111,7 +117,8 @@ class _VerificationViewState extends ConsumerState<VerificationView> {
               onTap: () {
                 context.pushRoute(const LoginRoute());
               },
-              child: Text('Farklı Bir Hesapla Giriş Yap',
+              child: AutoSizeText('Farklı Bir Hesapla Giriş Yap',
+              textScaleFactor: textScaleFactor,
               style: TextStyle(
                 color: secondary,
               fontSize: 14.sp,

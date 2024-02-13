@@ -1,8 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:itollet/constants/constant_colors.dart';
 
 class ElementEllipse extends StatelessWidget {
@@ -20,6 +20,8 @@ class ElementEllipse extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return SingleChildScrollView(
       child: SizedBox(
         width: (MediaQuery.of(context).size.width - 18 * 3) / 3,
@@ -61,11 +63,16 @@ class ElementEllipse extends StatelessWidget {
               height: 5.h,
             ),
             Expanded(
-              child: Text(
+              child: AutoSizeText(
+                textScaleFactor: textScaleFactor,
                 title,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
-              ),
+
+
+
+               
+              )
             )
           ],
         ),

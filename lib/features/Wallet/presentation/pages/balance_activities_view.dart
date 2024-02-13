@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:itollet/features/Account/Models/account_transaction_model.dart';
 import 'package:itollet/features/Account/Services/account_transaction_service.dart';
 import 'package:itollet/features/Account/Utils/account_transaction_type_enum.dart';
 import 'package:intl/intl.dart';
@@ -13,9 +12,13 @@ class BalanceActivitiesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dateformat = DateFormat('dd MMMM yyyy HH:mm');
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hesap Hareketleri"),
+        title:  AutoSizeText("Hesap Hareketleri",
+        textScaleFactor: textScaleFactor,
+        ),
       ),
       body: FutureBuilder(
           future: AccountTransactionService().getSnapshot,
@@ -36,7 +39,8 @@ class BalanceActivitiesView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(18),
                           child: ListTile(
-                            title: Text(
+                            title: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               snapshot.data?.docs[index].data().type.toTitle ??
                                   "null",
                               style: Theme.of(context).textTheme.titleMedium,
@@ -45,11 +49,14 @@ class BalanceActivitiesView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(dateformat.format(
+                                AutoSizeText(
+                                  textScaleFactor:textScaleFactor,
+                                  dateformat.format(
                                   snapshot.data?.docs[index].data().createdAt ??
                                       DateTime.now(),
                                 )),
-                                Text(
+                                AutoSizeText(
+                                  textScaleFactor:textScaleFactor,
                                   snapshot.data?.docs[index].data().docId ??
                                       "null",
                                   style: Theme.of(context)
@@ -62,7 +69,8 @@ class BalanceActivitiesView extends StatelessWidget {
                                 )
                               ],
                             ),
-                            trailing: Text(
+                            trailing: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               snapshot.data?.docs[index].data().amount ??
                                   "null",
                               style: Theme.of(context).textTheme.titleMedium,

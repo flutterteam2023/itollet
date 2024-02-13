@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,6 +16,8 @@ class CustomFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     return Bounceable(
       onTap: onTap,
       child: Container(
@@ -24,13 +27,16 @@ class CustomFilledButton extends StatelessWidget {
         child: Padding(
           padding: padding,
           child: Center(
-            child: Text(
+            child: AutoSizeText(
+              textScaleFactor:textScaleFactor,
               text,
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500),
-            ),
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+              ),
+             
+            )
           ),
         ),
       ),

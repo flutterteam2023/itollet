@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:itollet/features/Auth/Login/data/model/user_model.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
-import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
 
 @RoutePage()
@@ -12,17 +12,23 @@ class BalanceView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(homeProvider);
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Hesap özeti"),
+        title:  AutoSizeText("Hesap özeti",
+        textScaleFactor: textScaleFactor,
+        ),
         centerTitle: true,
         actions: [
           FilledButton(
             onPressed: () {
               context.pushRoute(const AddBalanceRoute());
             },
-            child: const Text("Para Ekle"),
+            child:  AutoSizeText("Para Ekle",
+            textScaleFactor: textScaleFactor,
+            ),
           ),
           const SizedBox(width: 18),
         ],
@@ -40,8 +46,12 @@ class BalanceView extends ConsumerWidget {
                       color: Colors.white,
                       surfaceTintColor: Colors.white,
                       child: ListTile(
-                        title: const Text("Güncel Bakite"),
-                        trailing: Text(
+                        title:  AutoSizeText("Güncel Bakite",
+                        
+                        textScaleFactor: textScaleFactor,
+                        ),
+                        trailing: AutoSizeText(
+                          textScaleFactor:textScaleFactor,
                           "+${state.streamUser.balance ?? 0} ₺",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
@@ -52,8 +62,11 @@ class BalanceView extends ConsumerWidget {
                       color: Colors.white,
                       surfaceTintColor: Colors.white,
                       child: ListTile(
-                        title: const Text("Toplam Ödemeler"),
-                        trailing: Text(
+                        title:  AutoSizeText("Toplam Ödemeler",
+                        textScaleFactor: textScaleFactor,
+                        ),
+                        trailing: AutoSizeText(
+                          textScaleFactor:textScaleFactor,
                           "+${state.streamUser.allTimeBalance ?? 0} ₺",
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
@@ -67,30 +80,37 @@ class BalanceView extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           ListTile(
-                            title: const Text("Toplam Harcamalar"),
-                            trailing: Text(
+                            title:  AutoSizeText("Toplam Harcamalar",
+                            textScaleFactor: textScaleFactor,
+                            ),
+                            trailing: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "-${(state.streamUser.totalBiddingFee ?? 0) + (state.streamUser.totalExtensionFee ?? 0)} ₺",
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
                           ListTile(
                             leading: const Icon(Icons.arrow_forward),
-                            title: Text(
+                            title: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "Teklif Verme Ücretleri",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
-                            trailing: Text(
+                            trailing: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "-${(state.streamUser.totalBiddingFee ?? 0)} ₺",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
                           ),
                           ListTile(
                             leading: const Icon(Icons.arrow_forward),
-                            title: Text(
+                            title: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "İlan Öne Çıkartma Ücreti",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
-                            trailing: Text(
+                            trailing: AutoSizeText(
+                              textScaleFactor:textScaleFactor,
                               "-${(state.streamUser.totalExtensionFee ?? 0)} ₺",
                               style: Theme.of(context).textTheme.titleSmall,
                             ),
@@ -102,7 +122,7 @@ class BalanceView extends ConsumerWidget {
                 ),
               );
             } else {
-              return Center(child: const CircularProgressIndicator.adaptive());
+              return const Center(child: CircularProgressIndicator.adaptive());
             }
           }),
     );

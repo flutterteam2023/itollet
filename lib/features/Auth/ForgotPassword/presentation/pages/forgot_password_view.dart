@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,12 +15,15 @@ class ForgotPasswordView extends HookConsumerWidget {
   const ForgotPasswordView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
     final emailController = useTextEditingController(text: '');
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: secondary),
         centerTitle: true,
-        title: Text(
+        title: AutoSizeText(
+          textScaleFactor:textScaleFactor,
           AppString.appName,
           style: TextStyle(
               color: secondary,
@@ -34,7 +38,8 @@ class ForgotPasswordView extends HookConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
+                  textScaleFactor:textScaleFactor,
                   AppString.forgotPassword2,
                   style: TextStyle(
                     color: secondary,
@@ -45,7 +50,8 @@ class ForgotPasswordView extends HookConsumerWidget {
                 SizedBox(
                   height: 18.h,
                 ),
-                Text(
+                AutoSizeText(
+                  textScaleFactor:textScaleFactor,
                   AppString.forgotPasswordText,
                   style: TextStyle(
                     color: secondary,
