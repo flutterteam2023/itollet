@@ -87,7 +87,7 @@ class CustomBottomSheet {
                   ),
                   AdsEditTextField(
                     controller: titleController,
-                    label: 'İlan Başlığı',
+                    label: 'İLAN BAŞLIĞI',
                     onPressed: () {},
                   ),
                   SizedBox(
@@ -95,7 +95,7 @@ class CustomBottomSheet {
                   ),
                   AdsEditTextField(
                     controller: maxbalance,
-                    label: 'Maximum Bütçe',
+                    label: 'MAXİMUM BÜTÇE',
                     onPressed: () {},
                   ),
                   SizedBox(
@@ -103,7 +103,7 @@ class CustomBottomSheet {
                   ),
                   AdsEditTextField(
                     controller: minbalance,
-                    label: 'Minimum Bütçe',
+                    label: 'MİNİMUM BÜTÇE',
                     onPressed: () {},
                   ),
                   SizedBox(
@@ -111,7 +111,7 @@ class CustomBottomSheet {
                   ),
                   AdsEditTextField(
                     controller: descriptionController,
-                    label: 'Açıklama',
+                    label: 'AÇIKLAMA',
                     onPressed: () {},
                   ),
                   SizedBox(

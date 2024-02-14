@@ -364,10 +364,12 @@ class PostAddView extends HookConsumerWidget {
                         borderRadius: BorderRadius.circular(99),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           AutoSizeText(
+                            textAlign: TextAlign.center,
                             textScaleFactor: textScaleFactor,
-                            "${list.isEmpty ? "Kategori Seç" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
+                            "${list.isEmpty ? "KATEGORİ SEÇ" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -381,10 +383,11 @@ class PostAddView extends HookConsumerWidget {
                 }),
                 const SizedBox(height: 18),
                 TextFormField(
+                  textAlign: TextAlign.center,
                   autocorrect: true,
                   controller: tit,
                   decoration: const InputDecoration(
-                    hintText: "İlan Başlığı",
+                    hintText: "İLAN BAŞLIĞI",
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.required("Doldurmak zorunludur."),
@@ -392,11 +395,13 @@ class PostAddView extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 18),
                 TextFormField(
+                  textAlign: TextAlign.center,
+
                   autocorrect: true,
                   controller: min,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    hintText: "Bütçe en az",
+                    hintText: "BÜTÇE EN AZ",
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.number("Sayı girmek zorunludur."),
@@ -405,11 +410,13 @@ class PostAddView extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 18),
                 TextFormField(
+                  textAlign: TextAlign.center,
+
                   autocorrect: true,
                   controller: max,
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    hintText: "Bütçe en fazla",
+                    hintText: "BÜTÇE EN FAZLA",
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.number("Sayı girmek zorunludur."),
@@ -418,6 +425,8 @@ class PostAddView extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 18),
                 TextFormField(
+                  textAlign: TextAlign.center,
+
                   autocorrect: true,
                   controller: des,
                   keyboardType: TextInputType.multiline,
@@ -446,7 +455,7 @@ class PostAddView extends HookConsumerWidget {
                         Radius.circular(18),
                       ),
                     ),
-                    hintText: "Açıklama giriniz",
+                    hintText: "AÇIKLAMA GİRİNİZ",
                   ),
                   validator: Validatorless.multiple([
                     Validatorless.required("Açıklama girmek zorunludur."),
@@ -558,11 +567,7 @@ class PostAddView extends HookConsumerWidget {
 
                                  
                                 ),
-                                Spaces.M.width,
-                                Spaces.M.height,
-                                Padding(
-                                  padding: EdgeInsets.all(Spaces.M.size),
-                                ),
+                                
                               ],
                             )
                           : const CircularProgressIndicator(
