@@ -39,7 +39,21 @@ class _MyAppState extends ConsumerState<MyApp> {
         splitScreenMode: true,
         builder: (context, child) {
           return MaterialApp.router(
-            builder: EasyLoading.init(),
+            builder: EasyLoading.init(
+              builder: (context, child) {
+                final mediaQueryData = MediaQuery.of(context);
+                final scale = mediaQueryData.textScaler.clamp(
+                  minScaleFactor: 1,
+                  maxScaleFactor: 1.3,
+                );
+                return MediaQuery(
+                  data: MediaQuery.of(context).copyWith(
+                    textScaler: scale,
+                  ),
+                  child: child!,
+                );
+              },
+            ),
             routerConfig: route.config(),
             debugShowCheckedModeBanner: false,
             title: 'I-TOLLET',
