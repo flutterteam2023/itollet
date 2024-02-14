@@ -44,11 +44,12 @@ class _MyAppState extends ConsumerState<MyApp> {
                 final mediaQueryData = MediaQuery.of(context);
                 final scale = mediaQueryData.textScaler.clamp(
                   minScaleFactor: 1,
-                  maxScaleFactor: 1.3,
+                  maxScaleFactor: 1,
                 );
                 return MediaQuery(
                   data: MediaQuery.of(context).copyWith(
                     textScaler: scale,
+                    boldText: false,
                   ),
                   child: child!,
                 );
