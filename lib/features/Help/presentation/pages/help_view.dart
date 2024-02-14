@@ -87,40 +87,48 @@ class HelpView extends ConsumerWidget {
             title: 'GENEL',
             iconUrl: HelpIcons.general,
             colors: const [Color(0xffFF553D), Color(0xffFF864B)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const PaymentRefundRoute());  
+            },
           ),
           ElementEllipse(
             title: 'GİRİŞ & ŞİFRE',
             iconUrl: HelpIcons.password,
             colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
-            onTap: () {},
+            onTap: () {
+              context.pushRoute(const LoginPasswordInfoRoute());
+            },
           ),
-          ElementEllipse(
-            title: 'ÖDEME & İADE',
-            iconUrl: HelpIcons.payment,
-            colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
-            onTap: () {},
-          ),
+          // ElementEllipse(
+          //   title: 'ÖDEME & İADE',
+          //   iconUrl: HelpIcons.payment,
+          //   colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
+          //   onTap: () {
+          //     context.pushRoute(const PaymentRefundRoute());
+          //   },
+          // ),
           ElementEllipse(
             title: 'HESAP SİLME',
             iconUrl: HelpIcons.deleteAccount,
             colors: const [Color(0xffFF553D), Color(0xffFF864B)],
-            onTap: () {},
-          ),
-          ElementEllipse(
-            title: 'İLETİŞİM',
-            iconUrl: HelpIcons.contact,
-            colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
-            onTap: () {},
-          ),
-          ElementEllipse(
-            title: 'İLAN SÜREÇLERİ',
-            iconUrl: HelpIcons.postProcesses,
-            colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
             onTap: () {
-              context.pushRoute(const PostProccessRoute());
+              context.pushRoute(const AccountDeleteRoute());
             },
           ),
+          // ElementEllipse(
+          //   title: 'İLETİŞİM',
+          //   iconUrl: HelpIcons.contact,
+          //   colors: const [Color(0xff5CC65D), Color(0xff2CA882)],
+          //   onTap: () {},
+          // ),
+          // ElementEllipse(
+          //   title: 'İLAN SÜREÇLERİ',
+          //   iconUrl: HelpIcons.postProcesses,
+          //   colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
+          //   onTap: () {
+          //     context.pushRoute(const PostProccessRoute());
+          //   },
+          // ),
         ],
       ),
     );
