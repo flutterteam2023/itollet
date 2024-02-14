@@ -9,7 +9,10 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:itollet/features/Categories/models/subcategory/subcategory_model.dart';
 import 'package:itollet/features/Help/post_proccess_view.dart';
+import 'package:itollet/features/Help/presentation/pages/account_delete_view.dart';
 import 'package:itollet/features/Help/presentation/pages/help_view.dart';
+import 'package:itollet/features/Help/presentation/pages/login_password_info.dart';
+import 'package:itollet/features/Help/presentation/pages/payment_refund_view.dart';
 import 'package:itollet/features/Home/presentation/pages/home_view.dart';
 import 'package:itollet/features/MyAds/presentation/pages/my_ads_view.dart';
 import 'package:itollet/features/Payment/Views/payment_view.dart';
@@ -70,6 +73,7 @@ class AppRouter extends _$AppRouter {
           fullscreenDialog: true,
         ),
 
+
         AutoRoute(
           page: IFrameScreenRoute.page,
           initial: false,
@@ -103,5 +107,8 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: PasswordChangeRoute.page, initial: false),
         AutoRoute(page: PaymentRoute.page, initial: false),
         AutoRoute(page: WebRoute.page, initial: false),
+        AutoRoute(page: LoginPasswordInfoRoute.page, initial: false),
+        AutoRoute(page: PaymentRefundRoute.page, initial: false),
+        AutoRoute(page: AccountDeleteRoute.page, initial: false),
       ];
 }
