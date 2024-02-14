@@ -85,7 +85,7 @@ class HomeView extends ConsumerWidget {
                           
                           category.name,
                           textScaleFactor: textScaleFactor,
-                          maxLines: 1,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w500,
