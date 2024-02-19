@@ -250,7 +250,7 @@ class ProfileView extends ConsumerWidget {
               await FirebaseAuth.instance.signOut().then((value) {
                 scaffoldKey.currentState?.closeDrawer();
                 Future.delayed(const Duration(milliseconds: 500), () {
-                  context.popRoute();
+                  context.pushRoute(const LoginRoute());  
                 });
               });
             },

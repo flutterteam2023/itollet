@@ -17,14 +17,12 @@ class AuthTextField extends StatelessWidget {
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeText(
           label,
-          textScaleFactor: textScaleFactor,
           style: TextStyle(
               color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
         ),
@@ -34,6 +32,7 @@ class AuthTextField extends StatelessWidget {
         SizedBox(
           height: 64.531.h,
           child: TextField(
+         
             cursorColor: secondary,
             controller: controller,
             obscureText: obscureText,
@@ -43,7 +42,7 @@ class AuthTextField extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0),
             decoration: InputDecoration(
-                hintText: AutoSizeText(label,textScaleFactor: textScaleFactor  ,).data,
+                hintText: AutoSizeText(label  ,).data,
                 suffixIcon: suffixIcon,
                 filled: true,
                 fillColor: Colors.white,

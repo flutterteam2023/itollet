@@ -23,22 +23,17 @@ class _SplashViewState extends ConsumerState<SplashView> {
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final state = ref.watch(categoryProvider);  
 
     return Scaffold(
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(
-                  color: secondary,
-                ),
-              );
-            } else if (snapshot.hasError) {
+             if (snapshot.hasError) {
               return  Center(child: AutoSizeText('Something went wron connection',
               textScaleFactor: textScaleFactor,
               ));
-            } else if (snapshot.hasData) {
+            } else if (snapshot.hasData  ) {
               return FutureBuilder(
                   future: ref.watch(categoryProvider.notifier).getCategories(),
                   builder: (context, futuresnapshot) {
@@ -63,7 +58,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
                       return const HomeView();
                             
                           }
-                          return HomeView();
+                          return LoginView();
                           
                         },);
                     } else {
@@ -71,7 +66,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
                     }
                   });
             } else {
-              return const LoginView();
+              return const HomeView();
             }
           }),
     );

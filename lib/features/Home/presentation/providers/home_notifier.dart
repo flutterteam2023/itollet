@@ -58,7 +58,7 @@ class HomeNotifier extends AutoDisposeNotifier<HomeState> {
           .get()
           .then((value) {
         user = value.data()!;
-        print("user geldi");
+        print("user geldiiiii");
       });
     } catch (e) {
       print("users başarısız");
