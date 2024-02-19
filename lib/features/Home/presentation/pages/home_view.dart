@@ -21,13 +21,12 @@ class HomeView extends ConsumerWidget {
     final state = ref.watch(homeProvider);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            context.pushRoute(const PostAddRoute());
+            context.pushRoute(PostAddRoute());
           },
           child: const Icon(
             Icons.add,
@@ -43,7 +42,7 @@ class HomeView extends ConsumerWidget {
               crossAxisAlignment: WrapCrossAlignment.start,
               children: List.generate(categories.categories.length, (index) {
                 final category = categories.categories[index];
-                return  SizedBox(
+                return SizedBox(
                   width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
                   height: 128,
                   child: Column(
@@ -81,19 +80,15 @@ class HomeView extends ConsumerWidget {
                         ),
                       ),
                       Expanded(
-                        child: AutoSizeText(
-                          
-                          category.name,
-                          textScaleFactor: textScaleFactor,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          
-                        
-                        )
-                      )
+                          child: AutoSizeText(
+                        category.name,
+                        textScaleFactor: textScaleFactor,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ))
                     ],
                   ),
                 );

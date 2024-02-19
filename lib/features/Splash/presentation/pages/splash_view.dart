@@ -18,22 +18,22 @@ class SplashView extends ConsumerStatefulWidget {
 }
 
 class _SplashViewState extends ConsumerState<SplashView> {
-  
-
   @override
   Widget build(BuildContext context) {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    final state = ref.watch(categoryProvider);  
+    final state = ref.watch(categoryProvider);
 
     return Scaffold(
       body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
-             if (snapshot.hasError) {
-              return  Center(child: AutoSizeText('Something went wron connection',
-              textScaleFactor: textScaleFactor,
+            if (snapshot.hasError) {
+              return Center(
+                  child: AutoSizeText(
+                'Something went wron connection',
+                textScaleFactor: textScaleFactor,
               ));
-            } else if (snapshot.hasData  ) {
+            } else if (snapshot.hasData && snapshot.data != null) {
               return FutureBuilder(
                   future: ref.watch(categoryProvider.notifier).getCategories(),
                   builder: (context, futuresnapshot) {
@@ -44,29 +44,30 @@ class _SplashViewState extends ConsumerState<SplashView> {
                         ),
                       );
                     } else if (futuresnapshot.hasError) {
-                      return  Center(child: AutoSizeText('Something went wron connection',
-                      textScaleFactor: textScaleFactor,
+                      return Center(
+                          child: AutoSizeText(
+                        'Something went wron connection',
+                        textScaleFactor: textScaleFactor,
                       ));
-                    } else if (futuresnapshot.hasData&&snapshot.data?.emailVerified==true) {
+                    } else if (futuresnapshot.hasData && snapshot.data?.emailVerified == true) {
                       return StreamBuilder<List<PostModel>>(
-                        stream: ref.watch(homeProvider.notifier).getStreamPosts(), 
-                        builder:(context, postSnapshot) {
+                        stream: ref.watch(homeProvider.notifier).getStreamPosts(),
+                        builder: (context, postSnapshot) {
                           if (snapshot.hasError) {
                             print('Dataa gelmediii');
-                            
-                          }if (snapshot.hasData) {
-                      return const HomeView();
-                            
+                          }
+                          if (snapshot.hasData) {
+                            return const HomeView();
                           }
                           return LoginView();
-                          
-                        },);
+                        },
+                      );
                     } else {
                       return const LoginView();
                     }
                   });
             } else {
-              return const HomeView();
+              return const LoginView();
             }
           }),
     );

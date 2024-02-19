@@ -29,7 +29,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
     final state = ref.watch(loginProvider);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -40,7 +39,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
-                  textScaleFactor:textScaleFactor,
+                  textScaleFactor: textScaleFactor,
                   AppString.welcome,
                   style: TextStyle(color: secondary, fontSize: 24.sp, fontWeight: FontWeight.w600, letterSpacing: -1),
                 ),
@@ -48,7 +47,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   height: 18.h,
                 ),
                 AutoSizeText(
-                  textScaleFactor:textScaleFactor,
+                  textScaleFactor: textScaleFactor,
                   AppString.loginText,
                   style: TextStyle(color: secondary, fontSize: 12.sp, fontWeight: FontWeight.w400),
                 ),
@@ -59,7 +58,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   height: 18.23.h,
                 ),
                 AuthTextField(
-                  
                   controller: emailController,
                   obscureText: false,
                   label: AppString.email,
@@ -88,7 +86,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                     context.pushRoute(const ForgotPasswordRoute());
                   },
                   child: AutoSizeText(
-                    textScaleFactor:textScaleFactor,
+                    textScaleFactor: textScaleFactor,
                     AppString.forgotPassword,
                     style: TextStyle(color: secondary, fontSize: 14.sp, fontWeight: FontWeight.w600),
                   ),
@@ -100,7 +98,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   padding: EdgeInsets.only(top: 20.03.h, bottom: 18.91.h),
                   radius: 16.r,
                   onTap: () async {
-                    ref.read(loginProvider.notifier).login(context, emailController.text, passswordController.text, ref);
+                    ref
+                        .read(loginProvider.notifier)
+                        .login(context, emailController.text, passswordController.text, ref);
                   },
                   text: AppString.login,
                 ),

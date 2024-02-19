@@ -24,6 +24,10 @@ class CategoryNotifier extends AutoDisposeNotifier<CategoryState> {
   ///get document function
   Future<List<CategoryModel>> getCategories() async {
     final list = <CategoryModel>[];
+    if (state.categories.isNotEmpty) {
+      Log.instance.info('Kategoriler state den getirildi.');
+      return state.categories;
+    }
     try {
       await db
           .collection(collection)

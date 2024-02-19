@@ -21,12 +21,12 @@ import 'package:validatorless/validatorless.dart';
 
 @RoutePage()
 class PostAddView extends HookConsumerWidget {
-  const PostAddView({super.key});
-
+  PostAddView({super.key});
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cat = ref.read(categoryProvider);
-    final formKey = GlobalKey<FormState>();
+
     final tit = useTextEditingController();
     final min = useTextEditingController();
     final max = useTextEditingController();
@@ -37,11 +37,11 @@ class PostAddView extends HookConsumerWidget {
     final isloading = useState(false);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-
     return Scaffold(
       appBar: AppBar(
-        title:  AutoSizeText("İLAN EKLE",
-        textScaleFactor: textScaleFactor,
+        title: AutoSizeText(
+          "İLAN EKLE",
+          textScaleFactor: textScaleFactor,
         ),
       ),
       body: Form(
@@ -108,7 +108,7 @@ class PostAddView extends HookConsumerWidget {
                                             });
                                           }
                                         },
-                                        child:  CircleAvatar(
+                                        child: CircleAvatar(
                                           radius: 64,
                                           child: Padding(
                                             padding: const EdgeInsets.all(18),
@@ -149,7 +149,7 @@ class PostAddView extends HookConsumerWidget {
                                             });
                                           }
                                         },
-                                        child:  CircleAvatar(
+                                        child: CircleAvatar(
                                           radius: 64,
                                           child: Padding(
                                             padding: const EdgeInsets.all(18),
@@ -159,7 +159,7 @@ class PostAddView extends HookConsumerWidget {
                                               children: [
                                                 const Icon(Icons.photo_album),
                                                 AutoSizeText(
-                                                  textScaleFactor: textScaleFactor, 
+                                                  textScaleFactor: textScaleFactor,
                                                   "Galeriden Ekle",
                                                   textAlign: TextAlign.center,
                                                 )
@@ -197,7 +197,7 @@ class PostAddView extends HookConsumerWidget {
                                       ],
                                     ),
                             ),
-                             AutoSizeText(
+                            AutoSizeText(
                               textScaleFactor: textScaleFactor,
                               "Fotoğraf Ekle",
                               textAlign: TextAlign.center,
@@ -318,8 +318,9 @@ class PostAddView extends HookConsumerWidget {
                                                                   setStateButton(() {});
                                                                   Navigator.of(context).pop();
                                                                 },
-                                                                title: AutoSizeText(mainCategory.subCategories[subindex].name,
-                                                                textScaleFactor: textScaleFactor,
+                                                                title: AutoSizeText(
+                                                                  mainCategory.subCategories[subindex].name,
+                                                                  textScaleFactor: textScaleFactor,
                                                                 ),
                                                                 trailing: const Icon(
                                                                   Icons.arrow_forward,
@@ -395,7 +396,6 @@ class PostAddView extends HookConsumerWidget {
                 const SizedBox(height: 18),
                 TextFormField(
                   textAlign: TextAlign.center,
-
                   autocorrect: true,
                   controller: min,
                   keyboardType: TextInputType.number,
@@ -410,7 +410,6 @@ class PostAddView extends HookConsumerWidget {
                 const SizedBox(height: 18),
                 TextFormField(
                   textAlign: TextAlign.center,
-
                   autocorrect: true,
                   controller: max,
                   keyboardType: TextInputType.number,
@@ -425,7 +424,6 @@ class PostAddView extends HookConsumerWidget {
                 const SizedBox(height: 18),
                 TextFormField(
                   textAlign: TextAlign.center,
-
                   autocorrect: true,
                   controller: des,
                   keyboardType: TextInputType.multiline,
@@ -519,12 +517,11 @@ class PostAddView extends HookConsumerWidget {
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: AutoSizeText(
-                            textScaleFactor:textScaleFactor,
-                            'Hiçbir Alan Boş Bırakılamaz.Resim Eklenmesi Zorunludur!',
-                            style: TextStyle(fontSize: 17.sp,)
-
-                            
-                          ),
+                              textScaleFactor: textScaleFactor,
+                              'Hiçbir Alan Boş Bırakılamaz.Resim Eklenmesi Zorunludur!',
+                              style: TextStyle(
+                                fontSize: 17.sp,
+                              )),
                           backgroundColor: secondary,
                         ));
                       }
@@ -551,8 +548,8 @@ class PostAddView extends HookConsumerWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                 AutoSizeText(
-                                  textScaleFactor:textScaleFactor,
+                                AutoSizeText(
+                                  textScaleFactor: textScaleFactor,
                                   'KAYDET',
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
@@ -562,11 +559,7 @@ class PostAddView extends HookConsumerWidget {
                                     fontWeight: FontWeight.w400,
                                     height: 1.40,
                                   ),
-
-
-                                 
                                 ),
-                                
                               ],
                             )
                           : const CircularProgressIndicator(
