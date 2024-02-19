@@ -118,6 +118,9 @@ class PostAddView extends HookConsumerWidget {
                                               children: [
                                                 const Icon(Icons.photo_camera),
                                                 AutoSizeText(
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                  ),
                                                   textScaleFactor: textScaleFactor,
                                                   "Kameradan Ekle",
                                                   textAlign: TextAlign.center,
@@ -159,6 +162,9 @@ class PostAddView extends HookConsumerWidget {
                                               children: [
                                                 const Icon(Icons.photo_album),
                                                 AutoSizeText(
+                                                   style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                  ),
                                                   textScaleFactor: textScaleFactor,
                                                   "Galeriden Ekle",
                                                   textAlign: TextAlign.center,
