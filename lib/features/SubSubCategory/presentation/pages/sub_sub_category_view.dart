@@ -20,12 +20,9 @@ class SubSubCategoryView extends ConsumerStatefulWidget {
   final CategoryModel categoryModel;
   final SubcategoryModel subcategoryModel;
   final List<PostModel> postModel;
-  const SubSubCategoryView(
-      this.subcategoryModel, this.postModel, this.categoryModel,
-      {super.key});
+  const SubSubCategoryView(this.subcategoryModel, this.postModel, this.categoryModel, {super.key});
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SubSubCategoryViewState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _SubSubCategoryViewState();
 }
 
 class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
@@ -33,7 +30,6 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -50,10 +46,7 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          widget.categoryModel.primaryColor,
-                          widget.categoryModel.secondaryColor
-                        ],
+                        colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
@@ -74,13 +67,9 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                       title: AutoSizeText(
                         textScaleFactor: textScaleFactor,
                         widget.subcategoryModel.name,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 24.sp,
-                            fontWeight: FontWeight.w400),
+                        style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                       ),
-                      backgroundColor:
-                          Colors.white, // Arkaplan rengini transparent yapın
+                      backgroundColor: Colors.white, // Arkaplan rengini transparent yapın
                     ),
                   ),
                 ),
@@ -99,34 +88,23 @@ class _SubSubCategoryViewState extends ConsumerState<SubSubCategoryView> {
                       children: List.generate(widget.postModel.length, (index) {
                         final post = widget.postModel[index];
                         DateTime suan = DateTime.now();
-                        DateTime ilanBitisTarihi =
-                            post.createdAt!.add(const Duration(hours: 24));
+                        DateTime ilanBitisTarihi = post.createdAt!.add(const Duration(hours: 24));
                         Duration kalanSure = ilanBitisTarihi.difference(suan);
                         int kalanSaat = kalanSure.inHours;
-                        int kalanDakika =
-                            (kalanSure.inMinutes - kalanSaat * 60);
+                        int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
                         return kalanSaat >= 0
                             ? SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width - 36) /
-                                        2,
+                                width: (MediaQuery.of(context).size.width - 36) / 2,
                                 child: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 12.w, bottom: 22.h),
+                                  padding: EdgeInsets.only(left: 12.w, bottom: 22.h),
                                   child: Bounceable(
                                     onTap: () {
-                                      if (post.fromUID ==
-                                          FirebaseAuth
-                                              .instance.currentUser?.uid) {
-                                        context.pushRoute(PostDetailRoute(
-                                            postModel: post,
-                                            categoryModel:
-                                                widget.categoryModel));
+                                      if (post.fromUID == FirebaseAuth.instance.currentUser?.uid) {
+                                        context.pushRoute(
+                                            PostDetailRoute(postModel: post, categoryModel: widget.categoryModel));
                                       } else {
-                                        context.pushRoute(AdsRoute(
-                                            postModel: post,
-                                            categoryModel:
-                                                widget.categoryModel));
+                                        context
+                                            .pushRoute(AdsRoute(postModel: post, categoryModel: widget.categoryModel));
                                       }
                                     },
                                     child: SubSubCard(
@@ -160,7 +138,6 @@ class SubSubCard extends StatelessWidget {
     required this.title,
     required this.maxprice,
     required this.minPrice,
-
     required this.imageUrl,
     required this.categoryModel,
     required this.kalanDakika,
@@ -178,11 +155,9 @@ class SubSubCard extends StatelessWidget {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18.r), color: greyCard),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.r), color: greyCard),
       child: Padding(
-        padding:
-            EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
+        padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
         child: Column(
           children: [
             Container(
@@ -194,8 +169,7 @@ class SubSubCard extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: imageUrl,
                   fit: BoxFit.fill,
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      SizedBox.square(
+                  progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
                     dimension: 15,
                     child: CircularProgressIndicator(
                       color: Colors.white,
@@ -219,10 +193,8 @@ class SubSubCard extends StatelessWidget {
             ),
             AutoSizeText(
               textScaleFactor: textScaleFactor,
-              
               title,
-              style: TextStyle(
-                  color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -230,35 +202,31 @@ class SubSubCard extends StatelessWidget {
             ),
             AutoSizeText(
               textScaleFactor: textScaleFactor,
-              "maximum fiyat:$maxprice ₺",
+              "En fazla: $maxprice ₺",
               style: TextStyle(
-                  color: categoryModel.primaryColor,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Poppins Italic'),
+                color: categoryModel.primaryColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-            SizedBox(
-              height: 5.h,
-            ),
+            const SizedBox(height: 4),
             AutoSizeText(
               textScaleFactor: textScaleFactor,
-              "minimum fiyat:$minPrice ₺",
+              "En az: $minPrice ₺",
               style: TextStyle(
-                  color: categoryModel.primaryColor,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Poppins Italic'),
+                color: categoryModel.primaryColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-            SizedBox(
-              height: 5.h,
-            ),
+            const SizedBox(height: 4),
             AutoSizeText(
               textScaleFactor: textScaleFactor,
               "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
               style: TextStyle(
                 color: categoryModel.primaryColor,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w700,
               ),
             )
           ],
