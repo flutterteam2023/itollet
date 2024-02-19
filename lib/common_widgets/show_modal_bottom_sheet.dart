@@ -17,18 +17,17 @@ import 'package:itollet/features/Categories/models/category/category_model.dart'
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 
 class CustomBottomSheet {
-  
-  void ModalBottomSheet(BuildContext context, TextEditingController titleController,
-      TextEditingController maxbalance,TextEditingController minbalance, TextEditingController descriptionController,PostModel postmodel) {
-        final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+  void ModalBottomSheet(BuildContext context, TextEditingController titleController, TextEditingController maxbalance,
+      TextEditingController minbalance, TextEditingController descriptionController, PostModel postmodel) {
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-        File? image;
-        ValueNotifier<ImageProvider?> myImageProvider = ValueNotifier(null);
-        titleController.text = postmodel.title;
-        maxbalance.text = postmodel.balanceMax.toString();  
-        minbalance.text = postmodel.balanceMin.toString();
-        descriptionController.text = postmodel.description!;
-        ValueNotifier<bool> isloading = ValueNotifier(false);
+    File? image;
+    ValueNotifier<ImageProvider?> myImageProvider = ValueNotifier(null);
+    titleController.text = postmodel.title;
+    maxbalance.text = postmodel.balanceMax.toString();
+    minbalance.text = postmodel.balanceMin.toString();
+    descriptionController.text = postmodel.description!;
+    ValueNotifier<bool> isloading = ValueNotifier(false);
     showModalBottomSheet(
         isScrollControlled: true,
         enableDrag: true,
@@ -61,26 +60,23 @@ class CustomBottomSheet {
                       });
                     },
                     child: ValueListenableBuilder(
-                      valueListenable: myImageProvider,
-                      builder: (context, _,__) {
-                        return Container(
-                          height: 128.r,
-                          width: 128.r,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: myImageProvider.value ?? NetworkImage(postmodel.photoUrl!),
-                                
-                                
-                                fit: BoxFit.fill,
-                                colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.srcOver),
-                              )),
-                          child: Center(
-                            child: Bounceable(onTap: () {}, child: SvgPicture.asset(AppImage.pencil)),
-                          ),
-                        );
-                      }
-                    ),
+                        valueListenable: myImageProvider,
+                        builder: (context, _, __) {
+                          return Container(
+                            height: 128.r,
+                            width: 128.r,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  image: myImageProvider.value ?? NetworkImage(postmodel.photoUrl!),
+                                  fit: BoxFit.fill,
+                                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.srcOver),
+                                )),
+                            child: Center(
+                              child: Bounceable(onTap: () {}, child: SvgPicture.asset(AppImage.pencil)),
+                            ),
+                          );
+                        }),
                   ),
                   SizedBox(
                     height: 25.h,
@@ -118,24 +114,24 @@ class CustomBottomSheet {
                     height: 55.h,
                   ),
                   Bounceable(
-                    onTap: ()async {
+                    onTap: () async {
                       isloading.value = true;
                       final storage = FirebaseStorage.instance.ref().child('posts/${postmodel.postId}');
-                      if(image != null){
+                      if (image != null) {
                         await storage.putFile(image!);
                         final url = await storage.getDownloadURL();
-                         FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
+                        FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
                           'title': titleController.text,
                           'balanceMax': maxbalance.text,
                           'balanceMin': minbalance.text,
                           'description': descriptionController.text,
                           'photoUrl': url
-                        }).then((value){
+                        }).then((value) {
                           isloading.value = false;
                           Navigator.pop(context);
                         });
-                      }else{
-                      await  FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
+                      } else {
+                        await FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
                           'title': titleController.text,
                           'balanceMax': maxbalance.text,
                           'balanceMin': minbalance.text,
@@ -143,29 +139,31 @@ class CustomBottomSheet {
                         }).then((value) {
                           isloading.value = false;
                           Navigator.pop(context);
-                        });}
-                      
-
-
+                        });
+                      }
                     },
                     child: ValueListenableBuilder(
-                      valueListenable: isloading,
-                      builder: (context,_,__) {
-                        return Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(113.r), color: secondary),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 13.h),
-                            child: Center(
-                              child:isloading.value==false? AutoSizeText(
-                                textScaleFactor: textScaleFactor,
-                                'KAYDET',
-                                style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
-                              ):const CircularProgressIndicator(color: Colors.white,),
+                        valueListenable: isloading,
+                        builder: (context, _, __) {
+                          return Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(113.r), color: secondary),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 13.h),
+                              child: Center(
+                                child: isloading.value == false
+                                    ? AutoSizeText(
+                                        textScaleFactor: textScaleFactor,
+                                        'KAYDET',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
+                                      )
+                                    : const CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ),
+                              ),
                             ),
-                          ),
-                        );
-                      }
-                    ),
+                          );
+                        }),
                   )
                 ],
               ),
@@ -176,81 +174,90 @@ class CustomBottomSheet {
 
   void AdsModalBottomSheet(
       BuildContext context, CategoryModel categoryModel, TextEditingController controller, void Function()? onTap) {
-        final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     showModalBottomSheet(
-        enableDrag: true,
-        showDragHandle: true,
+        isScrollControlled: true,
         context: context,
         builder: (context) {
-          return SingleChildScrollView(
+          return Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              width: 400.w,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(22.r), topRight: Radius.circular(22.r))),
-              child: Padding(
-                padding: EdgeInsets.only(left: 20.w, right: 22.w, bottom: 28.h),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Center(
-                      child: AutoSizeText(
-                        textScaleFactor: textScaleFactor,
-                        'TEKLİF VER',
-                        style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    SmaillFilledBalance(
-                      categoryModel,
-                    ),
-                    SizedBox(
-                      height: 18.h,
-                    ),
-                    const OfferBalance(),
-                    SizedBox(
-                      height: 26.h,
-                    ),
-                    AdsEditTextField(
-                      controller: controller,
-                      label: 'İlan bağlantınız',
-                      onPressed: () {},
-                    ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    AutoSizeText(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(22.r),
+                  topRight: Radius.circular(22.r),
+                ),
+              ),
+              padding: EdgeInsets.only(
+                left: 18,
+                right: 18,
+                bottom: 18,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const SizedBox(height: 18),
+                  Center(
+                    child: AutoSizeText(
                       textScaleFactor: textScaleFactor,
-                      'Sadece bağlantı paylaşabilirsiniz.',
-                      style: TextStyle(color: Color(0xff49454F), fontSize: 12.sp, fontWeight: FontWeight.w400),
+                      'TEKLİF VER',
+                      style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
                     ),
-                    SizedBox(
-                      height: 55.h,
+                  ),
+                  const SizedBox(height: 18),
+                  SmaillFilledBalance(
+                    categoryModel,
+                  ),
+                  const SizedBox(height: 18),
+                  const OfferBalance(),
+                  const SizedBox(height: 18),
+                  AdsEditTextField(
+                    controller: controller,
+                    label: 'İlan bağlantınız',
+                    onPressed: () {},
+                  ),
+                  const SizedBox(height: 18),
+                  AutoSizeText(
+                    textScaleFactor: textScaleFactor,
+                    'Sadece bağlantı paylaşabilirsiniz.',
+                    style: TextStyle(
+                      color: const Color(0xff49454F),
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
                     ),
-                    Bounceable(
-                      onTap: onTap,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(113.r),
-                            gradient:
-                                LinearGradient(colors: [categoryModel.primaryColor, categoryModel.secondaryColor])),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 13.h),
-                          child: Center(
-                            child: AutoSizeText(
-                              textScaleFactor: textScaleFactor,
-                              'TEKLİF VER (3.75₺)',
-                              style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
+                  ),
+                  const SizedBox(height: 18),
+                  Bounceable(
+                    onTap: onTap,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(113.r),
+                        gradient: LinearGradient(
+                          colors: [
+                            categoryModel.primaryColor,
+                            categoryModel.secondaryColor,
+                          ],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 13.h),
+                        child: Center(
+                          child: AutoSizeText(
+                            textScaleFactor: textScaleFactor,
+                            'TEKLİF VER (3.75₺)',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.sp,
+                              fontWeight: FontWeight.w400,
                             ),
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             ),
           );
