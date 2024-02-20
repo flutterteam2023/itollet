@@ -35,6 +35,7 @@ class PostDetailView extends StatefulHookConsumerWidget {
 class _PostDetailViewState extends ConsumerState<PostDetailView> {
   @override
   Widget build(BuildContext context) {
+    PostModel? postmodel;
     final state = ref.watch(homeProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final titleController = useTextEditingController(text: '');
@@ -142,6 +143,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                           return const CircularProgressIndicator();
                         }
                         final postData = postSnapshot.data;
+                        postmodel = PostModel.fromJson(postData?.data() as Map<String, dynamic>);
 
                         if (postData != null) {
                           PostModel? postModel = PostModel.fromJson(postData.data() as Map<String, dynamic>);
@@ -286,6 +288,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                     }
                     if (snapshot.hasData) {
                       List<String> urls = snapshot.data ?? [];
+                      
                       return SizedBox(
                         height: 250.h,
                         child: ListView.builder(
@@ -307,8 +310,9 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
               PostDetailButton(
                 title: 'Düzenle',
                 onTap: () {
+                  
                   CustomBottomSheet().ModalBottomSheet(
-                      context, titleController, maxBalance, minBalance, descriptionController, widget.postModel);
+                      context, titleController, maxBalance, minBalance, descriptionController,postmodel== null? widget.postModel:postmodel!);
                 },
                 colors: [
                   widget.categoryModel != null ? widget.categoryModel!.primaryColor : secondary,
