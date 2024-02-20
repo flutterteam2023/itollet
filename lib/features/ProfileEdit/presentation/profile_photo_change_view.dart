@@ -26,11 +26,11 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
     final imageFile = useValueNotifier<File?>(null);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-
     return Scaffold(
       appBar: AppBar(
-        title:  AutoSizeText("PROFİL FOTOĞRAFI",
-        textScaleFactor: textScaleFactor,
+        title: AutoSizeText(
+          "PROFİL FOTOĞRAFI",
+          textScaleFactor: textScaleFactor,
         ),
       ),
       body: Padding(
@@ -95,7 +95,7 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                                         });
                                       }
                                     },
-                                    child:  CircleAvatar(
+                                    child: CircleAvatar(
                                       radius: 64,
                                       child: Padding(
                                         padding: const EdgeInsets.all(18),
@@ -105,7 +105,7 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                                           children: [
                                             const Icon(Icons.photo_camera),
                                             AutoSizeText(
-                                              textScaleFactor:textScaleFactor,
+                                              textScaleFactor: textScaleFactor,
                                               "Kameradan Ekle",
                                               textAlign: TextAlign.center,
                                             )
@@ -136,7 +136,7 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                                         });
                                       }
                                     },
-                                    child:  CircleAvatar(
+                                    child: CircleAvatar(
                                       radius: 64,
                                       child: Padding(
                                         padding: const EdgeInsets.all(18),
@@ -146,12 +146,9 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                                           children: [
                                             const Icon(Icons.photo_album),
                                             AutoSizeText(
-                                              textScaleFactor:textScaleFactor,
+                                              textScaleFactor: textScaleFactor,
                                               "Galeriden Ekle",
                                               textAlign: TextAlign.center,
-
-
-                                             
                                             )
                                           ],
                                         ),
@@ -187,9 +184,10 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                                   ],
                                 ),
                         ),
-                         AutoSizeText("Fotoğraf Değiştir",
-                         textScaleFactor: textScaleFactor,
-                         )
+                        AutoSizeText(
+                          "Fotoğraf Değiştir",
+                          textScaleFactor: textScaleFactor,
+                        )
                       ],
                     );
                   }),
@@ -231,12 +229,12 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                       ),
                       borderRadius: BorderRadius.circular(9999),
                     ),
-                    child:  Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AutoSizeText(
-                          textScaleFactor:textScaleFactor,
+                          textScaleFactor: textScaleFactor,
                           'KAYDET',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
@@ -246,9 +244,6 @@ class ProfilePhotoChangeView extends HookConsumerWidget {
                             fontWeight: FontWeight.w400,
                             height: 1.40,
                           ),
-
-
-                         
                         )
                       ],
                     )),

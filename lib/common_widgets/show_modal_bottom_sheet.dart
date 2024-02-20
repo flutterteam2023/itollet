@@ -29,17 +29,24 @@ class CustomBottomSheet {
     descriptionController.text = postmodel.description!;
     ValueNotifier<bool> isloading = ValueNotifier(false);
     showModalBottomSheet(
+        useSafeArea: true,
         isScrollControlled: true,
-        enableDrag: true,
-        showDragHandle: true,
         context: context,
         builder: (context) {
-          return Container(
-            width: 400.w,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(22.r), topRight: Radius.circular(22.r))),
-            child: Padding(
-              padding: EdgeInsets.only(left: 20.w, right: 22.w, bottom: 28.h),
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+                bottom: 16 + MediaQuery.of(context).viewInsets.bottom,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(22.r),
+                  topRight: Radius.circular(22.r),
+                ),
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -48,9 +55,7 @@ class CustomBottomSheet {
                     'DÜZENLE',
                     style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
+                  const SizedBox(height: 16),
                   Bounceable(
                     onTap: () {
                       final postImage = ImagePicker().pickImage(source: ImageSource.gallery);
@@ -78,41 +83,35 @@ class CustomBottomSheet {
                           );
                         }),
                   ),
-                  SizedBox(
-                    height: 25.h,
-                  ),
+                  const SizedBox(height: 16),
                   AdsEditTextField(
                     controller: titleController,
                     label: 'İLAN BAŞLIĞI',
                     onPressed: () {},
                   ),
-                  SizedBox(
-                    height: 17.h,
-                  ),
-                  AdsEditTextField(
-                    controller: maxbalance,
-                    label: 'MAXİMUM BÜTÇE',
-                    onPressed: () {},
-                  ),
-                  SizedBox(
-                    height: 17.h,
-                  ),
+                  const SizedBox(height: 16),
                   AdsEditTextField(
                     controller: minbalance,
-                    label: 'MİNİMUM BÜTÇE',
+                    label: 'BÜTÇE (En Az)',
                     onPressed: () {},
                   ),
-                  SizedBox(
-                    height: 17.h,
+                  const SizedBox(height: 16),
+                  AdsEditTextField(
+                    controller: maxbalance,
+                    label: 'BÜTÇE (En Fazla)',
+                    onPressed: () {},
                   ),
+                  const SizedBox(height: 16),
                   AdsEditTextField(
                     controller: descriptionController,
                     label: 'AÇIKLAMA',
+                    minLines: 5,
+                    maxLines: 15,
+                    borderRadius: 16,
+                    contentPadding: const EdgeInsets.all(16),
                     onPressed: () {},
                   ),
-                  SizedBox(
-                    height: 55.h,
-                  ),
+                  const SizedBox(height: 16),
                   Bounceable(
                     onTap: () async {
                       isloading.value = true;
