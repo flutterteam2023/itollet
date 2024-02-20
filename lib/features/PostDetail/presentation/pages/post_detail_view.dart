@@ -73,8 +73,8 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
 
     int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
-final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    Log.instance.info('PostDetailView build ${widget.postModel}');
     return Scaffold(
         drawer: CustomDrawer(scaffoldKey: scaffoldKey),
         appBar: const CustomAppBar(),
@@ -114,7 +114,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                       iconTheme: const IconThemeData(color: Colors.white),
                       centerTitle: true,
                       title: AutoSizeText(
-                        textScaleFactor:textScaleFactor,
+                        textScaleFactor: textScaleFactor,
                         'İLANIM',
                         style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                       ),
@@ -128,8 +128,9 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                       future: FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).get(),
                       builder: (context, postSnapshot) {
                         if (postSnapshot.hasError) {
-                          return  AutoSizeText('Data gelmedi',
-                          textScaleFactor: textScaleFactor,
+                          return AutoSizeText(
+                            'Data gelmedi',
+                            textScaleFactor: textScaleFactor,
                           );
                         }
 
@@ -201,7 +202,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 AutoSizeText(
-                                                  textScaleFactor:textScaleFactor,
+                                                  textScaleFactor: textScaleFactor,
                                                   postModel.title,
                                                   style: TextStyle(
                                                       color: black, fontSize: 20.sp, fontWeight: FontWeight.w500),
@@ -211,7 +212,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                                                   height: 14.h,
                                                 ),
                                                 AutoSizeText(
-                                                  textScaleFactor:textScaleFactor,
+                                                  textScaleFactor: textScaleFactor,
                                                   "Max Bütçe: ${postModel.balanceMax}₺",
                                                   style: TextStyle(
                                                       color: widget.categoryModel != null
@@ -224,7 +225,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                                                   height: 10.h,
                                                 ),
                                                 AutoSizeText(
-                                                  textScaleFactor:textScaleFactor,
+                                                  textScaleFactor: textScaleFactor,
                                                   "Min Bütçe: ${postModel.balanceMin}₺",
                                                   style: TextStyle(
                                                       color: widget.categoryModel != null
@@ -238,7 +239,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                                                 ),
                                                 kalanSaat >= 0
                                                     ? AutoSizeText(
-                                                        textScaleFactor:textScaleFactor,
+                                                        textScaleFactor: textScaleFactor,
                                                         "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}: ${kalanDakika.toString().padLeft(2, '0')}",
                                                         style: TextStyle(
                                                             color: widget.categoryModel != null
@@ -263,7 +264,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                               Padding(
                                 padding: EdgeInsets.only(left: 23.w, right: 9.w, bottom: 7.h),
                                 child: AutoSizeText(
-                                  textScaleFactor:textScaleFactor,
+                                  textScaleFactor: textScaleFactor,
                                   postModel.description!,
                                   style: TextStyle(
                                       height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
@@ -280,8 +281,9 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                   stream: ref.watch(homeProvider.notifier).getPostUrlsStream(widget.postModel.postId!),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return  AutoSizeText('Data gelmedi',
-                      textScaleFactor: textScaleFactor,
+                      return AutoSizeText(
+                        'Data gelmedi',
+                        textScaleFactor: textScaleFactor,
                       );
                     }
                     if (snapshot.hasData) {
@@ -338,7 +340,7 @@ final textScaleFactor = MediaQuery.of(context).textScaleFactor;
                       child: Center(
                         child: isloading.value == false
                             ? AutoSizeText(
-                              textScaleFactor:textScaleFactor,
+                                textScaleFactor: textScaleFactor,
                                 'KALDIR',
                                 style: TextStyle(color: black, fontSize: 20.sp, fontWeight: FontWeight.w400),
                               )

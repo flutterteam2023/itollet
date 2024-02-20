@@ -28,44 +28,47 @@ class AdsView extends StatefulHookConsumerWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _AdsViewState();
 }
+
 class _AdsViewState extends ConsumerState<AdsView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final urlController = useTextEditingController(text: '');
     final homestate = ref.watch(homeProvider);
-   late Timer _timer;
+    late Timer _timer;
     final descriptionController = useTextEditingController(text: '');
     DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi =
-        widget.postModel.createdAt!.add(Duration(hours: 24));
+    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(Duration(hours: 24));
     Duration kalanSure = ilanBitisTarihi.difference(suan);
-    
-    void _updateTimer(Timer timer) {
-    DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
-    setState(() {
-      kalanSure = ilanBitisTarihi.difference(suan);
-    });
 
-    if (kalanSure.isNegative) {
-      _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+    void _updateTimer(Timer timer) {
+      DateTime suan = DateTime.now();
+      DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
+      setState(() {
+        kalanSure = ilanBitisTarihi.difference(suan);
+      });
+
+      if (kalanSure.isNegative) {
+        _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+      }
     }
-  }
-     @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
-  }
+
     @override
-  void dispose() {
-    _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
-    super.dispose();
-  }
-  int kalanSaat = kalanSure.inHours;
+    void initState() {
+      super.initState();
+      _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
+    }
+
+    @override
+    void dispose() {
+      _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
+      super.dispose();
+    }
+
+    int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    Log.instance.success("İlan detayı sayfası açıldı : ${widget.postModel}");
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -171,7 +174,10 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   AutoSizeText(
                                     textScaleFactor: textScaleFactor,
                                     "Max Bütçe: ${widget.postModel.balanceMax}₺",
-                                    style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        color: widget.categoryModel.primaryColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 10.h,
@@ -179,7 +185,10 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   AutoSizeText(
                                     textScaleFactor: textScaleFactor,
                                     "Min Bütçe: ${widget.postModel.balanceMin}₺",
-                                    style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        color: widget.categoryModel.primaryColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                   SizedBox(
                                     height: 10.h,
@@ -187,7 +196,10 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   AutoSizeText(
                                     textScaleFactor: textScaleFactor,
                                     "Kalan Süre: ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}",
-                                    style: TextStyle(color: widget.categoryModel.primaryColor, fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                    style: TextStyle(
+                                        color: widget.categoryModel.primaryColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600),
                                   )
                                 ],
                               ),
@@ -210,39 +222,36 @@ class _AdsViewState extends ConsumerState<AdsView> {
                   style: TextStyle(height: 1.7, color: black, fontSize: 14.sp, fontWeight: FontWeight.w500),
                 ),
               ),
-           // ignore: unnecessary_null_comparison
+              // ignore: unnecessary_null_comparison
               StreamBuilder(
-                stream: ref.watch(homeProvider.notifier).getPostUrlStream(widget.postModel.postId!),
-                builder: (context,builder) {
-                  return SizedBox(
-                    height: 380.h,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      // ignore: unnecessary_null_comparison
-                      itemCount:homestate.postUrls.length,
-                      itemBuilder: (context, index) {
-                        final url = homestate.postUrls[index];
-                        return LinkCard(
-                          onTap: () {
-                             ref
-                            .read(postDetailProvider.notifier)
-                            .launchUrls(url,widget.postModel.postId!);
-                          },
-                          categoryModel: widget.categoryModel,
-                          url: url,
-                        );
-                      },
-                    ),
-                  );
-                }
-              ),
+                  stream: ref.watch(homeProvider.notifier).getPostUrlStream(widget.postModel.postId!),
+                  builder: (context, builder) {
+                    return SizedBox(
+                      height: 380.h,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        // ignore: unnecessary_null_comparison
+                        itemCount: homestate.postUrls.length,
+                        itemBuilder: (context, index) {
+                          final url = homestate.postUrls[index];
+                          return LinkCard(
+                            onTap: () {
+                              ref.read(postDetailProvider.notifier).launchUrls(url, widget.postModel.postId!);
+                            },
+                            categoryModel: widget.categoryModel,
+                            url: url,
+                          );
+                        },
+                      ),
+                    );
+                  }),
               PostDetailButton(
                 title: 'TEKLİF VER (3.75₺)',
                 onTap: () {
-                  CustomBottomSheet().AdsModalBottomSheet(context,widget.categoryModel,urlController,(){
-                    ref.read(homeProvider.notifier).postUrl(widget.postModel.postId!, urlController.text,context);
+                  CustomBottomSheet().AdsModalBottomSheet(context, widget.categoryModel, urlController, () {
+                    ref.read(homeProvider.notifier).postUrl(widget.postModel.postId!, urlController.text, context);
                   });
-                  urlController.text='';
+                  urlController.text = '';
                 },
                 colors: [widget.categoryModel.primaryColor, widget.categoryModel.secondaryColor],
               ),
@@ -256,5 +265,3 @@ class _AdsViewState extends ConsumerState<AdsView> {
     );
   }
 }
-
-
