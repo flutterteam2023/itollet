@@ -36,51 +36,60 @@ class HomeView extends ConsumerWidget {
         appBar: const CustomAppBar(),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
+            padding: EdgeInsets.only(
+              left: 18.w,
+              right: 18.w,
+            ),
             child: Wrap(
               alignment: WrapAlignment.start,
               crossAxisAlignment: WrapCrossAlignment.start,
               children: List.generate(categories.categories.length, (index) {
                 final category = categories.categories[index];
-                return SizedBox(
-                  width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
+                return Container(
+                  width: (MediaQuery.of(context).size.width - 18.w * 5) / 3,
                   height: 128,
+                  margin: const EdgeInsets.all(9),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(9),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Bounceable(
-                          onTap: () {
-                            context.pushRoute(SubCategoryRoute(category: category));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(colors: [category.primaryColor, category.secondaryColor]),
+                      Bounceable(
+                        onTap: () {
+                          context.pushRoute(SubCategoryRoute(category: category));
+                        },
+                        child: Container(
+                          width: 64.w,
+                          height: 64.w,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(9),
+                            gradient: LinearGradient(
+                              colors: [category.primaryColor, category.secondaryColor],
                             ),
-                            child: Center(
-                              child: CachedNetworkImage(
-                                imageUrl: category.iconUrl,
-                                color: Colors.white,
-                                width: 35.w,
-                                height: 35.676.h,
-                                progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
-                                  dimension: 15,
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                    strokeWidth: 2,
-                                    value: downloadProgress.progress,
-                                  ),
+                          ),
+                          child: Center(
+                            child: CachedNetworkImage(
+                              imageUrl: category.iconUrl,
+                              color: Colors.white,
+                              width: 35.w,
+                              height: 35.676.h,
+                              progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                                dimension: 15,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                  value: downloadProgress.progress,
                                 ),
-                                errorWidget: (context, url, error) => const Icon(Icons.error),
                               ),
+                              errorWidget: (context, url, error) => const Icon(Icons.error),
                             ),
                           ),
                         ),
                       ),
-                      Expanded(
-                          child: AutoSizeText(
+                      const SizedBox(height: 8),
+                      AutoSizeText(
                         category.name,
                         textScaleFactor: textScaleFactor,
                         textAlign: TextAlign.center,
@@ -88,7 +97,7 @@ class HomeView extends ConsumerWidget {
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500,
                         ),
-                      ))
+                      )
                     ],
                   ),
                 );

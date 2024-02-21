@@ -59,7 +59,7 @@ class _MyAdsViewState extends ConsumerState<MyAdsView> {
                     iconTheme: const IconThemeData(color: Colors.white),
                     centerTitle: true,
                     title: AutoSizeText(
-                      textScaleFactor:textScaleFactor,
+                      textScaleFactor: textScaleFactor,
                       'İLANLARIM',
                       style: TextStyle(color: Colors.white, fontSize: 24.sp, fontWeight: FontWeight.w400),
                     ),
@@ -163,27 +163,30 @@ class SubSubCard extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 128.r,
-                width: 128.r,
+                height: 128.w,
+                width: 128.w,
                 decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(image: NetworkImage(url), fit: BoxFit.fill),
+                    color: secondary,
+                    borderRadius: BorderRadius.circular(16),
+                    image: DecorationImage(image: NetworkImage(url), fit: BoxFit.contain),
                     border: Border.all(width: 3, color: secondary)),
               ),
               SizedBox(
                 height: 10.h,
               ),
-              AutoSizeText(
-                textScaleFactor:textScaleFactor,
+              Text(
+                textScaleFactor: textScaleFactor,
                 description,
+                maxLines: 1,
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: black, fontSize: 16.sp, fontWeight: FontWeight.w500),
               ),
               SizedBox(
                 height: 5.h,
               ),
               AutoSizeText(
-                textScaleFactor:textScaleFactor,
+                textScaleFactor: textScaleFactor,
                 '$price₺',
                 style: TextStyle(
                     color: secondary, fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: 'Poppins Italic'),
@@ -192,7 +195,7 @@ class SubSubCard extends StatelessWidget {
                 height: 5.h,
               ),
               AutoSizeText(
-                textScaleFactor:textScaleFactor,
+                textScaleFactor: textScaleFactor,
                 kalanSaat != null && kalanDakika != null
                     ? 'Kalan Süre : ${kalanSaat.toString().padLeft(2, '0')}:${kalanDakika.toString().padLeft(2, '0')}'
                     : "",
@@ -206,7 +209,7 @@ class SubSubCard extends StatelessWidget {
                 height: 2.h,
               ),
               AutoSizeText(
-                textScaleFactor:textScaleFactor,
+                textScaleFactor: textScaleFactor,
                 isTimeFinish == false ? 'Aktif' : 'Süresi Dolan',
                 style: TextStyle(color: secondary, fontSize: 15.sp, fontWeight: FontWeight.bold),
               )

@@ -34,8 +34,10 @@ class ElementEllipse extends StatelessWidget {
               child: Bounceable(
                 onTap: onTap,
                 child: Container(
+                  width: 64.w,
+                  height: 64.w,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
+                    borderRadius: BorderRadius.circular(9),
                     gradient: LinearGradient(colors: colors),
                   ),
                   child: Center(
@@ -63,17 +65,12 @@ class ElementEllipse extends StatelessWidget {
               height: 5.h,
             ),
             Expanded(
-              child: AutoSizeText(
-                textScaleFactor: textScaleFactor,
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
-
-
-
-               
-              )
-            )
+                child: AutoSizeText(
+              textScaleFactor: textScaleFactor,
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
+            ))
           ],
         ),
       ),

@@ -24,16 +24,14 @@ class SubCategoryView extends ConsumerStatefulWidget {
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SubCategoryViewState();
 }
+
 class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
   @override
   Widget build(BuildContext context) {
-
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final state = ref.watch(homeProvider);
     List<PostModel> postModel = [];
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
-    
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -101,69 +99,72 @@ class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
                       //     sayi++;
                       //     i = 0;
 
-                          
                       //   }else if(i == state.postModels.length - 1 && sayi==widget.category.subCategories.length-1){
                       //     break;
                       //   }
-                        
+
                       // }
 
-
-
-                      return  SizedBox(
-                        width: (MediaQuery.of(context).size.width - 18 * 2) / 3,
+                      return Container(
+                        width: (MediaQuery.of(context).size.width - 18.w * 5) / 3,
                         height: 128,
+                        margin: const EdgeInsets.all(9),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(9),
+                        ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Expanded(
-                              child: Bounceable(
-                                onTap: () {
-                                  List<PostModel> postModels = [];
-                                  for (var i = 0; i < state.postModels.length; i++) {
-                                    if (state.postModels[i].categoryID == subcategory.id) {
-                                      postModels.add(state.postModels[i]);
-                                    }
+                            Bounceable(
+                              onTap: () {
+                                List<PostModel> postModels = [];
+                                for (var i = 0; i < state.postModels.length; i++) {
+                                  if (state.postModels[i].categoryID == subcategory.id) {
+                                    postModels.add(state.postModels[i]);
                                   }
-                                  context
-                                      .pushRoute(SubSubCategoryRoute(subcategoryModel: subcategory, postModel: postModels, categoryModel: widget.category));
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    gradient: LinearGradient(colors: [widget.category.primaryColor, widget.category.secondaryColor]),
-                                  ),
-                                  child: Center(
-                                    child: CachedNetworkImage(
-                                      imageUrl: subcategory.iconUrl,
-                                      color: Colors.white,
-                                      width: 35.w,
-                                      height: 35.676.h,
-                                      progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
-                                        dimension: 15,
-                                        child: CircularProgressIndicator(
-                                          color: Colors.white,
-                                          strokeWidth: 2,
-                                          value: downloadProgress.progress,
-                                        ),
+                                }
+                                context.pushRoute(SubSubCategoryRoute(
+                                    subcategoryModel: subcategory,
+                                    postModel: postModels,
+                                    categoryModel: widget.category));
+                              },
+                              child: Container(
+                                width: 64.w,
+                                height: 64.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(9),
+                                  gradient: LinearGradient(
+                                      colors: [widget.category.primaryColor, widget.category.secondaryColor]),
+                                ),
+                                child: Center(
+                                  child: CachedNetworkImage(
+                                    imageUrl: subcategory.iconUrl,
+                                    color: Colors.white,
+                                    width: 35.w,
+                                    height: 35.676.h,
+                                    progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
+                                      dimension: 15,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                        value: downloadProgress.progress,
                                       ),
-                                      errorWidget: (context, url, error) {
-                                        Log.instance.error(error);
-                                        return const Icon(Icons.error_outline);
-                                      },
                                     ),
+                                    errorWidget: (context, url, error) {
+                                      Log.instance.error(error);
+                                      return const Icon(Icons.error_outline);
+                                    },
                                   ),
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: AutoSizeText(
-                                textScaleFactor: textScaleFactor,
-                                subcategory.name,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
-                              ),
+                            const SizedBox(height: 8),
+                            AutoSizeText(
+                              textScaleFactor: textScaleFactor,
+                              subcategory.name,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500, color: black),
                             )
                           ],
                         ),

@@ -33,9 +33,9 @@ class PostDetailView extends StatefulHookConsumerWidget {
 }
 
 class _PostDetailViewState extends ConsumerState<PostDetailView> {
+  PostModel? postmodel;
   @override
   Widget build(BuildContext context) {
-    PostModel? postmodel;
     final state = ref.watch(homeProvider);
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final titleController = useTextEditingController(text: '');
@@ -75,7 +75,6 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
     int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    Log.instance.info('PostDetailView build ${widget.postModel}');
     return Scaffold(
         drawer: CustomDrawer(scaffoldKey: scaffoldKey),
         appBar: const CustomAppBar(),
@@ -126,28 +125,32 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
               ),
               isloading.value == false
                   ? FutureBuilder(
-                      future: FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).get(),
+                      future: postmodel != null
+                          ? Future.delayed(Duration.zero)
+                          : FirebaseFirestore.instance.collection('posts').doc(widget.postModel.postId).get(),
                       builder: (context, postSnapshot) {
-                        if (postSnapshot.hasError) {
-                          return AutoSizeText(
-                            'Data gelmedi',
-                            textScaleFactor: textScaleFactor,
-                          );
+                        if (postmodel == null) {
+                          if (postSnapshot.hasError) {
+                            return AutoSizeText(
+                              'Data gelmedi',
+                              textScaleFactor: textScaleFactor,
+                            );
+                          }
+
+                          if (!postSnapshot.hasData) {
+                            return const CircularProgressIndicator(
+                              color: Colors.purple,
+                            );
+                          }
+                          if (postSnapshot.data == null) {
+                            return const CircularProgressIndicator();
+                          }
+                          final postData = postSnapshot.data;
+                          postmodel = PostModel.fromJson(postData?.data() as Map<String, dynamic>);
                         }
 
-                        if (!postSnapshot.hasData) {
-                          return const CircularProgressIndicator(
-                            color: Colors.purple,
-                          );
-                        }
-                        if (postSnapshot.data == null) {
-                          return const CircularProgressIndicator();
-                        }
-                        final postData = postSnapshot.data;
-                        postmodel = PostModel.fromJson(postData?.data() as Map<String, dynamic>);
-
-                        if (postData != null) {
-                          PostModel? postModel = PostModel.fromJson(postData.data() as Map<String, dynamic>);
+                        if (true) {
+                          PostModel? postModel = postmodel!;
 
                           return Column(
                             children: [
@@ -163,15 +166,15 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                                     child: Row(
                                       children: [
                                         Container(
-                                          height: 128.r,
-                                          width: 128.r,
+                                          height: 128.w,
+                                          width: 128.w,
 
                                           // ignore: sort_child_properties_last
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(999),
+                                            borderRadius: BorderRadius.circular(16),
                                             child: CachedNetworkImage(
                                               imageUrl: postModel.photoUrl ?? '',
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.contain,
                                               progressIndicatorBuilder: (context, url, downloadProgress) =>
                                                   SizedBox.square(
                                                 dimension: 15,
@@ -188,12 +191,19 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                                             ),
                                           ),
                                           decoration: BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                widget.categoryModel?.primaryColor ?? secondary,
+                                                widget.categoryModel?.secondaryColor ?? secondary,
+                                              ],
+                                            ),
+                                            borderRadius: BorderRadius.circular(18),
                                             border: Border.all(
-                                                color: widget.categoryModel != null
-                                                    ? widget.categoryModel!.primaryColor
-                                                    : secondary,
-                                                width: 2),
-                                            shape: BoxShape.circle,
+                                              color: widget.categoryModel != null
+                                                  ? widget.categoryModel!.primaryColor
+                                                  : secondary,
+                                              width: 2,
+                                            ),
                                           ),
                                         ),
                                         Padding(
@@ -290,7 +300,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                     }
                     if (snapshot.hasData) {
                       List<String> urls = snapshot.data ?? [];
-                      
+
                       return SizedBox(
                         height: 250.h,
                         child: ListView.builder(
@@ -312,9 +322,8 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
               PostDetailButton(
                 title: 'Düzenle',
                 onTap: () {
-                  
-                  CustomBottomSheet().ModalBottomSheet(
-                      context, titleController, maxBalance, minBalance, descriptionController,postmodel== null? widget.postModel:postmodel!);
+                  CustomBottomSheet().ModalBottomSheet(context, titleController, maxBalance, minBalance,
+                      descriptionController, postmodel == null ? widget.postModel : postmodel!);
                 },
                 colors: [
                   widget.categoryModel != null ? widget.categoryModel!.primaryColor : secondary,

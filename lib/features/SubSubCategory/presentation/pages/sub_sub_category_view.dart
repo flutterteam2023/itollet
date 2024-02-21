@@ -155,21 +155,31 @@ class SubSubCard extends StatelessWidget {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18.r), color: greyCard),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(18), color: greyCard),
       child: Padding(
-        padding: EdgeInsets.only(left: 25.w, right: 25.w, top: 11.h, bottom: 15.h),
+        padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.w, bottom: 16.w),
         child: Column(
           children: [
             Container(
-              height: 128.r,
-              width: 128.r,
-              // ignore: sort_child_properties_last
-
+              width: 128.w,
+              height: 128.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(width: 3, color: categoryModel.primaryColor),
+                gradient: RadialGradient(
+                  colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
+                  tileMode: TileMode.clamp,
+                  radius: .8,
+                ),
+              ),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(999),
+                borderRadius: BorderRadius.circular(18),
                 child: CachedNetworkImage(
                   imageUrl: imageUrl,
                   fit: BoxFit.contain,
+                  width: MediaQuery.of(context).size.width / 2,
+                  height: MediaQuery.of(context).size.width / 2,
                   progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox.square(
                     dimension: 15,
                     child: CircularProgressIndicator(
@@ -182,15 +192,6 @@ class SubSubCard extends StatelessWidget {
                     Log.instance.error(error);
                     return const Icon(Icons.error_outline);
                   },
-                ),
-              ),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(width: 3, color: categoryModel.primaryColor),
-                gradient: RadialGradient(
-                  colors: [categoryModel.primaryColor, categoryModel.secondaryColor],
-                  tileMode: TileMode.clamp,
-                  radius: .8,
                 ),
               ),
             ),

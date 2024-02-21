@@ -95,9 +95,13 @@ class PostAddView extends HookConsumerWidget {
                                           if (image != null) {
                                             await ImageCropper().cropImage(
                                               sourcePath: image.path,
-                                              cropStyle: CropStyle.circle,
+                                              cropStyle: CropStyle.rectangle,
                                               aspectRatioPresets: [
                                                 CropAspectRatioPreset.square,
+                                                CropAspectRatioPreset.ratio3x2,
+                                                CropAspectRatioPreset.original,
+                                                CropAspectRatioPreset.ratio4x3,
+                                                CropAspectRatioPreset.ratio16x9
                                               ],
                                             ).then((value) {
                                               if (value != null) {
@@ -139,7 +143,8 @@ class PostAddView extends HookConsumerWidget {
                                           if (image != null) {
                                             await ImageCropper().cropImage(
                                               sourcePath: image.path,
-                                              cropStyle: CropStyle.circle,
+                                              cropStyle: CropStyle.rectangle,
+                                              aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
                                               aspectRatioPresets: [
                                                 CropAspectRatioPreset.square,
                                               ],
@@ -162,7 +167,7 @@ class PostAddView extends HookConsumerWidget {
                                               children: [
                                                 const Icon(Icons.photo_album),
                                                 AutoSizeText(
-                                                   style: TextStyle(
+                                                  style: TextStyle(
                                                     fontSize: 14.sp,
                                                   ),
                                                   textScaleFactor: textScaleFactor,
@@ -188,21 +193,29 @@ class PostAddView extends HookConsumerWidget {
                       builder: (context, _, __) {
                         return Column(
                           children: [
-                            CircleAvatar(
-                              radius: 64,
-                              child: imageFile.value != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(999),
-                                      child: Image.file(imageFile.value!),
-                                    )
-                                  : const Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: [
-                                        Icon(Icons.add),
-                                      ],
-                                    ),
-                            ),
+                            if (imageFile.value != null)
+                              Container(
+                                width: 64 * 2,
+                                height: 64 * 2,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.inversePrimary,
+                                  borderRadius: BorderRadius.circular(99),
+                                  image: DecorationImage(
+                                    image: FileImage(imageFile.value!),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ),
+                            if (imageFile.value == null)
+                              Container(
+                                width: 64 * 2,
+                                height: 64 * 2,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.inversePrimary,
+                                  borderRadius: BorderRadius.circular(99),
+                                ),
+                                child: const Icon(Icons.add),
+                              ),
                             AutoSizeText(
                               textScaleFactor: textScaleFactor,
                               "Fotoğraf Ekle",
