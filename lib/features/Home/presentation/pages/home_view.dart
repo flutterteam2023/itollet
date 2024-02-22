@@ -37,8 +37,8 @@ class HomeView extends ConsumerWidget {
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
-              left: 18.w,
-              right: 18.w,
+              left: 9.w,
+              right: 9.w,
             ),
             child: Wrap(
               alignment: WrapAlignment.start,
@@ -46,9 +46,9 @@ class HomeView extends ConsumerWidget {
               children: List.generate(categories.categories.length, (index) {
                 final category = categories.categories[index];
                 return Container(
-                  width: (MediaQuery.of(context).size.width - 18.w * 5) / 3,
+                  width: (MediaQuery.of(context).size.width - (18.w * 4)) / 3.0000000005,
                   height: 128,
-                  margin: const EdgeInsets.all(9),
+                  margin: EdgeInsets.all(9.w),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(9),
                   ),

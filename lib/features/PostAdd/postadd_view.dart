@@ -10,6 +10,7 @@ import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:itollet/constants/constant_colors.dart';
@@ -96,12 +97,9 @@ class PostAddView extends HookConsumerWidget {
                                             await ImageCropper().cropImage(
                                               sourcePath: image.path,
                                               cropStyle: CropStyle.rectangle,
+                                              aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
                                               aspectRatioPresets: [
                                                 CropAspectRatioPreset.square,
-                                                CropAspectRatioPreset.ratio3x2,
-                                                CropAspectRatioPreset.original,
-                                                CropAspectRatioPreset.ratio4x3,
-                                                CropAspectRatioPreset.ratio16x9
                                               ],
                                             ).then((value) {
                                               if (value != null) {
@@ -189,7 +187,7 @@ class PostAddView extends HookConsumerWidget {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: MediaQuery.of(context).viewPadding.bottom),
+                                  SizedBox(height: MediaQuery.of(context).viewPadding.bottom + 18),
                                 ],
                               );
                             });
@@ -207,7 +205,7 @@ class PostAddView extends HookConsumerWidget {
                                 height: 64 * 2,
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).colorScheme.inversePrimary,
-                                  borderRadius: BorderRadius.circular(99),
+                                  borderRadius: BorderRadius.circular(18),
                                   image: DecorationImage(
                                     image: FileImage(imageFile.value!),
                                     fit: BoxFit.contain,
@@ -220,15 +218,13 @@ class PostAddView extends HookConsumerWidget {
                                 height: 64 * 2,
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).colorScheme.inversePrimary,
-                                  borderRadius: BorderRadius.circular(99),
+                                  borderRadius: BorderRadius.circular(18),
                                 ),
-                                child: const Icon(Icons.add),
+                                child: const Icon(
+                                  Iconsax.gallery_add,
+                                  size: 32,
+                                ),
                               ),
-                            AutoSizeText(
-                              textScaleFactor: textScaleFactor,
-                              "Fotoğraf Ekle",
-                              textAlign: TextAlign.center,
-                            ),
                           ],
                         );
                       }),
@@ -385,7 +381,7 @@ class PostAddView extends HookConsumerWidget {
                           });
                     },
                     child: Container(
-                      padding: const EdgeInsets.all(18),
+                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
                       decoration: BoxDecoration(
                         color: secondary,
                         borderRadius: BorderRadius.circular(99),
@@ -556,7 +552,7 @@ class PostAddView extends HookConsumerWidget {
                   },
                   child: Container(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 9,
+                        vertical: 13,
                         horizontal: 18,
                       ),
                       decoration: BoxDecoration(

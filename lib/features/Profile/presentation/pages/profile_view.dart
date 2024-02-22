@@ -25,10 +25,7 @@ class ProfileView extends ConsumerWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-
-
     return Scaffold(
-      
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
       body: Column(
@@ -49,51 +46,40 @@ class ProfileView extends ConsumerWidget {
 
                         if (snapshot.hasData) {
                           if (snapshot.data?.photoUrl != null) {
-                            return CircleAvatar(
-                              radius: 64.h,
-                              child: Container(
-                                height: 200.h,
-                                width: 200.w,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image:
-                                        NetworkImage(snapshot.data!.photoUrl!),
-                                    fit: BoxFit.cover,
-                                  ),
+                            return Container(
+                              height: 128.w,
+                              width: 128.w,
+                              padding: const EdgeInsets.all(9),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                color: primary.withOpacity(1),
+                                image: DecorationImage(
+                                  image: NetworkImage(snapshot.data!.photoUrl!),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             );
                           } else {
-                            return CircleAvatar(
-                              radius: 64.h,
-                              child: Container(
-                                  height: 200.h,
-                                  width: 200.w,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: RandomAvatar(
-                                      FirebaseAuth.instance.currentUser?.uid ??
-                                          "random",
-                                      trBackground: true,
-                                      height: 50,
-                                      width: 50)),
-                            );
+                            return Container(
+                                height: 128.w,
+                                width: 128.w,
+                                padding: const EdgeInsets.all(9),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(18),
+                                  color: primary.withOpacity(1),
+                                ),
+                                child: RandomAvatar(FirebaseAuth.instance.currentUser?.uid ?? "random",
+                                    trBackground: true, height: 50, width: 50));
                           }
                         }
-                        return CircleAvatar(
-                          radius: 64.h,
-                          child: Container(
-                            height: 200.h,
-                            width: 200.w,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Center(
-                              child: CircularProgressIndicator(
-                                color: secondary,
-                              ),
+                        return Container(
+                          height: 128.w,
+                          width: 128.w,
+                          padding: const EdgeInsets.all(9),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(18)),
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: secondary,
                             ),
                           ),
                         );
@@ -101,8 +87,8 @@ class ProfileView extends ConsumerWidget {
                   SizedBox(
                     height: 18.sp,
                   ),
-                 AutoSizeText(
-                  textScaleFactor:textScaleFactor,
+                  AutoSizeText(
+                    textScaleFactor: textScaleFactor,
                     homeState.user.userName!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -110,11 +96,9 @@ class ProfileView extends ConsumerWidget {
                       fontWeight: FontWeight.w500,
                       color: black,
                     ),
-
-                  
-                 ),
+                  ),
                   AutoSizeText(
-                    textScaleFactor:textScaleFactor,
+                    textScaleFactor: textScaleFactor,
                     homeState.user.email!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -122,8 +106,6 @@ class ProfileView extends ConsumerWidget {
                       fontWeight: FontWeight.w400,
                       color: black02,
                     ),
-
-
                   ),
                   const SizedBox(height: 9),
                   SizedBox(
@@ -147,8 +129,7 @@ class ProfileView extends ConsumerWidget {
     );
   }
 
-  Padding profileCard(BuildContext context,
-      GlobalKey<ScaffoldState> scaffoldKey, WidgetRef ref) {
+  Padding profileCard(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey, WidgetRef ref) {
     return Padding(
       padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
       child: Wrap(
@@ -204,95 +185,83 @@ class ProfileView extends ConsumerWidget {
             onTap: () async {
               final textEditingController = TextEditingController();
               final passwordController = TextEditingController();
-                final _formKey = GlobalKey<FormState>();
-                final _formKey2 = GlobalKey<FormState>();
+              final _formKey = GlobalKey<FormState>();
+              final _formKey2 = GlobalKey<FormState>();
 
-              return showDialog(context: context,
-              
-              
-              builder: (context) {
-                
-                return AlertDialog(
-                  
-                  title: const Text("Emin Misiniz?"),
-                  content:Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Form(
-                        key: _formKey,
-                        child: TextFormField(
+              return showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text("Emin Misiniz?"),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Form(
+                          key: _formKey,
+                          child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Lütfen e-posta adresinizi giriniz";
                               }
                               if (value != FirebaseAuth.instance.currentUser?.email) {
                                 return "E-posta adresiniz yanlış";
-                                
                               }
                               return null;
-                            
-                        
                             },
-                        
                             controller: textEditingController,
                             decoration: InputDecoration(
-                              helperText:
-                                  "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
+                              helperText: "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
                               helperMaxLines: 99,
-                              hintText: FirebaseAuth.instance.currentUser?.email ??
-                                  "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                              hintText:
+                                  FirebaseAuth.instance.currentUser?.email ?? "Hata Oluştu Daha Sonra Tekrar Deneyin",
                             ),
                           ),
-                      ),
-                      SizedBox(height: 15.h,),
-                      Form(
-                        key: _formKey2,
-                        child: TextFormField(
-
+                        ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        Form(
+                          key: _formKey2,
+                          child: TextFormField(
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return "Lütfen şifrenizi giriniz";
                               }
-                              
+
                               return null;
-                            
-                        
                             },
-                        
                             controller: passwordController,
-                            decoration: InputDecoration(
-                              
-                              helperText:
-                                  "Hesabınızı silmeyi onaylıyorsanız şifrenizi yazınız",
+                            decoration: const InputDecoration(
+                              helperText: "Hesabınızı silmeyi onaylıyorsanız şifrenizi yazınız",
                               helperMaxLines: 99,
-                              hintText: 'Şifreniz' ??
-                                  "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                              hintText: 'Şifreniz' ?? "Hata Oluştu Daha Sonra Tekrar Deneyin",
                             ),
                           ),
-                      ),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text('İptal')),
+                      TextButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate() && _formKey2.currentState!.validate()) {
+                              if (textEditingController.text == FirebaseAuth.instance.currentUser?.email) {
+                                ref
+                                    .read(loginProvider.notifier)
+                                    .deleteUser(context, textEditingController.text, passwordController.text);
+                                //Silme fonsksiyonu
+                              }
+                            } else {}
+                          },
+                          child: const Text('Sil'))
                     ],
-                  ) ,
-                  actions: [
-                    TextButton(onPressed: () {
-                      Navigator.pop(context);
-                    }, child: const Text('İptal')),
-                    TextButton(onPressed: () async {
-                      if (_formKey.currentState!.validate() && _formKey2.currentState!.validate()) {
-                         if (textEditingController.text ==
-                            FirebaseAuth.instance.currentUser?.email) {
-                          ref.read(loginProvider.notifier).deleteUser(context,
-                              textEditingController.text, passwordController.text);
-                          //Silme fonsksiyonu
-                        }
-                      } else {
-                        
-                      }
-                    }, child: const Text('Sil'))
-                  ],
-                );
-              },
+                  );
+                },
               );
-            
             },
           ),
           ElementEllipse(
@@ -303,7 +272,7 @@ class ProfileView extends ConsumerWidget {
               await FirebaseAuth.instance.signOut().then((value) {
                 scaffoldKey.currentState?.closeDrawer();
                 Future.delayed(const Duration(milliseconds: 500), () {
-                  context.pushRoute(const LoginRoute());  
+                  context.pushRoute(const LoginRoute());
                 });
               });
             },
@@ -313,4 +282,3 @@ class ProfileView extends ConsumerWidget {
     );
   }
 }
-
