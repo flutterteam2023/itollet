@@ -28,6 +28,7 @@ class ProfileView extends ConsumerWidget {
 
 
     return Scaffold(
+      
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
       appBar: const CustomAppBar(),
       body: Column(
@@ -202,44 +203,96 @@ class ProfileView extends ConsumerWidget {
             colors: const [Color(0xff0046A5), Color(0xff50D7E0)],
             onTap: () async {
               final textEditingController = TextEditingController();
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title:  AutoSizeText("Emin Misiniz?",
-                  textScaleFactor: MediaQuery.of(context).textScaleFactor,
-                  ),
-                  content: TextFormField(
-                    controller: textEditingController,
-                    decoration: InputDecoration(
-                      helperText:
-                          "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
-                      helperMaxLines: 99,
-                      hintText: FirebaseAuth.instance.currentUser?.email ??
-                          "Hata Oluştu Daha Sonra Tekrar Deneyin",
-                    ),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      child:  AutoSizeText("İptal",
-                      textScaleFactor: MediaQuery.of(context).textScaleFactor,
+              final passwordController = TextEditingController();
+                final _formKey = GlobalKey<FormState>();
+                final _formKey2 = GlobalKey<FormState>();
+
+              return showDialog(context: context,
+              
+              
+              builder: (context) {
+                
+                return AlertDialog(
+                  
+                  title: const Text("Emin Misiniz?"),
+                  content:Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Form(
+                        key: _formKey,
+                        child: TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Lütfen e-posta adresinizi giriniz";
+                              }
+                              if (value != FirebaseAuth.instance.currentUser?.email) {
+                                return "E-posta adresiniz yanlış";
+                                
+                              }
+                              return null;
+                            
+                        
+                            },
+                        
+                            controller: textEditingController,
+                            decoration: InputDecoration(
+                              helperText:
+                                  "Hesabınızı silmeyi onaylıyorsanız e-posta adresinizi yazınız",
+                              helperMaxLines: 99,
+                              hintText: FirebaseAuth.instance.currentUser?.email ??
+                                  "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                            ),
+                          ),
                       ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        if (textEditingController.text ==
-                            FirebaseAuth.instance.currentUser?.uid) {
-                          ref.read(loginProvider.notifier).deleteUser(context);
+                      SizedBox(height: 15.h,),
+                      Form(
+                        key: _formKey2,
+                        child: TextFormField(
+
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "Lütfen şifrenizi giriniz";
+                              }
+                              
+                              return null;
+                            
+                        
+                            },
+                        
+                            controller: passwordController,
+                            decoration: InputDecoration(
+                              
+                              helperText:
+                                  "Hesabınızı silmeyi onaylıyorsanız şifrenizi yazınız",
+                              helperMaxLines: 99,
+                              hintText: 'Şifreniz' ??
+                                  "Hata Oluştu Daha Sonra Tekrar Deneyin",
+                            ),
+                          ),
+                      ),
+                    ],
+                  ) ,
+                  actions: [
+                    TextButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, child: const Text('İptal')),
+                    TextButton(onPressed: () async {
+                      if (_formKey.currentState!.validate() && _formKey2.currentState!.validate()) {
+                         if (textEditingController.text ==
+                            FirebaseAuth.instance.currentUser?.email) {
+                          ref.read(loginProvider.notifier).deleteUser(context,
+                              textEditingController.text, passwordController.text);
                           //Silme fonsksiyonu
                         }
-                      },
-                      child:  AutoSizeText("Hesabımı Sil",
-                      textScaleFactor: MediaQuery.of(context).textScaleFactor,
-                      ),
-                    ),
+                      } else {
+                        
+                      }
+                    }, child: const Text('Sil'))
                   ],
-                ),
+                );
+              },
               );
+            
             },
           ),
           ElementEllipse(
@@ -260,3 +313,4 @@ class ProfileView extends ConsumerWidget {
     );
   }
 }
+

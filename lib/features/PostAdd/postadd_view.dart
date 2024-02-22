@@ -112,24 +112,28 @@ class PostAddView extends HookConsumerWidget {
                                             });
                                           }
                                         },
-                                        child: CircleAvatar(
-                                          radius: 64,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(18),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                const Icon(Icons.photo_camera),
-                                                AutoSizeText(
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                  ),
-                                                  textScaleFactor: textScaleFactor,
-                                                  "Kameradan Ekle",
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
+                                        child: SizedBox(
+                                          width: 64 * 2,
+                                          height: 64 * 2,
+                                          child: Card(
+                                            color: Color(0xffffd8f5),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(18),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  const Icon(Icons.photo_camera),
+                                                  AutoSizeText(
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                    ),
+                                                    textScaleFactor: textScaleFactor,
+                                                    "Kameradan Ekle",
+                                                    textAlign: TextAlign.center,
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -157,24 +161,28 @@ class PostAddView extends HookConsumerWidget {
                                             });
                                           }
                                         },
-                                        child: CircleAvatar(
-                                          radius: 64,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(18),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              children: [
-                                                const Icon(Icons.photo_album),
-                                                AutoSizeText(
-                                                  style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                  ),
-                                                  textScaleFactor: textScaleFactor,
-                                                  "Galeriden Ekle",
-                                                  textAlign: TextAlign.center,
-                                                )
-                                              ],
+                                        child: SizedBox(
+                                          width: 64 * 2,
+                                          height: 64 * 2,
+                                          child: Card(
+                                            color: Color(0xffffd8f5),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(18),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  const Icon(Icons.photo_album),
+                                                  AutoSizeText(
+                                                    style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                    ),
+                                                    textScaleFactor: textScaleFactor,
+                                                    "Galeriden Ekle",
+                                                    textAlign: TextAlign.center,
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ),
                                         ),

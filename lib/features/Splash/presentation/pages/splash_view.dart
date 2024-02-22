@@ -33,7 +33,7 @@ class _SplashViewState extends ConsumerState<SplashView> {
                 'Something went wron connection',
                 textScaleFactor: textScaleFactor,
               ));
-            } else if (snapshot.hasData && snapshot.data != null) {
+            } else if (snapshot.hasData && snapshot.data != null&&snapshot.data!.email!=null) {
               return FutureBuilder(
                   future: ref.watch(categoryProvider.notifier).getCategories(),
                   builder: (context, futuresnapshot) {

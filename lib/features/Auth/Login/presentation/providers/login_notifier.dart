@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, await_only_futures
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -29,7 +31,9 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
       try {
         state = state.copyWith(isLoading: true);
 
-        await _auth.signInWithEmailAndPassword(email: state.loginModel.email!, password: state.loginModel.password!).then((value) {
+        await _auth
+            .signInWithEmailAndPassword(email: state.loginModel.email!, password: state.loginModel.password!)
+            .then((value) {
           if (_auth.currentUser!.emailVerified) {
             context.pushRoute(const HomeRoute());
           } else {
@@ -136,21 +140,27 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
         ));
     }
   }
-  Future<void> deleteCollectionUser()async{
+
+  Future<void> deleteCollectionUser() async {
     final account = FirebaseFirestore.instance.collection("users").doc(_auth.currentUser?.uid);
     await account.delete();
-
   }
-   Future<void> deleteUser(BuildContext context) async {
+
+  Future<void> deleteUser(BuildContext context, String email, String password) async {
     try {
       User user = _auth.currentUser!;
-      // ignore: unnecessary_null_comparison
-      if (user != null) {
-       await deleteCollectionUser();
+    // ignore: unnecessary_null_comparison
+    if (user != null) {
+      await user
+          .reauthenticateWithCredential(
+        EmailAuthProvider.credential(email: email, password: password),
+      )
+          .then((value) async {
+        try {
+          await deleteCollectionUser();
 
-         user.delete();
-        
-        ScaffoldMessenger.of(context)
+          await user.delete();
+        await  ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
               /// need to set following properties for best effect of awesome_snackbar_content
@@ -161,38 +171,102 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
               content: AwesomeSnackbarContent(
                 color: secondary,
                 title: ConstantAuthExceptions.successfull,
-                message:  "Hesabınız Başarılı Bir Şekilde Silindi",
+                message: "Hesabınız Başarılı Bir Şekilde Silindi",
 
                 /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
                 contentType: ContentType.failure,
               ),
             ));
-        context.replaceRoute(const LoginRoute());
-        print("User deleted successfully.");
-      } else {
-        print("No user found.");
-      }
-    } catch (error) {
-     
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-              /// need to set following properties for best effect of awesome_snackbar_content
-              elevation: 0,
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.white,
+          context.replaceRoute(const LoginRoute());
+          print("User deleted successfully.");
+        } on FirebaseAuthException catch (e) {
+          if (e.code == ConstantAuthExceptions.passwordIsWrong) {
+            // ignore: use_build_context_synchronously
+          return  ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                /// need to set following properties for best effect of awesome_snackbar_content
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.white,
 
-              content: AwesomeSnackbarContent(
-                color: secondary,
-                title: ConstantAuthExceptions.successfull,
-                message:  "Bir Sorun Oluştu Lütfen Sonra Bir Daha Deneyiniz",
+                content: AwesomeSnackbarContent(
+                  color: secondary,
+                  title: ConstantAuthExceptions.successfull,
+                  message: 'Şifreniz Yanlış',
 
-                /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                contentType: ContentType.failure,
-              ),
-            ));
-          
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.failure,
+                ),
+              ));
+          }else if(e.code == ConstantAuthExceptions.passwordIsWeak){
+             ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                /// need to set following properties for best effect of awesome_snackbar_content
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.white,
+
+                content: AwesomeSnackbarContent(
+                  color: secondary,
+                  title: ConstantAuthExceptions.successfull,
+                  message: 'Şifreniz Yanlış',
+
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.failure,
+                ),
+              ));
+
+          }
+        }
+      });
+    } else {
+      print("No user found.");
     }
+      
+    } catch (e) {
+       ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(SnackBar(
+                /// need to set following properties for best effect of awesome_snackbar_content
+                elevation: 0,
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.white,
+
+                content: AwesomeSnackbarContent(
+                  color: secondary,
+                  title: ConstantAuthExceptions.successfull,
+                  message: 'Şifreyi Doğrulayamadık Lütfen Tekrar Deneyiniz',
+
+                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                  contentType: ContentType.failure,
+                ),
+              ));
+
+      
+    }
+    // try {
+
+    // } catch (error) {
+    //   ScaffoldMessenger.of(context)
+    //     ..hideCurrentSnackBar()
+    //     ..showSnackBar(SnackBar(
+    //       /// need to set following properties for best effect of awesome_snackbar_content
+    //       elevation: 0,
+    //       behavior: SnackBarBehavior.floating,
+    //       backgroundColor: Colors.white,
+
+    //       content: AwesomeSnackbarContent(
+    //         color: secondary,
+    //         title: ConstantAuthExceptions.successfull,
+    //         message: "Bir Sorun Oluştu Lütfen Sonra Bir Daha Deneyiniz",
+
+    //         /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+    //         contentType: ContentType.failure,
+    //       ),
+    //     ));
+    // }
   }
 
   void isCustomerControl() {
