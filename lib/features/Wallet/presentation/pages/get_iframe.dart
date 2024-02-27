@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:itollet/features/Account/Services/user_service.dart';
@@ -17,7 +16,7 @@ Future<void> getIframe(BuildContext context, int productPrice, String phoneNumbe
   try {
     final ipAddress = await getUserIPAddress();
     var headers = {'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json'};
-    var request = http.Request('POST', Uri.parse('https://seahorse-app-h2u2p.ondigitalocean.app/payment'));
+    var request = http.Request('POST', Uri.parse('https://orca-app-4sfso.ondigitalocean.app/payment'));
 
     /* request.bodyFields = {
                         'user_name': 'berke ugur',
@@ -39,7 +38,7 @@ Future<void> getIframe(BuildContext context, int productPrice, String phoneNumbe
       'user_address': address,
       'user_phone': phoneNumber,
       'user_ip': ipAddress.toString(),
-      'email': UserService().user?.email ?? "berkeugur67@gmail",
+      'email': UserService().user!.email!,
       'payment_amount': (productPrice * 100).toString(),
       'basket':
           '[\n    ["Bakiye ${(productPrice * 100).toString()} Paketi", "${(productPrice * 100).toString()}", 1]\n]',

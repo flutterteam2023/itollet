@@ -20,7 +20,10 @@ import 'package:itollet/routing/app_router.dart';
 @RoutePage()
 class SubCategoryView extends ConsumerStatefulWidget {
   final CategoryModel category;
-  const SubCategoryView(this.category, {super.key});
+  const SubCategoryView(
+    this.category, {
+    super.key,
+  });
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SubCategoryViewState();
 }
@@ -74,7 +77,7 @@ class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 18.w, right: 18.w, top: 18.w),
+                  padding: EdgeInsets.only(left: 9.w, right: 9.w, top: 18.w),
                   child: Wrap(
                     alignment: WrapAlignment.start,
                     crossAxisAlignment: WrapCrossAlignment.start,
@@ -106,9 +109,9 @@ class _SubCategoryViewState extends ConsumerState<SubCategoryView> {
                       // }
 
                       return Container(
-                        width: (MediaQuery.of(context).size.width - 18.w * 5) / 3,
+                        width: (MediaQuery.of(context).size.width - (18.w * 4)) / 3.0000000005,
                         height: 128,
-                        margin: const EdgeInsets.all(9),
+                        margin: EdgeInsets.all(9.w),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9),
                         ),
