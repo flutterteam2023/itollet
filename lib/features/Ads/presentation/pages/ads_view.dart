@@ -18,6 +18,7 @@ import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
+import 'package:itollet/utils/price_converter.dart';
 
 @RoutePage()
 class AdsView extends StatefulHookConsumerWidget {
@@ -35,13 +36,13 @@ class _AdsViewState extends ConsumerState<AdsView> {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final urlController = useTextEditingController(text: '');
     final homestate = ref.watch(homeProvider);
-    late Timer _timer;
+    late Timer timer;
     final descriptionController = useTextEditingController(text: '');
     DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(Duration(hours: 24));
+    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
     Duration kalanSure = ilanBitisTarihi.difference(suan);
 
-    void _updateTimer(Timer timer) {
+    void updateTimer(Timer timer) {
       DateTime suan = DateTime.now();
       DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
       setState(() {
@@ -49,26 +50,26 @@ class _AdsViewState extends ConsumerState<AdsView> {
       });
 
       if (kalanSure.isNegative) {
-        _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+        timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
       }
     }
 
     @override
     void initState() {
       super.initState();
-      _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
+      timer = Timer.periodic(const Duration(seconds: 1), updateTimer);
     }
 
     @override
     void dispose() {
-      _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
+      timer.cancel(); // Widget kaldırıldığında timer'ı temizle
       super.dispose();
     }
 
     int kalanSaat = kalanSure.inHours;
     int kalanDakika = (kalanSure.inMinutes - kalanSaat * 60);
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
-    Log.instance.success("İlan detayı sayfası açıldı : ${widget.postModel}");
+    //Log.instance.success("İlan detayı sayfası açıldı : ${widget.postModel}");
 
     return Scaffold(
       drawer: CustomDrawer(scaffoldKey: scaffoldKey),
@@ -173,7 +174,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   ),
                                   AutoSizeText(
                                     textScaleFactor: textScaleFactor,
-                                    "Max Bütçe: ${widget.postModel.balanceMax}₺",
+                                    "Max Bütçe: ${priceConverter(widget.postModel.balanceMax)}₺",
                                     style: TextStyle(
                                         color: widget.categoryModel.primaryColor,
                                         fontSize: 16.sp,
@@ -184,7 +185,7 @@ class _AdsViewState extends ConsumerState<AdsView> {
                                   ),
                                   AutoSizeText(
                                     textScaleFactor: textScaleFactor,
-                                    "Min Bütçe: ${widget.postModel.balanceMin}₺",
+                                    "Min Bütçe: ${priceConverter(widget.postModel.balanceMin)}₺",
                                     style: TextStyle(
                                         color: widget.categoryModel.primaryColor,
                                         fontSize: 16.sp,

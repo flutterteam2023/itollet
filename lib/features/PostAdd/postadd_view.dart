@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,10 @@ class PostAddView extends HookConsumerWidget {
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const locale = 'tr';
+    String formatNumber(String s) => NumberFormat.decimalPattern(locale).format(int.parse(s));
+    String currency = NumberFormat.compactSimpleCurrency(locale: locale).currencySymbol;
+
     final cat = ref.read(categoryProvider);
 
     final tit = useTextEditingController();
@@ -114,7 +119,7 @@ class PostAddView extends HookConsumerWidget {
                                           width: 64 * 2,
                                           height: 64 * 2,
                                           child: Card(
-                                            color: Color(0xffffd8f5),
+                                            color: const Color(0xffffd8f5),
                                             child: Padding(
                                               padding: const EdgeInsets.all(18),
                                               child: Column(
@@ -163,7 +168,7 @@ class PostAddView extends HookConsumerWidget {
                                           width: 64 * 2,
                                           height: 64 * 2,
                                           child: Card(
-                                            color: Color(0xffffd8f5),
+                                            color: const Color(0xffffd8f5),
                                             child: Padding(
                                               padding: const EdgeInsets.all(18),
                                               child: Column(
@@ -422,9 +427,14 @@ class PostAddView extends HookConsumerWidget {
                   autocorrect: true,
                   controller: min,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    hintText: "BÜTÇE EN AZ",
-                  ),
+                  onChanged: (string) {
+                    string = formatNumber(string.replaceAll('.', ''));
+                    min.value = TextEditingValue(
+                      text: string,
+                      selection: TextSelection.collapsed(offset: string.length),
+                    );
+                  },
+                  decoration: InputDecoration(hintText: "BÜTÇE EN AZ", suffixText: currency),
                   validator: Validatorless.multiple([
                     Validatorless.number("Sayı girmek zorunludur."),
                     Validatorless.min(1, "1'den daha düşük bir değer giremezsiniz"),
@@ -436,9 +446,17 @@ class PostAddView extends HookConsumerWidget {
                   autocorrect: true,
                   controller: max,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: "BÜTÇE EN FAZLA",
+                    suffixText: currency,
                   ),
+                  onChanged: (string) {
+                    string = formatNumber(string.replaceAll('.', ''));
+                    max.value = TextEditingValue(
+                      text: string,
+                      selection: TextSelection.collapsed(offset: string.length),
+                    );
+                  },
                   validator: Validatorless.multiple([
                     Validatorless.number("Sayı girmek zorunludur."),
                     Validatorless.min(1, "1'den daha düşük bir değer giremezsiniz"),
@@ -516,8 +534,8 @@ class PostAddView extends HookConsumerWidget {
                               title: tit.text,
                               photoUrl: downloadUrl,
                               categoryID: categoryID.value!,
-                              balanceMin: min.text.isEmpty ? null : min.text,
-                              balanceMax: max.text.isEmpty ? null : max.text,
+                              balanceMin: min.text.isEmpty ? null : min.text.replaceAll(".", ""),
+                              balanceMax: max.text.isEmpty ? null : max.text.replaceAll(".", ""),
                               description: des.text,
                               createdAt: Timestamp.now().toDate(),
                             ).toJson(),

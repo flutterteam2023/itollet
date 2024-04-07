@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -15,11 +16,15 @@ import 'package:itollet/constants/app_image.dart';
 import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Categories/models/category/category_model.dart';
 import 'package:itollet/features/Categories/models/post_model/post_model.dart';
+import 'package:validatorless/validatorless.dart';
 
 class CustomBottomSheet {
   void ModalBottomSheet(BuildContext context, TextEditingController titleController, TextEditingController maxbalance,
       TextEditingController minbalance, TextEditingController descriptionController, PostModel postmodel) {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+    const locale = 'tr';
+    String formatNumber(String s) => NumberFormat.decimalPattern(locale).format(int.parse(s));
+    String currency = NumberFormat.compactSimpleCurrency(locale: locale).currencySymbol;
 
     File? image;
     ValueNotifier<ImageProvider?> myImageProvider = ValueNotifier(null);
@@ -49,67 +54,150 @@ class CustomBottomSheet {
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  AutoSizeText(
-                    textScaleFactor: textScaleFactor,
-                    'DÜZENLE',
-                    style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AutoSizeText(
+                        textScaleFactor: textScaleFactor,
+                        'DÜZENLE',
+                        style: TextStyle(color: Colors.black, fontSize: 20.sp, fontWeight: FontWeight.w600),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
-                  Bounceable(
-                    onTap: () {
-                      final postImage = ImagePicker().pickImage(source: ImageSource.gallery);
-                      postImage.then((value) {
-                        image = File(value!.path);
-                        myImageProvider.value = FileImage(image!);
-                      });
-                    },
-                    child: ValueListenableBuilder(
-                        valueListenable: myImageProvider,
-                        builder: (context, _, __) {
-                          return Container(
-                            height: 128.r,
-                            width: 128.r,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: myImageProvider.value ?? NetworkImage(postmodel.photoUrl!),
-                                  fit: BoxFit.fill,
-                                  colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.srcOver),
-                                )),
-                            child: Center(
-                              child: Bounceable(onTap: () {}, child: SvgPicture.asset(AppImage.pencil)),
-                            ),
-                          );
-                        }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Bounceable(
+                        onTap: () {
+                          final postImage = ImagePicker().pickImage(source: ImageSource.gallery);
+                          postImage.then((value) {
+                            image = File(value!.path);
+                            myImageProvider.value = FileImage(image!);
+                          });
+                        },
+                        child: ValueListenableBuilder(
+                            valueListenable: myImageProvider,
+                            builder: (context, _, __) {
+                              return Container(
+                                height: 128.r,
+                                width: 128.r,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                      image: myImageProvider.value ?? NetworkImage(postmodel.photoUrl!),
+                                      fit: BoxFit.fill,
+                                      colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.srcOver),
+                                    )),
+                                child: Center(
+                                  child: Bounceable(onTap: () {}, child: SvgPicture.asset(AppImage.pencil)),
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
-                  AdsEditTextField(
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    autocorrect: true,
                     controller: titleController,
-                    label: 'İLAN BAŞLIĞI',
-                    onPressed: () {},
+                    decoration: InputDecoration(labelText: "İLAN BAŞLIĞI", suffixText: currency),
+                    validator: Validatorless.multiple([
+                      Validatorless.required("İlan başlığı girmek zorunludur."),
+                    ]),
                   ),
                   const SizedBox(height: 16),
-                  AdsEditTextField(
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    autocorrect: true,
                     controller: minbalance,
-                    label: 'BÜTÇE (En Az)',
-                    onPressed: () {},
+                    keyboardType: TextInputType.number,
+                    onChanged: (string) {
+                      string = formatNumber(string.replaceAll('.', ''));
+                      minbalance.value = TextEditingValue(
+                        text: string,
+                        selection: TextSelection.collapsed(offset: string.length),
+                      );
+                    },
+                    decoration: InputDecoration(labelText: "BÜTÇE EN AZ", suffixText: currency),
+                    validator: Validatorless.multiple([
+                      Validatorless.number("Sayı girmek zorunludur."),
+                      Validatorless.min(1, "1'den daha düşük bir değer giremezsiniz"),
+                    ]),
                   ),
                   const SizedBox(height: 16),
-                  AdsEditTextField(
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    autocorrect: true,
                     controller: maxbalance,
-                    label: 'BÜTÇE (En Fazla)',
-                    onPressed: () {},
+                    keyboardType: TextInputType.number,
+                    onChanged: (string) {
+                      string = formatNumber(string.replaceAll('.', ''));
+                      maxbalance.value = TextEditingValue(
+                        text: string,
+                        selection: TextSelection.collapsed(offset: string.length),
+                      );
+                    },
+                    decoration: InputDecoration(labelText: "BÜTÇE EN FAZLA", suffixText: currency),
+                    validator: Validatorless.multiple([
+                      Validatorless.number("Sayı girmek zorunludur."),
+                      Validatorless.min(1, "1'den daha düşük bir değer giremezsiniz"),
+                    ]),
                   ),
                   const SizedBox(height: 16),
-                  AdsEditTextField(
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    autocorrect: true,
                     controller: descriptionController,
-                    label: 'AÇIKLAMA',
+                    keyboardType: TextInputType.number,
+                    onChanged: (string) {
+                      string = formatNumber(string.replaceAll('.', ''));
+                      descriptionController.value = TextEditingValue(
+                        text: string,
+                        selection: TextSelection.collapsed(offset: string.length),
+                      );
+                    },
                     minLines: 5,
                     maxLines: 15,
-                    borderRadius: 16,
-                    contentPadding: const EdgeInsets.all(16),
-                    onPressed: () {},
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(color: Colors.grey[400]!),
+                      ),
+                      labelText: "AÇIKLAMA",
+                      suffixText: currency,
+                      contentPadding: const EdgeInsets.all(16),
+                    ),
+                    validator: Validatorless.multiple([
+                      Validatorless.number("Sayı girmek zorunludur."),
+                      Validatorless.min(1, "1'den daha düşük bir değer giremezsiniz"),
+                    ]),
                   ),
                   const SizedBox(height: 16),
                   Bounceable(
@@ -188,7 +276,7 @@ class CustomBottomSheet {
                   topRight: Radius.circular(22.r),
                 ),
               ),
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 left: 18,
                 right: 18,
                 bottom: 18,

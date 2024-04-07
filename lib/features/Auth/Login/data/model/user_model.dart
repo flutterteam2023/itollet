@@ -15,7 +15,7 @@ class UserModel with _$UserModel {
     required String? uid,
     required String? userName,
     required String? email,
-    required double? balance,
+    @Default(0) double balance,
     @Deprecated('This field is no longer used. Please use allTimeBalance field') required double? totalBilling,
     @JsonKey(name: "all_time_balance") double? allTimeBalance,
     @JsonKey(name: "total_bidding_fee") double? totalBiddingFee,

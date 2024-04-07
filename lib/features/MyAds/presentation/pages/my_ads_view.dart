@@ -9,6 +9,7 @@ import 'package:itollet/constants/constant_colors.dart';
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/features/Home/presentation/providers/home_notifier.dart';
 import 'package:itollet/routing/app_router.dart';
+import 'package:itollet/utils/price_converter.dart';
 
 @RoutePage()
 class MyAdsView extends ConsumerStatefulWidget {
@@ -20,7 +21,7 @@ class MyAdsView extends ConsumerStatefulWidget {
 class _MyAdsViewState extends ConsumerState<MyAdsView> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 0), () {
+    Future.delayed(const Duration(seconds: 0), () {
       ref.watch(homeProvider.notifier).getPosts();
     });
     super.initState();
@@ -187,7 +188,7 @@ class SubSubCard extends StatelessWidget {
               ),
               AutoSizeText(
                 textScaleFactor: textScaleFactor,
-                '$price₺',
+                '${priceConverter(price)}₺',
                 style: TextStyle(
                     color: secondary, fontSize: 16.sp, fontWeight: FontWeight.w600, fontFamily: 'Poppins Italic'),
               ),

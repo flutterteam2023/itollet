@@ -21,6 +21,7 @@ import 'package:itollet/features/Home/presentation/providers/home_notifier.dart'
 import 'package:itollet/features/PostDetail/presentation/providers/post_detail_notifier.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
+import 'package:itollet/utils/price_converter.dart';
 
 @RoutePage()
 class PostDetailView extends StatefulHookConsumerWidget {
@@ -41,14 +42,14 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
     final titleController = useTextEditingController(text: '');
     final maxBalance = useTextEditingController(text: '');
     final minBalance = useTextEditingController(text: '');
-    late Timer _timer;
+    late Timer timer;
     final descriptionController = useTextEditingController(text: '');
     DateTime suan = DateTime.now();
-    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(Duration(hours: 24));
+    DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
     Duration kalanSure = ilanBitisTarihi.difference(suan);
     final isloading = useState(false);
 
-    void _updateTimer(Timer timer) {
+    void updateTimer(Timer timer) {
       DateTime suan = DateTime.now();
       DateTime ilanBitisTarihi = widget.postModel.createdAt!.add(const Duration(hours: 24));
       setState(() {
@@ -56,19 +57,19 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
       });
 
       if (kalanSure.isNegative) {
-        _timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
+        timer.cancel(); // Geri sayım tamamlandığında timer'ı iptal et
       }
     }
 
     @override
     void initState() {
       super.initState();
-      _timer = Timer.periodic(Duration(seconds: 1), _updateTimer);
+      timer = Timer.periodic(const Duration(seconds: 1), updateTimer);
     }
 
     @override
     void dispose() {
-      _timer.cancel(); // Widget kaldırıldığında timer'ı temizle
+      timer.cancel(); // Widget kaldırıldığında timer'ı temizle
       super.dispose();
     }
 
@@ -225,7 +226,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                                                 ),
                                                 AutoSizeText(
                                                   textScaleFactor: textScaleFactor,
-                                                  "Max Bütçe: ${postModel.balanceMax}₺",
+                                                  "Max Bütçe: ${priceConverter(postModel.balanceMax)}₺",
                                                   style: TextStyle(
                                                       color: widget.categoryModel != null
                                                           ? widget.categoryModel!.primaryColor
@@ -238,7 +239,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                                                 ),
                                                 AutoSizeText(
                                                   textScaleFactor: textScaleFactor,
-                                                  "Min Bütçe: ${postModel.balanceMin}₺",
+                                                  "Min Bütçe: ${priceConverter(postModel.balanceMin)}₺",
                                                   style: TextStyle(
                                                       color: widget.categoryModel != null
                                                           ? widget.categoryModel!.primaryColor
@@ -288,7 +289,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                           return const CircularProgressIndicator();
                         }
                       })
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               StreamBuilder<List<String>>(
                   stream: ref.watch(homeProvider.notifier).getPostUrlsStream(widget.postModel.postId!),
                   builder: (context, snapshot) {
@@ -308,7 +309,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                           itemBuilder: (context, index) {
                             return LinkCard(
                               url: urls[index],
-                              categoryModel: widget.categoryModel != null ? widget.categoryModel! : null,
+                              categoryModel: widget.categoryModel,
                               onTap: () {
                                 ref.read(postDetailProvider.notifier).launchUrls(urls[index], widget.postModel.postId!);
                               },

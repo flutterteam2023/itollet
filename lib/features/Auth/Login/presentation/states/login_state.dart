@@ -23,7 +23,7 @@ class LoginState with _$LoginState {
         email: '',
         createdAt: null,
         photoUrl: '',
-        balance: null,
+        balance: 0,
       ),
       loginModel: const LoginModel(email: '', password: ''));
 }

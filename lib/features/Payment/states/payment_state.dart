@@ -8,17 +8,16 @@ part 'payment_state.freezed.dart';
 
 @freezed
 class PaymentState with _$PaymentState {
-  factory PaymentState(
-      {required bool isLoading,
-      required List<PostModel> postModels,
-      required List<PostModel> myPostList,
+  factory PaymentState({
+    required bool isLoading,
+    required List<PostModel> postModels,
+    required List<PostModel> myPostList,
     required List<String> postUrls,
-      required UserModel user,
-      required String? html,
-      required ResponseModel responseModel,
-       required   WebViewController? controller,
-
-      }) = _PaymentState;
+    required UserModel user,
+    required String? html,
+    required ResponseModel responseModel,
+    required WebViewController? controller,
+  }) = _PaymentState;
   factory PaymentState.initial() => PaymentState(
         isLoading: false,
         postModels: [],
@@ -26,10 +25,9 @@ class PaymentState with _$PaymentState {
         html: "",
         controller: WebViewController(),
         postUrls: [],
-        responseModel: const ResponseModel(status: "", locale: "", systemTime: null, conversationId:"", threeDSHtmlContent: ""),
+        responseModel:
+            const ResponseModel(status: "", locale: "", systemTime: null, conversationId: "", threeDSHtmlContent: ""),
         user: const UserModel(
-          totalBilling: null,
-          uid: '', userName: '', email: '', createdAt: null, photoUrl: '',balance: null),
-        
+            totalBilling: null, uid: '', userName: '', email: '', createdAt: null, photoUrl: '', balance: 0),
       );
 }

@@ -14,6 +14,7 @@ import 'package:itollet/features/Categories/models/subcategory/subcategory_model
 import 'package:itollet/features/Drawer/drawer_view.dart';
 import 'package:itollet/iberkeugur/Log/log.dart';
 import 'package:itollet/routing/app_router.dart';
+import 'package:itollet/utils/price_converter.dart';
 
 @RoutePage()
 class SubSubCategoryView extends ConsumerStatefulWidget {
@@ -211,7 +212,7 @@ class SubSubCard extends StatelessWidget {
             ),
             AutoSizeText(
               textScaleFactor: textScaleFactor,
-              "En fazla: $maxprice ₺",
+              "En fazla: ${priceConverter(maxprice)} ₺",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -223,7 +224,7 @@ class SubSubCard extends StatelessWidget {
             const SizedBox(height: 4),
             AutoSizeText(
               textScaleFactor: textScaleFactor,
-              "En az: $minPrice ₺",
+              "En az: ${priceConverter(minPrice)} ₺",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
