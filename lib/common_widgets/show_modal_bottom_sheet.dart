@@ -19,8 +19,13 @@ import 'package:itollet/features/Categories/models/post_model/post_model.dart';
 import 'package:validatorless/validatorless.dart';
 
 class CustomBottomSheet {
-  void ModalBottomSheet(BuildContext context, TextEditingController titleController, TextEditingController maxbalance,
-      TextEditingController minbalance, TextEditingController descriptionController, PostModel postmodel) {
+  Future<bool?> modalBottomSheet(
+      BuildContext context,
+      TextEditingController titleController,
+      TextEditingController maxbalance,
+      TextEditingController minbalance,
+      TextEditingController descriptionController,
+      PostModel postmodel) async {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
     const locale = 'tr';
     String formatNumber(String s) => NumberFormat.decimalPattern(locale).format(int.parse(s));
@@ -33,7 +38,7 @@ class CustomBottomSheet {
     minbalance.text = postmodel.balanceMin.toString();
     descriptionController.text = postmodel.description!;
     ValueNotifier<bool> isloading = ValueNotifier(false);
-    showModalBottomSheet(
+    return await showModalBottomSheet(
         useSafeArea: true,
         isScrollControlled: true,
         context: context,
@@ -215,7 +220,7 @@ class CustomBottomSheet {
                           'photoUrl': url
                         }).then((value) {
                           isloading.value = false;
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         });
                       } else {
                         await FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
@@ -225,7 +230,7 @@ class CustomBottomSheet {
                           'description': descriptionController.text,
                         }).then((value) {
                           isloading.value = false;
-                          Navigator.pop(context);
+                          Navigator.pop(context, true);
                         });
                       }
                     },

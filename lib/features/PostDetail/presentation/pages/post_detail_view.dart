@@ -322,9 +322,23 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                   }),
               PostDetailButton(
                 title: 'Düzenle',
-                onTap: () {
-                  CustomBottomSheet().ModalBottomSheet(context, titleController, maxBalance, minBalance,
-                      descriptionController, postmodel == null ? widget.postModel : postmodel!);
+                onTap: () async {
+                  await CustomBottomSheet()
+                      .modalBottomSheet(
+                    context,
+                    titleController,
+                    maxBalance,
+                    minBalance,
+                    descriptionController,
+                    postmodel == null ? widget.postModel : postmodel!,
+                  )
+                      .then((value) {
+                    if (value == true) {
+                      postmodel = null;
+                      Log.instance.success("updated feed");
+                      setState(() {});
+                    }
+                  });
                 },
                 colors: [
                   widget.categoryModel != null ? widget.categoryModel!.primaryColor : secondary,
@@ -335,7 +349,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                 height: 11.h,
               ),
               Padding(
-                padding: EdgeInsets.only(left: 20.w, right: 7.w),
+                padding: EdgeInsets.only(left: 20.w, right: 20.w),
                 child: Bounceable(
                   onTap: () async {
                     isloading.value = true;
@@ -346,11 +360,16 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18.r),
-                        color: Colors.white,
-                        border: Border.all(width: 3.w, color: black)),
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 3.w,
+                        color: black,
+                        strokeAlign: BorderSide.strokeAlignInside,
+                      ),
+                    ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 13.h),
+                      padding: EdgeInsets.symmetric(vertical: 10.h),
                       child: Center(
                         child: isloading.value == false
                             ? AutoSizeText(

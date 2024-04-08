@@ -19,12 +19,12 @@ class PostDetailButton extends StatelessWidget {
     final textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Padding(
-      padding: EdgeInsets.only(left: 18.w, right: 9.w),
+      padding: EdgeInsets.only(left: 18.w, right: 18.w),
       child: Bounceable(
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18.r),
+              borderRadius: BorderRadius.circular(16),
               gradient: LinearGradient(
                 colors: colors,
                 begin: Alignment.topCenter,
@@ -36,10 +36,7 @@ class PostDetailButton extends StatelessWidget {
               child: AutoSizeText(
                 textScaleFactor: textScaleFactor,
                 title,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w400),
+                style: TextStyle(color: Colors.white, fontSize: 20.sp, fontWeight: FontWeight.w400),
               ),
             ),
           ),
