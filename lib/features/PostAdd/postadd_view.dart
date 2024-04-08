@@ -25,6 +25,7 @@ import 'package:validatorless/validatorless.dart';
 class PostAddView extends HookConsumerWidget {
   PostAddView({super.key});
   final formKey = GlobalKey<FormState>();
+  final list = <String>[];
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const locale = 'tr';
@@ -37,7 +38,7 @@ class PostAddView extends HookConsumerWidget {
     final min = useTextEditingController();
     final max = useTextEditingController();
     final des = useTextEditingController();
-    final list = <String>[];
+
     final imageFile = useValueNotifier<File?>(null);
     final categoryID = useValueNotifier<String?>(null);
     final isloading = useState(false);
@@ -57,16 +58,19 @@ class PostAddView extends HookConsumerWidget {
             padding: const EdgeInsets.all(18),
             child: Column(
               children: [
-                Bounceable(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return ValueListenableBuilder(
-                            valueListenable: imageFile,
-                            builder: (context, _, __) {
+                _photoSelect(context, imageFile, textScaleFactor),
+                const SizedBox(height: 18),
+                StatefulBuilder(
+                  builder: (context, setStateButton) {
+                    return InkWell(
+                      onTap: () {
+                        setStateButton(() {
+                          list.clear();
+                        });
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
                               return Column(
-                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   const SizedBox(height: 18),
                                   Row(
@@ -89,326 +93,149 @@ class PostAddView extends HookConsumerWidget {
                                     ],
                                   ),
                                   const SizedBox(height: 18),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Bounceable(
-                                        onTap: () async {
-                                          final picker = ImagePicker();
-
-                                          final image = await picker.pickImage(source: ImageSource.camera);
-
-                                          if (image != null) {
-                                            await ImageCropper().cropImage(
-                                              sourcePath: image.path,
-                                              cropStyle: CropStyle.rectangle,
-                                              aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-                                              aspectRatioPresets: [
-                                                CropAspectRatioPreset.square,
-                                              ],
-                                            ).then((value) {
-                                              if (value != null) {
-                                                final path = value.path;
-                                                imageFile.value = File(path);
-                                              }
-                                              Navigator.of(context).pop();
-                                            });
-                                          }
-                                        },
-                                        child: SizedBox(
-                                          width: 64 * 2,
-                                          height: 64 * 2,
-                                          child: Card(
-                                            color: const Color(0xffffd8f5),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(18),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  const Icon(Icons.photo_camera),
-                                                  AutoSizeText(
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                    ),
-                                                    textScaleFactor: textScaleFactor,
-                                                    "Kameradan Ekle",
-                                                    textAlign: TextAlign.center,
-                                                  )
-                                                ],
+                                  Expanded(
+                                    child: SingleChildScrollView(
+                                      child: ListView.separated(
+                                          separatorBuilder: (context, index) {
+                                            return const Divider(
+                                              height: 1,
+                                              thickness: 1,
+                                            );
+                                          },
+                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+                                          shrinkWrap: true,
+                                          physics: const NeverScrollableScrollPhysics(),
+                                          itemCount: cat.categories.length,
+                                          itemBuilder: (context, index) {
+                                            final mainCategory = cat.categories[index];
+                                            return ListTile(
+                                              onTap: () {
+                                                Navigator.of(context).pop();
+                                                list.add(cat.categories[index].name);
+                                                setStateButton(() {});
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  builder: (context) => Column(
+                                                    children: [
+                                                      Expanded(
+                                                        child: SingleChildScrollView(
+                                                          child: Column(
+                                                            children: [
+                                                              const SizedBox(height: 18),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: [
+                                                                  Opacity(
+                                                                    opacity: 0.40,
+                                                                    child: Container(
+                                                                      width: 32,
+                                                                      height: 4,
+                                                                      decoration: ShapeDecoration(
+                                                                        color: const Color(0xFF79747E),
+                                                                        shape: RoundedRectangleBorder(
+                                                                          borderRadius: BorderRadius.circular(100),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ),
+                                                              const SizedBox(height: 18),
+                                                              ListView.separated(
+                                                                separatorBuilder: (context, index) {
+                                                                  return const Divider(
+                                                                    height: 1,
+                                                                    thickness: 1,
+                                                                  );
+                                                                },
+                                                                shrinkWrap: true,
+                                                                physics: const NeverScrollableScrollPhysics(),
+                                                                padding: EdgeInsets.only(
+                                                                    bottom: MediaQuery.of(context).viewPadding.bottom),
+                                                                itemCount: mainCategory.subCategories.length,
+                                                                itemBuilder: (context, subindex) => ListTile(
+                                                                  leading: CircleAvatar(
+                                                                      child: Image.network(
+                                                                    mainCategory.subCategories[subindex].iconUrl,
+                                                                    height: 24,
+                                                                    width: 24,
+                                                                  )),
+                                                                  onTap: () {
+                                                                    setStateButton(() {});
+                                                                    if (list.length == 2) {
+                                                                      list.removeLast();
+                                                                    }
+                                                                    list.add(mainCategory.subCategories[subindex].name);
+                                                                    categoryID.value =
+                                                                        mainCategory.subCategories[subindex].id;
+                                                                    setStateButton(() {});
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  title: AutoSizeText(
+                                                                    mainCategory.subCategories[subindex].name,
+                                                                    textScaleFactor: textScaleFactor,
+                                                                  ),
+                                                                  trailing: const Icon(
+                                                                    Icons.arrow_forward,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                              leading: CircleAvatar(
+                                                  child: Image.network(
+                                                mainCategory.iconUrl,
+                                                height: 24,
+                                                width: 24,
+                                              )),
+                                              title: AutoSizeText(
+                                                textScaleFactor: textScaleFactor,
+                                                mainCategory.name,
+                                                maxLines: 1,
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Bounceable(
-                                        onTap: () async {
-                                          final picker = ImagePicker();
-
-                                          final image = await picker.pickImage(source: ImageSource.gallery);
-
-                                          if (image != null) {
-                                            await ImageCropper().cropImage(
-                                              sourcePath: image.path,
-                                              cropStyle: CropStyle.rectangle,
-                                              aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-                                              aspectRatioPresets: [
-                                                CropAspectRatioPreset.square,
-                                              ],
-                                            ).then((value) {
-                                              if (value != null) {
-                                                final path = value.path;
-                                                imageFile.value = File(path);
-                                              }
-                                              Navigator.of(context).pop();
-                                            });
-                                          }
-                                        },
-                                        child: SizedBox(
-                                          width: 64 * 2,
-                                          height: 64 * 2,
-                                          child: Card(
-                                            color: const Color(0xffffd8f5),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(18),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  const Icon(Icons.photo_album),
-                                                  AutoSizeText(
-                                                    style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                    ),
-                                                    textScaleFactor: textScaleFactor,
-                                                    "Galeriden Ekle",
-                                                    textAlign: TextAlign.center,
-                                                  )
-                                                ],
+                                              trailing: const Icon(
+                                                Icons.arrow_forward,
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                            );
+                                          }),
+                                    ),
                                   ),
-                                  SizedBox(height: MediaQuery.of(context).viewPadding.bottom + 18),
                                 ],
                               );
                             });
                       },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
+                        decoration: BoxDecoration(
+                          color: secondary,
+                          borderRadius: BorderRadius.circular(99),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AutoSizeText(
+                              textAlign: TextAlign.center,
+                              textScaleFactor: textScaleFactor,
+                              "${list.isEmpty ? "KATEGORİ SEÇ" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     );
                   },
-                  child: ValueListenableBuilder(
-                      valueListenable: imageFile,
-                      builder: (context, _, __) {
-                        return Column(
-                          children: [
-                            if (imageFile.value != null)
-                              Container(
-                                width: 64 * 2,
-                                height: 64 * 2,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.inversePrimary,
-                                  borderRadius: BorderRadius.circular(18),
-                                  image: DecorationImage(
-                                    image: FileImage(imageFile.value!),
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                            if (imageFile.value == null)
-                              Container(
-                                width: 64 * 2,
-                                height: 64 * 2,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.inversePrimary,
-                                  borderRadius: BorderRadius.circular(18),
-                                ),
-                                child: const Icon(
-                                  Iconsax.gallery_add,
-                                  size: 32,
-                                ),
-                              ),
-                          ],
-                        );
-                      }),
                 ),
-                const SizedBox(height: 18),
-                StatefulBuilder(builder: (context, setStateButton) {
-                  return InkWell(
-                    onTap: () {
-                      setStateButton(() {
-                        list.clear();
-                      });
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return Column(
-                              children: [
-                                const SizedBox(height: 18),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Opacity(
-                                      opacity: 0.40,
-                                      child: Container(
-                                        width: 32,
-                                        height: 4,
-                                        decoration: ShapeDecoration(
-                                          color: const Color(0xFF79747E),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(100),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 18),
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    child: ListView.separated(
-                                        separatorBuilder: (context, index) {
-                                          return const Divider(
-                                            height: 1,
-                                            thickness: 1,
-                                          );
-                                        },
-                                        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
-                                        shrinkWrap: true,
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        itemCount: cat.categories.length,
-                                        itemBuilder: (context, index) {
-                                          final mainCategory = cat.categories[index];
-                                          return ListTile(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                              list.add(cat.categories[index].name);
-                                              setStateButton(() {});
-                                              showModalBottomSheet(
-                                                context: context,
-                                                builder: (context) => Column(
-                                                  children: [
-                                                    Expanded(
-                                                      child: SingleChildScrollView(
-                                                        child: Column(
-                                                          children: [
-                                                            const SizedBox(height: 18),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                                              children: [
-                                                                Opacity(
-                                                                  opacity: 0.40,
-                                                                  child: Container(
-                                                                    width: 32,
-                                                                    height: 4,
-                                                                    decoration: ShapeDecoration(
-                                                                      color: const Color(0xFF79747E),
-                                                                      shape: RoundedRectangleBorder(
-                                                                        borderRadius: BorderRadius.circular(100),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                            const SizedBox(height: 18),
-                                                            ListView.separated(
-                                                              separatorBuilder: (context, index) {
-                                                                return const Divider(
-                                                                  height: 1,
-                                                                  thickness: 1,
-                                                                );
-                                                              },
-                                                              shrinkWrap: true,
-                                                              physics: const NeverScrollableScrollPhysics(),
-                                                              padding: EdgeInsets.only(
-                                                                  bottom: MediaQuery.of(context).viewPadding.bottom),
-                                                              itemCount: mainCategory.subCategories.length,
-                                                              itemBuilder: (context, subindex) => ListTile(
-                                                                leading: CircleAvatar(
-                                                                    child: Image.network(
-                                                                  mainCategory.subCategories[subindex].iconUrl,
-                                                                  height: 24,
-                                                                  width: 24,
-                                                                )),
-                                                                onTap: () {
-                                                                  setStateButton(() {});
-                                                                  if (list.length == 2) {
-                                                                    list.removeLast();
-                                                                  }
-                                                                  list.add(mainCategory.subCategories[subindex].name);
-                                                                  categoryID.value =
-                                                                      mainCategory.subCategories[subindex].id;
-                                                                  setStateButton(() {});
-                                                                  Navigator.of(context).pop();
-                                                                },
-                                                                title: AutoSizeText(
-                                                                  mainCategory.subCategories[subindex].name,
-                                                                  textScaleFactor: textScaleFactor,
-                                                                ),
-                                                                trailing: const Icon(
-                                                                  Icons.arrow_forward,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                            leading: CircleAvatar(
-                                                child: Image.network(
-                                              mainCategory.iconUrl,
-                                              height: 24,
-                                              width: 24,
-                                            )),
-                                            title: AutoSizeText(
-                                              textScaleFactor: textScaleFactor,
-                                              mainCategory.name,
-                                              maxLines: 1,
-                                            ),
-                                            trailing: const Icon(
-                                              Icons.arrow_forward,
-                                            ),
-                                          );
-                                        }),
-                                  ),
-                                ),
-                              ],
-                            );
-                          });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 18),
-                      decoration: BoxDecoration(
-                        color: secondary,
-                        borderRadius: BorderRadius.circular(99),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AutoSizeText(
-                            textAlign: TextAlign.center,
-                            textScaleFactor: textScaleFactor,
-                            "${list.isEmpty ? "KATEGORİ SEÇ" : ""} ${list.isNotEmpty ? list.toString().replaceAll("[", "").replaceAll("]", "").replaceAll(",", " →") : ""}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                }),
                 const SizedBox(height: 18),
                 TextFormField(
                   textAlign: TextAlign.center,
@@ -612,6 +439,186 @@ class PostAddView extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Bounceable _photoSelect(BuildContext context, ValueNotifier<File?> imageFile, double textScaleFactor) {
+    return Bounceable(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) {
+            return ValueListenableBuilder(
+                valueListenable: imageFile,
+                builder: (context, _, __) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Opacity(
+                            opacity: 0.40,
+                            child: Container(
+                              width: 32,
+                              height: 4,
+                              decoration: ShapeDecoration(
+                                color: const Color(0xFF79747E),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Bounceable(
+                            onTap: () async {
+                              final picker = ImagePicker();
+
+                              final image = await picker.pickImage(source: ImageSource.camera);
+
+                              if (image != null) {
+                                await ImageCropper().cropImage(
+                                  sourcePath: image.path,
+                                  cropStyle: CropStyle.rectangle,
+                                  aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+                                  aspectRatioPresets: [
+                                    CropAspectRatioPreset.square,
+                                  ],
+                                ).then((value) {
+                                  if (value != null) {
+                                    final path = value.path;
+                                    imageFile.value = File(path);
+                                  }
+                                  Navigator.of(context).pop();
+                                });
+                              }
+                            },
+                            child: SizedBox(
+                              width: 64 * 2,
+                              height: 64 * 2,
+                              child: Card(
+                                color: const Color(0xffffd8f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(18),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.photo_camera),
+                                      AutoSizeText(
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                        ),
+                                        textScaleFactor: textScaleFactor,
+                                        "Kameradan Ekle",
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Bounceable(
+                            onTap: () async {
+                              final picker = ImagePicker();
+
+                              final image = await picker.pickImage(source: ImageSource.gallery);
+
+                              if (image != null) {
+                                await ImageCropper().cropImage(
+                                  sourcePath: image.path,
+                                  cropStyle: CropStyle.rectangle,
+                                  aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+                                  aspectRatioPresets: [
+                                    CropAspectRatioPreset.square,
+                                  ],
+                                ).then((value) {
+                                  if (value != null) {
+                                    final path = value.path;
+                                    imageFile.value = File(path);
+                                  }
+                                  Navigator.of(context).pop();
+                                });
+                              }
+                            },
+                            child: SizedBox(
+                              width: 64 * 2,
+                              height: 64 * 2,
+                              child: Card(
+                                color: const Color(0xffffd8f5),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(18),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.photo_album),
+                                      AutoSizeText(
+                                        style: TextStyle(
+                                          fontSize: 14.sp,
+                                        ),
+                                        textScaleFactor: textScaleFactor,
+                                        "Galeriden Ekle",
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: MediaQuery.of(context).viewPadding.bottom + 18),
+                    ],
+                  );
+                });
+          },
+        );
+      },
+      child: ValueListenableBuilder(
+          valueListenable: imageFile,
+          builder: (context, _, __) {
+            return Column(
+              children: [
+                if (imageFile.value != null)
+                  Container(
+                    width: 64 * 2,
+                    height: 64 * 2,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      borderRadius: BorderRadius.circular(18),
+                      image: DecorationImage(
+                        image: FileImage(imageFile.value!),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                if (imageFile.value == null)
+                  Container(
+                    width: 64 * 2,
+                    height: 64 * 2,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.inversePrimary,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: const Icon(
+                      Iconsax.gallery_add,
+                      size: 32,
+                    ),
+                  ),
+              ],
+            );
+          }),
     );
   }
 }
