@@ -152,7 +152,7 @@ class _PostDetailViewState extends ConsumerState<PostDetailView> {
 
                         if (true) {
                           PostModel? postModel = postmodel!;
-
+                          print(postmodel?.toJson());
                           return Column(
                             children: [
                               Padding(

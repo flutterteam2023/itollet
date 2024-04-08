@@ -209,8 +209,8 @@ class CustomBottomSheet {
                         final url = await storage.getDownloadURL();
                         FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
                           'title': titleController.text,
-                          'balanceMax': maxbalance.text,
-                          'balanceMin': minbalance.text,
+                          'balanceMax': maxbalance.text.replaceAll(".", ""),
+                          'balanceMin': minbalance.text.replaceAll(".", ""),
                           'description': descriptionController.text,
                           'photoUrl': url
                         }).then((value) {
@@ -220,8 +220,8 @@ class CustomBottomSheet {
                       } else {
                         await FirebaseFirestore.instance.collection('posts').doc(postmodel.postId).update({
                           'title': titleController.text,
-                          'balanceMax': maxbalance.text,
-                          'balanceMin': minbalance.text,
+                          'balanceMax': maxbalance.text.replaceAll(".", ""),
+                          'balanceMin': minbalance.text.replaceAll(".", ""),
                           'description': descriptionController.text,
                         }).then((value) {
                           isloading.value = false;
