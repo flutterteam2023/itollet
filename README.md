@@ -1,16 +1,11 @@
 # itollet
 
-A new Flutter project.
 
-## Getting Started
+iberkeugur flutter --version
+# Flutter 3.21.0-16.0.pre.5 • channel master •
+# Tools • Dart 3.4.0 (build 3.4.0-275.0.dev) • DevTools 2.34.0-dev.12
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+last version updates
+- [iberkeugur]  2024-04-08 07:15:00
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
